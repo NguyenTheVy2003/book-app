@@ -11,7 +11,12 @@ import com.example.duan1bookapp.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
     //Tai
+
+    //abc
+    //123
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
