@@ -15,9 +15,7 @@ public class MainActivity extends AppCompatActivity {
     //Tai
 
     //abc
-    //123
-    //alo
-    //1235
+    
 
 
     @Override
