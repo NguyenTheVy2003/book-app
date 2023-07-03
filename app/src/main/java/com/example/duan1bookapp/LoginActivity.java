@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //test 
+
     private ActivityLoginBinding binding;
 
     private FirebaseAuth firebaseAuth;
