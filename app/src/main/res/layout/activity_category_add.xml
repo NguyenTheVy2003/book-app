@@ -16,10 +16,10 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_back_white"
-            android:background="@android:color/transparent"
             android:layout_margin="10dp"
-            android:padding="5dp"/>
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:src="@drawable/ic_back_white" />
 
         <ImageView
             android:id="@+id/iconIv"
@@ -27,7 +27,7 @@
             android:layout_height="110dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Add a new Category"
             android:textColor="@color/white"
-            android:textSize="28sp"/>
+            android:textSize="28sp" />
 
     </RelativeLayout>
 
@@ -46,10 +46,10 @@
         android:id="@+id/categoryTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="225dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="225dp">
+        app:hintEnabled="false">
 
 
         <EditText
@@ -63,19 +63,19 @@
             android:inputType="textPersonName|textCapWords"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray01"/>
+            android:textColorHint="@color/gray01" />
 
     </com.google.android.material.textfield.TextInputLayout>
     <!--Add category  button-->
-    
+
     <Button
         android:id="@+id/submitBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_button01"
         android:layout_below="@+id/categoryTil"
-        android:textColor="@color/white"/>
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/shape_button01"
+        android:textColor="@color/white" />
 </RelativeLayout>

@@ -13,41 +13,41 @@ public class FilterCategory extends Filter {
     AdapterCategory adapterCategory;
 
     //constructor
-    public  FilterCategory(ArrayList<ModelCategory> filterList,AdapterCategory adapterCategory){
-        this.filterList=filterList;
-        this.adapterCategory=adapterCategory;
+    public FilterCategory(ArrayList<ModelCategory> filterList, AdapterCategory adapterCategory) {
+        this.filterList = filterList;
+        this.adapterCategory = adapterCategory;
     }
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
-        FilterResults results=new FilterResults();
+        FilterResults results = new FilterResults();
         //value should not be null empty
-        if (constraint!=null && constraint.length()>0){
+        if (constraint != null && constraint.length() > 0) {
             //change to upper case , or lower case to avoid case sensitivity
-            constraint=constraint.toString().toUpperCase();
-            ArrayList<ModelCategory>filterModels= new ArrayList<>();
-            for (int i=0;i<filterList.size();i++){
+            constraint = constraint.toString().toUpperCase();
+            ArrayList<ModelCategory> filterModels = new ArrayList<>();
+            for (int i = 0; i < filterList.size(); i++) {
                 //validate
                 if (filterList.get(i).getCategory().toUpperCase().contains(constraint)) {
                     //add to filtered list
                     filterModels.add(filterList.get(i));
                 }
             }
-            results.count=filterModels.size();
-            results.values=filterModels;
-        }else{
+            results.count = filterModels.size();
+            results.values = filterModels;
+        } else {
 
-            results.count=filterList.size();
-            results.values=filterList;
+            results.count = filterList.size();
+            results.values = filterList;
         }
         return results;
     }
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-    //notify
-      adapterCategory.notifyDataSetChanged();
+        //notify
+        adapterCategory.notifyDataSetChanged();
         //apply filter
-     adapterCategory.categoryArrayList=(ArrayList<ModelCategory>)results.values;
+        adapterCategory.categoryArrayList = (ArrayList<ModelCategory>) results.values;
     }
 }

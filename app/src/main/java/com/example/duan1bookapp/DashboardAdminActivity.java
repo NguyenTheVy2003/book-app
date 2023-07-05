@@ -29,7 +29,7 @@ public class DashboardAdminActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     //arraylist to story category
-    private ArrayList<ModelCategory>categoryArrayList;
+    private ArrayList<ModelCategory> categoryArrayList;
     private AdapterCategory adapterCategory;
 
     @Override
@@ -52,11 +52,10 @@ public class DashboardAdminActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-            //called as and when user type each letter
+                //called as and when user type each letter
                 try {
                     adapterCategory.getFilter().filter(s);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -80,7 +79,7 @@ public class DashboardAdminActivity extends AppCompatActivity {
         binding.addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashboardAdminActivity.this,CategoryAddActivity.class));
+                startActivity(new Intent(DashboardAdminActivity.this, CategoryAddActivity.class));
             }
         });
     }
@@ -95,14 +94,14 @@ public class DashboardAdminActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //clear arraylist before adding data into it
                 categoryArrayList.clear();
-                for (DataSnapshot ds:snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     //get data
                     ModelCategory mode = ds.getValue(ModelCategory.class);
                     // add to arraylist
                     categoryArrayList.add(mode);
                 }
                 //setup adapter
-                adapterCategory = new AdapterCategory(DashboardAdminActivity.this,categoryArrayList);
+                adapterCategory = new AdapterCategory(DashboardAdminActivity.this, categoryArrayList);
                 //set adapter to recyclerview
                 binding.categoriesRv.setAdapter(adapterCategory);
             }
@@ -118,11 +117,11 @@ public class DashboardAdminActivity extends AppCompatActivity {
     private void checkUser() {
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser == null){
+        if (firebaseUser == null) {
             //not logged in, go to main screen
             startActivity(new Intent(DashboardAdminActivity.this, MainActivity.class));
             finish();
-        }else {
+        } else {
             // logged in, get user info
             String email = firebaseUser.getEmail();
             // set in textView of toolbar
