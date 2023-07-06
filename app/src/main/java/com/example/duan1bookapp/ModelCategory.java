@@ -4,20 +4,20 @@ public class ModelCategory {
 
     //make sure to use spellings for model variables as in firebase
 
-    String  id,category,uid;
+    String id, category, uid;
     long timestamp;
 
-    public ModelCategory(){
+    public ModelCategory() {
 
     }
     //parametrized
 
-    public ModelCategory(String id,String category,String uid, long timestamp){
+    public ModelCategory(String id, String category, String uid, long timestamp) {
 
-        this.id =id;
+        this.id = id;
         this.category = category;
-        this.uid= uid;
-        this.timestamp=timestamp;
+        this.uid = uid;
+        this.timestamp = timestamp;
     }
 
     /*---Getter/Setter---*/

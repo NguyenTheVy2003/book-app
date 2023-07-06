@@ -26,32 +26,32 @@ import java.util.ArrayList;
 
 public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.HolderCategory> implements Filterable {
 
-        private Context context;
-        public ArrayList<ModelCategory> categoryArrayList,filterList;
+    private Context context;
+    public ArrayList<ModelCategory> categoryArrayList, filterList;
 
     public AdapterCategory(Context context, ArrayList<ModelCategory> categoryArrayList) {
         this.context = context;
         this.categoryArrayList = categoryArrayList;
-        this.filterList=categoryArrayList;
+        this.filterList = categoryArrayList;
     }
 
     //View binding
-        private RowCategoryBinding binding;
+    private RowCategoryBinding binding;
     //instance of our filter class
     private FilterCategory filer;
 
     @NonNull
     @Override
     public HolderCategory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       //binding row_category.xml
-        binding = RowCategoryBinding.inflate(LayoutInflater.from(context),parent,false);
+        //binding row_category.xml
+        binding = RowCategoryBinding.inflate(LayoutInflater.from(context), parent, false);
         return new HolderCategory(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull HolderCategory holder, int position) {
         //get data
-        ModelCategory model =categoryArrayList.get(position);
+        ModelCategory model = categoryArrayList.get(position);
         String id = model.getId();
         String category = model.getCategory();
         String uid = model.getUid();
@@ -62,7 +62,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //confirm delete dialog
+                //confirm delete dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Delete")
                         .setMessage("Are you sure you want to delete this category")
@@ -101,7 +101,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //failed to delete
-                        Toast.makeText(context,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -113,23 +113,24 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
 
     @Override
     public Filter getFilter() {
-        if (filer==null){
-            filer= new FilterCategory(filterList,this);
+        if (filer == null) {
+            filer = new FilterCategory(filterList, this);
         }
         return filer;
     }
 
     /*View holder class to hold UI views for row_category.xml*/
-    class HolderCategory extends RecyclerView.ViewHolder{
+    class HolderCategory extends RecyclerView.ViewHolder {
         //ui  view of row_category.xml
 
-            TextView categoryTV;
-            ImageButton deleteBtn;
+        TextView categoryTV;
+        ImageButton deleteBtn;
+
         public HolderCategory(@NonNull View itemView) {
             super(itemView);
             //init ui views
-            categoryTV =binding.categoryTv;
-            deleteBtn=binding.deleteBtn;
+            categoryTV = binding.categoryTv;
+            deleteBtn = binding.deleteBtn;
         }
     }
 }
