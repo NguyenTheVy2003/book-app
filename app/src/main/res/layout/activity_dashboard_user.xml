@@ -35,14 +35,14 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_marginStart="10dp"
+            android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/logoutBtn"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_logout_white"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_logout_white" />
 
     </RelativeLayout>
 

@@ -11,8 +11,7 @@ import com.example.duan1bookapp.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    //abc
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

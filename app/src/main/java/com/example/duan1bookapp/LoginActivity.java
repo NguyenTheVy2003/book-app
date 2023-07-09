@@ -59,10 +59,12 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               validateData();
+                validateData();
             }
         });
-    } private String email = "", password = "";
+    }
+
+    private String email = "", password = "";
 
     private void validateData() {
         // Before loggin, lets do some data validation
@@ -99,10 +101,10 @@ public class LoginActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure( Exception e) {
+                    public void onFailure(Exception e) {
                         // login failed
                         progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -119,16 +121,16 @@ public class LoginActivity extends AppCompatActivity {
         ref.child(firebaseUser.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange( DataSnapshot snapshot) {
+                    public void onDataChange(DataSnapshot snapshot) {
                         progressDialog.dismiss();
                         // get user type
-                        String userType = ""+snapshot.child("userType").getValue();
+                        String userType = "" + snapshot.child("userType").getValue();
                         // check user type
-                        if (userType.equals("user")){
+                        if (userType.equals("user")) {
                             // this is simple user, open user dasboard
                             startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
                             finish();
-                        }else if (userType.equals("admin")){
+                        } else if (userType.equals("admin")) {
                             // this is admin, open admin dashboard
                             startActivity((new Intent(LoginActivity.this, DashboardAdminActivity.class)));
                             finish();
@@ -136,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled( DatabaseError error) {
+                    public void onCancelled(DatabaseError error) {
 
                     }
                 });
