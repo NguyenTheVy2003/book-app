@@ -94,13 +94,13 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        // account creation sucess, now add in firebase realtime database
+                        // account creation success, now add in firebase realtime database
                         updateUserInfo();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(Exception e) {
-                        // acount creating failed
+                        // account creating failed
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
         hashMap.put("uid", uid);
         hashMap.put("email", email);
         hashMap.put("name", name);
-        hashMap.put("profileImage", ""); // add emty, will do later
+        hashMap.put("profileImage", ""); // add empty, will do later
         hashMap.put("userType", "user"); // possible values are user, admin: will make admin manually realtime database by changing this value
         hashMap.put("timestamp", timestamp);
 

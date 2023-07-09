@@ -28,14 +28,13 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                finish();
+                checkUser();
             }
         }, 2000);
     }
 
     private void checkUser() {
-        // get curent user, if logged in
+        // get current user, if logged in
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
             //user nor logged in

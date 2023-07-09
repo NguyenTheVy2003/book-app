@@ -22,20 +22,22 @@ public class CategoryAddActivity extends AppCompatActivity {
 
     //view binding
     private ActivityCategoryAddBinding binding;
+
     //firebase auth
     private FirebaseAuth firebaseAuth;
+
     //progress dialog
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_add);
         binding = ActivityCategoryAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
+
         // configure progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
@@ -50,7 +52,6 @@ public class CategoryAddActivity extends AppCompatActivity {
         });
 
         //handle click ,begin upload category
-
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +70,6 @@ public class CategoryAddActivity extends AppCompatActivity {
         //get data
         category = binding.categoryEt.getText().toString().trim();
         if (TextUtils.isEmpty(category)) {
-
             Toast.makeText(this, "Please enter category", Toast.LENGTH_SHORT).show();
         } else {
             addCategoryFirebase();
@@ -103,13 +103,15 @@ public class CategoryAddActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         //category add success
                         progressDialog.dismiss();
-                        Toast.makeText(CategoryAddActivity.this, "Category added succesfulle...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CategoryAddActivity.this, "Category added successfully...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        //category add failed
+                        progressDialog.dismiss();
+                        Toast.makeText(CategoryAddActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

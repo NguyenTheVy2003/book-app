@@ -37,6 +37,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
 
     //View binding
     private RowCategoryBinding binding;
+
     //instance of our filter class
     private FilterCategory filer;
 
@@ -52,9 +53,11 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
     public void onBindViewHolder(@NonNull HolderCategory holder, int position) {
         //get data
         ModelCategory model = categoryArrayList.get(position);
-        String id = model.getId();
         String category = model.getCategory();
+        String id = model.getId();
+        long timestamp = model.getTimestamp();
         String uid = model.getUid();
+
         //set data
         holder.categoryTV.setText(category);
 
@@ -87,7 +90,9 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
     private void deleteCategory(ModelCategory model, HolderCategory holder) {
         //get id of category to delete
         String id = model.getId();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Catefories");
+
+        //Firebase DB > Categories > categoryId
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.child(id)
                 .removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

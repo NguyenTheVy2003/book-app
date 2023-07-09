@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-
+        // handle click, go to register screen
         binding.noAccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     private String email = "", password = "";
 
     private void validateData() {
-        // Before loggin, lets do some data validation
+        // Before login, lets do some data validation
 
         //get data
         email = binding.emailEt.getText().toString().trim();
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                         String userType = "" + snapshot.child("userType").getValue();
                         // check user type
                         if (userType.equals("user")) {
-                            // this is simple user, open user dasboard
+                            // this is simple user, open user dashboard
                             startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
                             finish();
                         } else if (userType.equals("admin")) {
