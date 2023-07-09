@@ -40,19 +40,22 @@ public class PdfAddActivity extends AppCompatActivity {
     //progress dialog
     private ProgressDialog progressDialog;
     //arr to to hold
-    private ArrayList<ModelCategory>categoryArrayList;
+    private ArrayList<ModelCategory> categoryArrayList;
     //uri of picked pdf
-    private Uri pdfUri =null;
-    private  static final int PDF_PICK_CODE = 1000;
+    private Uri pdfUri = null;
+    private static final int PDF_PICK_CODE = 1000;
 
     //TAG for debugging
-    private  static final String TAG = "ADD_PDF_TAG";
+    private static final String TAG = "ADD_PDF_TAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding =ActivityPdfAddBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_pdf_add);
-        firebaseAuth =FirebaseAuth.getInstance();
+        binding = ActivityPdfAddBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        //init firebase auth
+        firebaseAuth = FirebaseAuth.getInstance();
         loadPdfCategories();
 
         //setup progress dialog
@@ -68,6 +71,7 @@ public class PdfAddActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         //handle click, attach pdf
         binding.attachBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,67 +95,72 @@ public class PdfAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //validate data
                 validateData();
-                
+
             }
         });
     }
 
-    private String title ="",description ="",category="";
+    private String title = "", description = "", category = "";
+
     private void validateData() {
         //Step 1 : validate data
-        Log.d(TAG,"validateData data");
+        Log.d(TAG, "validateData data");
         //get data
         title = binding.titleEt.getText().toString().trim();
-        description=binding.descriptionEt.getText().toString().trim();
-        category=binding.categoryTv.getText().toString().trim();
+        description = binding.descriptionEt.getText().toString().trim();
+        category = binding.categoryTv.getText().toString().trim();
 
         //value data
-        if (TextUtils.isEmpty(title)){
+        if (TextUtils.isEmpty(title)) {
             Toast.makeText(this, "Enter Title....", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(description)) {
             Toast.makeText(this, "Enter Description", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(category)) {
             Toast.makeText(this, "Pick Category", Toast.LENGTH_SHORT).show();
-        } else if (pdfUri==null) {
+        } else if (pdfUri == null) {
             Toast.makeText(this, "Pick PDF", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
+            //all data is valid, can upload now
             uploadPdfStorage();
         }
     }
 
     private void uploadPdfStorage() {
         //Step 2 : Upload Pdf to firebase storage
-        Log.d(TAG,"UploadPdfToStorage: uploading pdf categories");
+        Log.d(TAG, "UploadPdfToStorage: uploading pdf categories");
+
         //show progress
         progressDialog.setMessage("Uploading PDF...");
         progressDialog.show();
+
         //timestamp
-        long timestamp =System.currentTimeMillis();
+        long timestamp = System.currentTimeMillis();
+
         //path of pdf in firebase storage
-        String filePathAndName= "Books/"+timestamp;
+        String filePathAndName = "Books/" + timestamp;
+
         //storage reference
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
         storageReference.putFile(pdfUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d(TAG,"onSuccess: PDF uploaded to storage");
-                        Log.d(TAG,"onSuccess:  getting pdf url");
+                        Log.d(TAG, "onSuccess: PDF uploaded to storage");
+                        Log.d(TAG, "onSuccess:  getting pdf url");
                         //get pdf url
-                        Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful());
-                        String uploadPdfUrl =""+uriTask.getResult();
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isSuccessful()) ;
+                        String uploadPdfUrl = "" + uriTask.getResult();
                         //upload to firebase db
-                        uploadPdfInfoToDb(uploadPdfUrl,timestamp);
+                        uploadPdfInfoToDb(uploadPdfUrl, timestamp);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Log.d(TAG,"onFailure: PDF upload failed due to"+e.getMessage());
-                        Toast.makeText(PdfAddActivity.this, "PDF upload failed due to"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onFailure: PDF upload failed due to" + e.getMessage());
+                        Toast.makeText(PdfAddActivity.this, "PDF upload failed due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -159,36 +168,36 @@ public class PdfAddActivity extends AppCompatActivity {
     private void uploadPdfInfoToDb(String uploadPdfUrl, long timestamp) {
 
         //Step 3 : Upload Pdf  info to firebase db
-        Log.d(TAG,"UploadPdfToStorage: uploading pdf  info to firebase db");
+        Log.d(TAG, "UploadPdfToStorage: uploading pdf  info to firebase db");
 
         progressDialog.setMessage("Uploading pdf info");
         String uid = firebaseAuth.getUid();
         //set data to upload
-        HashMap<String,Object> hashMap= new HashMap<>();
-        hashMap.put("uid",""+uid);
-        hashMap.put("id",""+timestamp);
-        hashMap.put("title ",""+title);
-        hashMap.put("description",""+description);
-        hashMap.put("category",""+category);
-        hashMap.put("timestamp",""+timestamp);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("uid", "" + uid);
+        hashMap.put("id", "" + timestamp);
+        hashMap.put("title ", "" + title);
+        hashMap.put("description", "" + description);
+        hashMap.put("category", "" + category);
+        hashMap.put("timestamp", "" + timestamp);
 
         //db reference DB > Books
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.child(""+timestamp)
+        ref.child("" + timestamp)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
-                        Log.d(TAG,"OnSuccess: Successfully uploaded...");
+                        Log.d(TAG, "OnSuccess: Successfully uploaded...");
                         Toast.makeText(PdfAddActivity.this, "Successfully uploaded...", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Log.d(TAG,"onFailure: Failed to upload to db due to"+e.getMessage());
-                        Toast.makeText(PdfAddActivity.this, "Failed to upload to db due to"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onFailure: Failed to upload to db due to" + e.getMessage());
+                        Toast.makeText(PdfAddActivity.this, "Failed to upload to db due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -196,8 +205,8 @@ public class PdfAddActivity extends AppCompatActivity {
 
     private void loadPdfCategories() {
 
-        Log.d(TAG,"loadPdfCategories :Loading pdf categories");
-        categoryArrayList= new ArrayList<>();
+        Log.d(TAG, "loadPdfCategories :Loading pdf categories");
+        categoryArrayList = new ArrayList<>();
 
         //db reference to load
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
@@ -205,13 +214,13 @@ public class PdfAddActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 categoryArrayList.clear();//clear before adding data
-                for (DataSnapshot ds:snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     //get data
                     ModelCategory model = ds.getValue(ModelCategory.class);
                     //add to arr
                     categoryArrayList.add(model);
 
-                    Log.d(TAG,"onDataChange:"+model.getCategory());
+                    Log.d(TAG, "onDataChange:" + model.getCategory());
                 }
             }
 
@@ -224,15 +233,15 @@ public class PdfAddActivity extends AppCompatActivity {
 
     private void categoryPickDialog() {
 
-        Log.d(TAG,"categoryPickDialog: showing category pick dialog");
+        Log.d(TAG, "categoryPickDialog: showing category pick dialog");
         //get string arr of categories from arr
 
-        String[]categoriesArray = new String[categoryArrayList.size()];
-        for (int i=0;i < categoryArrayList.size();i++){
-            categoriesArray[i]=categoryArrayList.get(i).getCategory();
+        String[] categoriesArray = new String[categoryArrayList.size()];
+        for (int i = 0; i < categoryArrayList.size(); i++) {
+            categoriesArray[i] = categoryArrayList.get(i).getCategory();
 
             //alert dialog
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Pick Category")
                     .setItems(categoriesArray, new DialogInterface.OnClickListener() {
                         @Override
@@ -243,7 +252,7 @@ public class PdfAddActivity extends AppCompatActivity {
                             //set category txt view
                             binding.categoryTv.setText(category);
 
-                            Log.d(TAG,"Selected Category:"+category);
+                            Log.d(TAG, "Selected Category:" + category);
                         }
                     })
                     .show();
@@ -255,25 +264,24 @@ public class PdfAddActivity extends AppCompatActivity {
         Log.d(TAG, "pdfPickIntent: starting pdf pick intent");
 
         Intent intent = new Intent();
-        intent.setType("Application/pdf");
+        intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Pdf"),PDF_PICK_CODE);
+        startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PDF_PICK_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==RESULT_OK){
-            if (requestCode==PDF_PICK_CODE){
-                Log.d(TAG,"onActivityResult: PDF Picked");
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PDF_PICK_CODE) {
+                Log.d(TAG, "onActivityResult: PDF Picked");
 
-                pdfUri=data.getData();
-                Log.d(TAG,"onActivityResult: URI:"+pdfUri);
+                pdfUri = data.getData();
+                Log.d(TAG, "onActivityResult: URI:" + pdfUri);
             }
-        }
-        else {
-            Log.d(TAG,"onActivityResult picking pdf");
+        } else {
+            Log.d(TAG, "onActivityResult picking pdf");
             Toast.makeText(this, "Cancelled Picking PDF", Toast.LENGTH_SHORT).show();
         }
     }
