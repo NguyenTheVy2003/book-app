@@ -41,7 +41,7 @@ public class CategoryAddActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        //handle click , goback
+        //handle click , go back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +101,7 @@ public class CategoryAddActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        //catgory add success
+                        //category add success
                         progressDialog.dismiss();
                         Toast.makeText(CategoryAddActivity.this, "Category added succesfulle...", Toast.LENGTH_SHORT).show();
                     }

@@ -60,10 +60,11 @@ public class PdfAddActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
+
         //handle click ,go to previous activity
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 onBackPressed();
             }
         });
@@ -78,7 +79,8 @@ public class PdfAddActivity extends AppCompatActivity {
         //handle click, pick category
         binding.categoryTv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+
                 categoryPickDialog();
             }
         });
@@ -94,21 +96,21 @@ public class PdfAddActivity extends AppCompatActivity {
         });
     }
 
-    private String title ="",descripon ="",catgory="";
+    private String title ="",description ="",category="";
     private void validateData() {
         //Step 1 : validate data
-        Log.d(TAG,"validateData dat");
+        Log.d(TAG,"validateData data");
         //get data
         title = binding.titleEt.getText().toString().trim();
-        descripon=binding.descriptionEt.getText().toString().trim();
-        catgory=binding.categoryTv.getText().toString().trim();
+        description=binding.descriptionEt.getText().toString().trim();
+        category=binding.categoryTv.getText().toString().trim();
 
         //value data
         if (TextUtils.isEmpty(title)){
             Toast.makeText(this, "Enter Title....", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(descripon)) {
+        } else if (TextUtils.isEmpty(description)) {
             Toast.makeText(this, "Enter Description", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(catgory)) {
+        } else if (TextUtils.isEmpty(category)) {
             Toast.makeText(this, "Pick Category", Toast.LENGTH_SHORT).show();
         } else if (pdfUri==null) {
             Toast.makeText(this, "Pick PDF", Toast.LENGTH_SHORT).show();
@@ -136,9 +138,11 @@ public class PdfAddActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Log.d(TAG,"onSuccess: PDF uploaded to storage");
                         Log.d(TAG,"onSuccess:  getting pdf url");
+                        //get pdf url
                         Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
                         while (!uriTask.isSuccessful());
                         String uploadPdfUrl =""+uriTask.getResult();
+                        //upload to firebase db
                         uploadPdfInfoToDb(uploadPdfUrl,timestamp);
                     }
                 })
@@ -164,8 +168,8 @@ public class PdfAddActivity extends AppCompatActivity {
         hashMap.put("uid",""+uid);
         hashMap.put("id",""+timestamp);
         hashMap.put("title ",""+title);
-        hashMap.put("description",""+descripon);
-        hashMap.put("category",""+catgory);
+        hashMap.put("description",""+description);
+        hashMap.put("category",""+category);
         hashMap.put("timestamp",""+timestamp);
 
         //db reference DB > Books
