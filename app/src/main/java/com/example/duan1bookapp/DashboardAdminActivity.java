@@ -46,7 +46,7 @@ public class DashboardAdminActivity extends AppCompatActivity {
         //edit text change listen, search
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
 
             }
 
@@ -72,6 +72,7 @@ public class DashboardAdminActivity extends AppCompatActivity {
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 checkUser();
+                loadCategories();
             }
         });
 
@@ -95,6 +96,8 @@ public class DashboardAdminActivity extends AppCompatActivity {
 
         //init  arraylist
         categoryArrayList = new ArrayList<>();
+
+        //get all categories from firebase > Categories
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.addValueEventListener(new ValueEventListener() {
             @Override

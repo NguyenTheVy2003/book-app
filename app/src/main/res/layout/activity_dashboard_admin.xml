@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/back01"
     tools:context=".DashboardAdminActivity">
+
     <!--Toobar-->
     <RelativeLayout
         android:id="@+id/toolbarRl"
@@ -67,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomll"
-        android:layout_below="@id/toolbarRl"
+        android:layout_below="@id/searchEt"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"
@@ -96,7 +97,7 @@
             android:layout_weight="1"
             android:background="@drawable/shape_button01"
             android:minHeight="50dp"
-            android:text="+Add Category"
+            android:text="+ Add Category"
             android:textAllCaps="false"
             android:textColor="@color/white" />
         <!--Add PDF-->

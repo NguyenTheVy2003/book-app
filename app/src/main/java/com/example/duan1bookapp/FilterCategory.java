@@ -26,6 +26,7 @@ public class FilterCategory extends Filter {
             //change to upper case , or lower case to avoid case sensitivity
             constraint = constraint.toString().toUpperCase();
             ArrayList<ModelCategory> filterModels = new ArrayList<>();
+
             for (int i = 0; i < filterList.size(); i++) {
                 //validate
                 if (filterList.get(i).getCategory().toUpperCase().contains(constraint)) {
@@ -45,9 +46,10 @@ public class FilterCategory extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        //notify
-        adapterCategory.notifyDataSetChanged();
         //apply filter
         adapterCategory.categoryArrayList = (ArrayList<ModelCategory>) results.values;
+
+        //notify
+        adapterCategory.notifyDataSetChanged();
     }
 }
