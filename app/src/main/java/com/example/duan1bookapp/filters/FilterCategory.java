@@ -1,9 +1,10 @@
-package com.example.duan1bookapp;
+package com.example.duan1bookapp.filters;
 
-import android.graphics.ColorSpace;
 import android.widget.Filter;
 
-import java.io.File;
+import com.example.duan1bookapp.adapters.AdapterCategory;
+import com.example.duan1bookapp.models.ModelCategory;
+
 import java.util.ArrayList;
 
 public class FilterCategory extends Filter {
