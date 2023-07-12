@@ -56,7 +56,8 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     public AdapterPdfAdmin(Context context, ArrayList<ModelPdf> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
-        this.filterList= pdfArrayList;
+//        this.filterList= pdfArrayList;
+        this.filterList = new ArrayList<>(pdfArrayList);
     }
 
     @NonNull
@@ -69,6 +70,9 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
 
     @Override
     public void onBindViewHolder(@NonNull HolderPdfAdmin holder, int position) {
+        //bind layout using view binding
+        binding = RowPdfAdminBinding.bind(holder.itemView);
+
         //get data ,set data, handle click etc
 
         //get data
@@ -210,7 +214,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
 
     @Override
     public int getItemCount() {
-        return 0;//return number of records\ list size
+        return pdfArrayList.size();//return number of records\ list size
     }
 
     @Override

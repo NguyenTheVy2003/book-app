@@ -23,12 +23,13 @@ import java.util.ArrayList;
 
 public class PdfListAdminActivity extends AppCompatActivity {
 
-    // Arraylist to hold list of data of type model pdf
+    //view binding
+    private ActivityPdfListAdminBinding binding;
+
+    //arraylist to hold list of data of type ModelPdf
     private ArrayList<ModelPdf> pdfArrayList;
     //adapter
     private AdapterPdfAdmin adapterPdfAdmin;
-    //binding
-    private ActivityPdfListAdminBinding binding;
 
     private String categoryId, categoryTitle;
 
@@ -41,16 +42,16 @@ public class PdfListAdminActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //get data from intent
-        Intent intent = new Intent();
-        categoryId = intent.getStringExtra(categoryId);
-        categoryTitle = intent.getStringExtra(categoryTitle);
+        Intent intent = getIntent();
+        categoryId = intent.getStringExtra("categoryId");
+        categoryTitle = intent.getStringExtra("categoryTitle");
 
         //set pdf category
         binding.subTitleTv.setText(categoryTitle);
 
         loadPdfList();
 
-        //search
+        // search
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -62,11 +63,9 @@ public class PdfListAdminActivity extends AppCompatActivity {
                 //search as and when user type each letter
                 try {
                     adapterPdfAdmin.getFilter().filter(s);
+                } catch (Exception e) {
+                    Log.d(TAG, "onTextChanged: " + e.getMessage());
                 }
-                catch (Exception e){
-                    Log.d(TAG, "onTextChanged: "+e.getMessage());
-                }
-
             }
 
             @Override
@@ -75,19 +74,17 @@ public class PdfListAdminActivity extends AppCompatActivity {
             }
         });
 
-        // handle click, go to previous activity
+        // handle click, goto previous activity
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
     }
 
     private void loadPdfList() {
-
-        //init list before add data
+        //init list before adding data
         pdfArrayList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
@@ -95,20 +92,18 @@ public class PdfListAdminActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                         pdfArrayList.clear();
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             //get data
-                            ModelPdf model= ds.getValue(ModelPdf.class);
+                            ModelPdf model = ds.getValue(ModelPdf.class);
                             //add to list
                             pdfArrayList.add(model);
 
-                            Log.d(TAG, "onDataChange: "+model.getId()+""+model.getTitle());
+                            Log.d(TAG, "onDataChange: " + model.getId() + " " + model.getTitle());
                         }
                         //setup adapter
-                        adapterPdfAdmin= new AdapterPdfAdmin(PdfListAdminActivity.this,pdfArrayList);
+                        adapterPdfAdmin = new AdapterPdfAdmin(PdfListAdminActivity.this, pdfArrayList);
                         binding.bookRv.setAdapter(adapterPdfAdmin);
-
                     }
 
                     @Override
@@ -116,6 +111,5 @@ public class PdfListAdminActivity extends AppCompatActivity {
 
                     }
                 });
-
     }
 }
