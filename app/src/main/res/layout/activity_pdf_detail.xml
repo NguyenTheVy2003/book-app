@@ -96,7 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
-                            android:text="Category" />
+                            android:text="Category : " />
 
                         <TextView
                             android:id="@+id/categoryTv"
@@ -116,7 +116,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
-                            android:text="Date" />
+                            android:text="Date : " />
 
                         <TextView
                             android:id="@+id/dateTv"
@@ -136,7 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
-                            android:text="Size" />
+                            android:text="Size : " />
 
                         <TextView
                             android:id="@+id/sizeTv"
@@ -156,7 +156,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
-                            android:text="Views" />
+                            android:text="Views : " />
 
                         <TextView
                             android:id="@+id/viewsTv"
@@ -176,7 +176,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
-                            android:text="Downloads" />
+                            android:text="Downloads : " />
 
                         <TextView
                             android:id="@+id/downloadsTv"
