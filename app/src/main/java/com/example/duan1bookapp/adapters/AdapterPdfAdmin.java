@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
+import com.example.duan1bookapp.PdfEditActivity;
 import com.example.duan1bookapp.databinding.RowPdfAdminBinding;
 import com.example.duan1bookapp.filters.FilterPdfAdmin;
 import com.example.duan1bookapp.models.ModelPdf;
@@ -115,17 +117,25 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     }
 
     private void moreOptionsDialog(ModelPdf model, HolderPdfAdmin holder) {
-        //options to show in dialog
-        String[] options = {"Edit","Delete"};
+        String bookId = model.getId();
+        String bookUrl = model.getUrl();
+        String bookTitle = model.getTitle();
 
-        //elrt dialog
-        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+        //options to show in dialog
+        String[] options = {"Edit", "Delete"};
+
+        //AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Choose Options")
-                .setItems(options,new DialogInterface.OnClickListener(){
+                .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        if (which==0){
-                            //edit click, open new activity to edit book info
+                        if (which == 0) {
+                            //edit click, open pdf edit activity to edit book info
+
+                            Intent intent = new Intent(context, PdfEditActivity.class);
+                            intent.putExtra("bookId", bookId);
+                            context.startActivity(intent);
 
                         } else if (which==1) {
                             //delete click
