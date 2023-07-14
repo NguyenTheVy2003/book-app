@@ -26,7 +26,7 @@ public class DashboardUserActivity extends AppCompatActivity {
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
-        // checkUser();
+        checkUser();
 
         // handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -41,11 +41,11 @@ public class DashboardUserActivity extends AppCompatActivity {
     private void checkUser() {
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser == null){
+        if (firebaseUser == null) {
             //not logged in, go to main screen
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }else {
+        } else {
             // logged in, get user info
             String email = firebaseUser.getEmail();
             // set in textView of toolbar
