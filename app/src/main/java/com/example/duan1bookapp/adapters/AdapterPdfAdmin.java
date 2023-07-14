@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
+import com.example.duan1bookapp.PdfDetailActivity;
 import com.example.duan1bookapp.PdfEditActivity;
 import com.example.duan1bookapp.databinding.RowPdfAdminBinding;
 import com.example.duan1bookapp.filters.FilterPdfAdmin;
@@ -119,6 +120,16 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             @Override
             public void onClick(View view) {
                 moreOptionsDialog(model,holder);
+            }
+        });
+
+        //handle click , open pdf detail page
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",pdfId);
+                context.startActivity(intent);
             }
         });
 
