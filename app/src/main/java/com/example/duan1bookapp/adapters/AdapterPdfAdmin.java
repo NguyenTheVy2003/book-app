@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -333,7 +334,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         PDFView pdfView;
         ProgressBar progressBar;
         TextView titleTv, descriptionTv, categoryTv, sizeTv, dateTv;
-        Button moreBtn;
+        ImageButton moreBtn;
 
 
         public HolderPdfAdmin(@NonNull View itemView) {
@@ -347,7 +348,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             categoryTv = binding.categoryTv;
             sizeTv = binding.sizeTv;
             dateTv = binding.dateTv;
-
+            moreBtn=binding.moreBtn;
 
         }
     }
