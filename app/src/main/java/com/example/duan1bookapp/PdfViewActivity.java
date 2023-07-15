@@ -89,7 +89,7 @@ public class PdfViewActivity extends AppCompatActivity {
 
                         // load pdf using bytes
                         binding.pdfView.fromBytes(bytes)
-                                .swipeHorizontal(true) // set false to scroll vertical, set true to swipe horizontal
+                                .swipeHorizontal(false) // set false to scroll vertical, set true to swipe horizontal
                                 .onPageChange(new OnPageChangeListener() {
                                     @Override
                                     public void onPageChanged(int page, int pageCount) {
