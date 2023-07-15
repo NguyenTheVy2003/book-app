@@ -58,7 +58,7 @@ public class PdfAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPdfAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        String name ;
+        
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();

@@ -38,7 +38,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
         this.categoryArrayList = categoryArrayList;
         this.filterList = categoryArrayList;
     }
-//test
+
     //View binding
     private RowCategoryBinding binding;
 
