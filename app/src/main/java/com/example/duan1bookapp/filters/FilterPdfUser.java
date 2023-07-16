@@ -49,7 +49,7 @@ public class FilterPdfUser extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterPdfUser.pdfArrayList = (ArrayList<ModelPdf>) results.values;
+        adapterPdfUser.pdfArrayList = (ArrayList<ModelPdf>)results.values;
         // notify changes
         adapterPdfUser.notifyDataSetChanged();
     }

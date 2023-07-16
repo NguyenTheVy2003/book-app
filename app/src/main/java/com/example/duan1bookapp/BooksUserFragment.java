@@ -55,6 +55,8 @@ public class BooksUserFragment extends Fragment {
         args.putString("categoryId", categoryId);
         args.putString("category", category);
         args.putString("uid", uid);
+
+
         fragment.setArguments(args);
         return fragment;
     }

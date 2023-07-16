@@ -69,7 +69,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories"); // be careful of spelling
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange( DataSnapshot snapshot) {
                 // clear before adding to list
                 categoryArrayList.clear();
 
@@ -118,11 +118,8 @@ public class DashboardUserActivity extends AppCompatActivity {
                 }
             }
 
-
-
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
