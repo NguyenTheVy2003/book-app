@@ -1,4 +1,4 @@
-package com.example.duan1bookapp;
+package com.example.duan1bookapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

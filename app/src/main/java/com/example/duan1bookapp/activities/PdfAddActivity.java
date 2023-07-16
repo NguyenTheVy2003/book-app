@@ -1,4 +1,4 @@
-package com.example.duan1bookapp;
+package com.example.duan1bookapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
