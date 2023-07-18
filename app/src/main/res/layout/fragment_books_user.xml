@@ -21,7 +21,7 @@
 
     <!--RecyclerView: Load books-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bookRv"
+        android:id="@+id/booksRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:stackFromEnd="true"

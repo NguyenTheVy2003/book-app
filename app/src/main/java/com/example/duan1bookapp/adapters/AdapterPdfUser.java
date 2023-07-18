@@ -48,7 +48,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderPdfUser holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterPdfUser.HolderPdfUser holder, int position) {
 
 
         ModelPdf model = pdfArrayList.get(position);

@@ -7,7 +7,7 @@
     android:background="@drawable/back01"
     tools:context=".activities.DashboardAdminActivity">
 
-    <!--Toobar-->
+    <!--Toolbar-->
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"

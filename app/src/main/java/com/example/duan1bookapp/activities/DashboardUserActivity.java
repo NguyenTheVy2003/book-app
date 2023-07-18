@@ -48,6 +48,10 @@ public class DashboardUserActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
 
+
+        setupViewPagerAdapter(binding.viewPager);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+
         // handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,8 +59,6 @@ public class DashboardUserActivity extends AppCompatActivity {
                 firebaseAuth.signOut();
                 checkUser();
 
-                setupViewPagerAdapter(binding.viewPager);
-                binding.tabLayout.setupWithViewPager(binding.viewPager);
             }
         });
     }
@@ -102,7 +104,7 @@ public class DashboardUserActivity extends AppCompatActivity {
                 viewPagerAdapter.notifyDataSetChanged();
 
                 // Now Load from firebase
-                for (DataSnapshot ds: snapshot.getChildren()){
+                for (DataSnapshot ds: snapshot.getChildren()) {
                     // get data
                     ModelCategory model = ds.getValue(ModelCategory.class);
                     // add data to list
@@ -114,7 +116,6 @@ public class DashboardUserActivity extends AppCompatActivity {
                             "" + model.getUid()), model.getCategory());
                     // refresh list
                     viewPagerAdapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -135,7 +136,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         private ArrayList<String> fragmentTitleList = new ArrayList<>();
         private Context context;
 
-        public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior, Context context) {
+        public ViewPagerAdapter( FragmentManager fm, int behavior, Context context) {
             super(fm, behavior);
             this.context = context;
         }

@@ -141,7 +141,7 @@ public class BooksUserFragment extends Fragment {
                 // setup adapter
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 // set adapter to recyclerview
-                biding.bookRv.setAdapter(adapterPdfUser);
+                biding.booksRv.setAdapter(adapterPdfUser);
             }
 
             @Override
@@ -169,7 +169,7 @@ public class BooksUserFragment extends Fragment {
                 // setup adapter
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 // set adapter to recyclerview
-                biding.bookRv.setAdapter(adapterPdfUser);
+                biding.booksRv.setAdapter(adapterPdfUser);
             }
 
             @Override
@@ -197,7 +197,7 @@ public class BooksUserFragment extends Fragment {
                         // setup adapter
                         adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                         // set adapter to recyclerview
-                        biding.bookRv.setAdapter(adapterPdfUser);
+                        biding.booksRv.setAdapter(adapterPdfUser);
                     }
 
                     @Override
