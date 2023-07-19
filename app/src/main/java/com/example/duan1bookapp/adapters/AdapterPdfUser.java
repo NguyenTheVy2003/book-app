@@ -67,11 +67,13 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         holder.descriptionTv.setText(description);
         holder.dateTv.setText(date);
 
+        // we dont need page number here,pass null
         MyApplication.loadPdfFromUrlSinglePage(
                 "" + pdfUrl,
                 "" + title,
                 holder.pdfView,
-                holder.progressBar
+                holder.progressBar,
+                null
         );
         MyApplication.loadCategory(
                 "" + categoryId,
