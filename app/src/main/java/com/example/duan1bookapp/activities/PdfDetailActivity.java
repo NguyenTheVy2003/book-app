@@ -1,17 +1,21 @@
 package com.example.duan1bookapp.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -19,6 +23,7 @@ import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.databinding.ActivityPdfDetailBinding;
+import com.example.duan1bookapp.databinding.DialogCommentAddBinding;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PdfDetailActivity extends AppCompatActivity {
 
@@ -49,6 +55,9 @@ public class PdfDetailActivity extends AppCompatActivity {
 
     private static final String TAG_DOWNLOAD = "DOWNLOAD_TAG";
 
+    //progress dialog
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,11 @@ public class PdfDetailActivity extends AppCompatActivity {
 
         // at start hide download button, because we need book url that we will load later in function loadBookDetails()
         binding.downloadBookBtn.setVisibility(View.GONE);
+
+        //init progress dialog
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         firebaseAuth=FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
@@ -127,8 +141,93 @@ public class PdfDetailActivity extends AppCompatActivity {
             }
         });
 
+        //handle click ,show comment add dialog
+        binding.addCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Requirements:User must be logged in to add comment
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(PdfDetailActivity.this, "You're not logged in...", Toast.LENGTH_SHORT).show();
+                }else {
+                    addCommentDialog();
+                }
+            }
+        });
+
+    }
+    private String comment="";
+    private void addCommentDialog() {
+        //inflate bind view for dialog
+        DialogCommentAddBinding commentAddBinding=DialogCommentAddBinding.inflate(LayoutInflater.from(this));
+        //setup aler dialog buider
+        AlertDialog.Builder builder=new AlertDialog.Builder(this,R.style.CustomDialog);
+        builder.setView(commentAddBinding.getRoot());
+
+        //create and show alert dialog
+        AlertDialog alertDialog= builder.create();
+        alertDialog.show();
+
+        //handle click,add comment
+        commentAddBinding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        //handle click,add comment
+        commentAddBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get data
+                comment =commentAddBinding.commentEt.getText().toString().trim();
+                //validate data
+                if(TextUtils.isEmpty(comment)){
+                    Toast.makeText(PdfDetailActivity.this, "Enter your comment...", Toast.LENGTH_SHORT).show();
+                }else {
+                    alertDialog.dismiss();
+                    addComment();
+                }
+            }
+        });
     }
 
+    private void addComment() {
+       //show progress
+        progressDialog.setMessage("Adding comment...");
+        progressDialog.show();
+
+        //timestamp for comment id ,comment time
+        String timestamp=""+System.currentTimeMillis();
+        //setup data to add in db for comment
+        HashMap<String, Object> hashMap=new HashMap<>();
+        hashMap.put("id",""+timestamp);
+        hashMap.put("bookId",""+bookId);
+        hashMap.put("timestamp",""+timestamp);
+        hashMap.put("comment",""+comment);
+        hashMap.put("uid",""+firebaseAuth.getUid());
+
+        //DB path to add data into it
+        //Books > bookId > Comments > CommentsId > commentData
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.child(bookId).child("Comments").child(timestamp)
+                .setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(PdfDetailActivity.this, "Comment Added...", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed to add comment
+                        progressDialog.dismiss();
+                        Toast.makeText(PdfDetailActivity.this, "Failed to add comment due to"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
 
 
     // request storage permission
