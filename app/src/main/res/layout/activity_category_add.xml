@@ -75,6 +75,7 @@
         android:layout_below="@+id/categoryTil"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:text="Upload"
         android:layout_marginEnd="30dp"
         android:background="@drawable/shape_button01"
         android:textColor="@color/white" />
