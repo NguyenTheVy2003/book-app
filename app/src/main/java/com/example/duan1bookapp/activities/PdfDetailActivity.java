@@ -21,9 +21,11 @@ import androidx.core.content.ContextCompat;
 
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.R;
+import com.example.duan1bookapp.adapters.AdapterComment;
 import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.databinding.ActivityPdfDetailBinding;
 import com.example.duan1bookapp.databinding.DialogCommentAddBinding;
+import com.example.duan1bookapp.models.ModelComment;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +52,11 @@ public class PdfDetailActivity extends AppCompatActivity {
     boolean isInMyFavorite = false;
 
     private FirebaseAuth firebaseAuth;
+
+    //arraylist to hold comment
+    private ArrayList<ModelComment> commentArrayList;
+    //adapter to set to RecyclerView
+    private AdapterComment adapterComment;
 
 
 
@@ -88,6 +95,7 @@ public class PdfDetailActivity extends AppCompatActivity {
         MyApplication.incrementBookViewCount(bookId);
 
         loadBookDetails();
+        loadComments();
 
         //handle click goback
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +163,38 @@ public class PdfDetailActivity extends AppCompatActivity {
         });
 
     }
+
+    private void loadComments() {
+        //init arraylist before adding data into it
+        commentArrayList=new ArrayList<>();
+
+        //db path to load comments
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
+        ref.child(bookId).child("Comments")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //clear arraylist before start adding data into it
+                        commentArrayList.clear();
+                        for (DataSnapshot ds: snapshot.getChildren()) {
+                            //get data as model,spellings of cariables in model must be as same as in firebase
+                            ModelComment model=ds.getValue(ModelComment.class);
+                            //add to arraylist
+                            commentArrayList.add(model);
+
+                        }
+                        adapterComment=new AdapterComment(PdfDetailActivity.this,commentArrayList);
+                        //set adapter to recyclerView
+                        binding.commentsRv.setAdapter(adapterComment);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
     private String comment="";
     private void addCommentDialog() {
         //inflate bind view for dialog
