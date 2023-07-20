@@ -17,7 +17,9 @@ import androidx.core.content.ContextCompat;
 
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.R;
+import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.databinding.ActivityPdfDetailBinding;
+import com.example.duan1bookapp.models.ModelPdf;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class PdfDetailActivity extends AppCompatActivity {
 
@@ -40,6 +44,8 @@ public class PdfDetailActivity extends AppCompatActivity {
     boolean isInMyFavorite = false;
 
     private FirebaseAuth firebaseAuth;
+
+
 
     private static final String TAG_DOWNLOAD = "DOWNLOAD_TAG";
 
@@ -62,10 +68,12 @@ public class PdfDetailActivity extends AppCompatActivity {
             checkIsFavorite();
         }
 
-        loadBookDetails();
+
 
         //increment book view count,whenever this page start
         MyApplication.incrementBookViewCount(bookId);
+
+        loadBookDetails();
 
         //handle click goback
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +128,8 @@ public class PdfDetailActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     // request storage permission
     private ActivityResultLauncher<String> requestPermissionLauncher =
