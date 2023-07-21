@@ -92,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
                         binding.accountTypeTv.setText(userType);
 
                         //setImage,using glide
-                        Glide.with(ProfileActivity.this)
+                        Glide.with(getApplicationContext())
                                 .load(profileImage)
                                 .placeholder(R.drawable.ic_person_gray)
                                 .into(binding.profileTv);
