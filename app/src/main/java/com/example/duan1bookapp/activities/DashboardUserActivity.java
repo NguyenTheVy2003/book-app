@@ -80,8 +80,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         });
 
 
-        //set onBack
-        onBack();
+        
     }
 
     private void setupViewPagerAdapter(ViewPager viewPager){
@@ -200,13 +199,15 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     }
 
-    public void onBack() {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
         if(firstPressTime + 1000 > System.currentTimeMillis()){
             super.onBackPressed();
         }else {
             Toast.makeText(this, "Press Back Twice to Exit", Toast.LENGTH_SHORT).show();
         }
         firstPressTime = (int) System.currentTimeMillis();
-
     }
 }
