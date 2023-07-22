@@ -41,7 +41,7 @@ public class DashboardUserActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     //onBackPressedOnce
-    private boolean isBackPressedOnce = false;
+    int firstPressTime = 0;
 
 
 
@@ -78,6 +78,10 @@ public class DashboardUserActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardUserActivity.this,ProfileActivity.class));
             }
         });
+
+
+        //set onBack
+        onBack();
     }
 
     private void setupViewPagerAdapter(ViewPager viewPager){
@@ -196,21 +200,13 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if(isBackPressedOnce){
-            super.onBackPressed();;
-            return;
+    public void onBack() {
+        if(firstPressTime + 1000 > System.currentTimeMillis()){
+            super.onBackPressed();
+        }else {
+            Toast.makeText(this, "Press Back Twice to Exit", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, "Press again to exit!!", Toast.LENGTH_SHORT).show();
-        isBackPressedOnce = true;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isBackPressedOnce =false;
-            }
-        },2000);
+        firstPressTime = (int) System.currentTimeMillis();
 
     }
 }
