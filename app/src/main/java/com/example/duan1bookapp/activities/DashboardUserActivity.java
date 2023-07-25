@@ -21,6 +21,7 @@ import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.databinding.ActivityDashboardUserBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -77,69 +78,12 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
         });
 
-        //handle click,open profile
-        binding.profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DashboardUserActivity.this,ProfileActivity.class));
-            }
-        });
+
 
         //handle click iconViewPager
-        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        binding.bottomNavigation.getMenu().findItem(R.id.ic_home).setCheckable(true);
-                        break;
-                    case 1:
-                        binding.bottomNavigation.getMenu().findItem(R.id.ic_manga).setCheckable(true);
-                        break;
-                    case 2:
-                        binding.bottomNavigation.getMenu().findItem(R.id.ic_download).setCheckable(true);
-                        break;
-                    case 3:
-                        binding.bottomNavigation.getMenu().findItem(R.id.ic_user).setCheckable(true);
-                        break;
-                }
 
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        //handle click navigationView
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.ic_home:
-
-                        break;
-                    case R.id.ic_manga:
-
-                        break;
-                    case R.id.ic_download:
-
-                        break;
-                    case R.id.ic_user:
-
-                        break;
-                }
-                return true;
-            }
-        });
-
-        
     }
 
 
@@ -209,6 +153,61 @@ public class DashboardUserActivity extends AppCompatActivity {
 
         // set adapter to view pager
         viewPager.setAdapter(viewPagerAdapter);
+
+        //viewPager Add handle Page
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        binding.bottomNavigation.setSelectedItemId(R.id.ic_home);
+                        break;
+                    case 1:
+                        binding.bottomNavigation.setSelectedItemId(R.id.ic_manga);
+                        break;
+                    case 2:
+                        binding.bottomNavigation.setSelectedItemId(R.id.ic_download);
+                        break;
+                    case 3:
+                        binding.bottomNavigation.setSelectedItemId(R.id.ic_user);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        //handle click BottomNavigation
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId=item.getItemId();
+                switch (itemId){
+                    case R.id.ic_home:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.ic_manga:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.ic_download:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.ic_user:
+                        //handle click,open profile
+                        startActivity(new Intent(DashboardUserActivity.this,ProfileActivity.class));
+
+                        break;
+                }
+                return true;
+            }
+        });
 
     }
 

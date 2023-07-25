@@ -65,6 +65,17 @@ public class ProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+//         handle click, logout
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+
+                startActivity(new Intent(ProfileActivity.this,MainActivity.class));
+                finish();
+
+            }
+        });
     }
 
     private void loadUserInfo() {
