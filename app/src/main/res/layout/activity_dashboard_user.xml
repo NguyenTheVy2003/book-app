@@ -81,4 +81,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tabLayout"/>
 
+
+<!--    bottomNavigation-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:layout_above="@+id/viewPager"
+        app:cardCornerRadius="20dp"
+        android:layout_height="wrap_content">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            app:menu="@menu/menu_navigation"
+            app:itemTextColor="@color/color_navigation"
+            app:itemIconTint="@color/color_navigation"
+            app:labelVisibilityMode="labeled"
+            android:background="@color/design_default_color_primary"
+            android:layout_height="wrap_content"/>
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

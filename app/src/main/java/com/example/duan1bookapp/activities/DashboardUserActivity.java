@@ -12,12 +12,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.duan1bookapp.BooksUserFragment;
+import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.databinding.ActivityDashboardUserBinding;
 import com.example.duan1bookapp.models.ModelCategory;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,8 +43,7 @@ public class DashboardUserActivity extends AppCompatActivity {
     //firebase auth
     private FirebaseAuth firebaseAuth;
 
-    //onBackPressedOnce
-    int firstPressTime = 0;
+
 
 
 
@@ -51,6 +53,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         binding = ActivityDashboardUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
@@ -58,6 +61,9 @@ public class DashboardUserActivity extends AppCompatActivity {
 
         setupViewPagerAdapter(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
+
+
+
 
         // handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +85,65 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
         });
 
+        //handle click iconViewPager
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        binding.bottomNavigation.getMenu().findItem(R.id.ic_home).setCheckable(true);
+                        break;
+                    case 1:
+                        binding.bottomNavigation.getMenu().findItem(R.id.ic_manga).setCheckable(true);
+                        break;
+                    case 2:
+                        binding.bottomNavigation.getMenu().findItem(R.id.ic_download).setCheckable(true);
+                        break;
+                    case 3:
+                        binding.bottomNavigation.getMenu().findItem(R.id.ic_user).setCheckable(true);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        //handle click navigationView
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_home:
+
+                        break;
+                    case R.id.ic_manga:
+
+                        break;
+                    case R.id.ic_download:
+
+                        break;
+                    case R.id.ic_user:
+
+                        break;
+                }
+                return true;
+            }
+        });
 
         
     }
+
+
+
 
     private void setupViewPagerAdapter(ViewPager viewPager){
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, this);
@@ -199,15 +261,5 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-        if(firstPressTime + 1000 > System.currentTimeMillis()){
-            super.onBackPressed();
-        }else {
-            Toast.makeText(this, "Press Back Twice to Exit", Toast.LENGTH_SHORT).show();
-        }
-        firstPressTime = (int) System.currentTimeMillis();
-    }
 }
