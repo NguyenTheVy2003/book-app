@@ -134,13 +134,13 @@ public class MyApplication extends Application {
                         double kb = bytes / 1024;
                         double mb = kb / 1024;
 
-                        if (mb >= 1) {
-                            sizeTv.setText(String.format("%.2f", mb) + " MB");
-                        } else if (kb >= 1) {
-                            sizeTv.setText(String.format("%.2f", kb) + " KB");
-                        } else {
-                            sizeTv.setText(String.format("%.2f", bytes) + " bytes");
-                        }
+//                        if (mb >= 1) {
+//                            sizeTv.setText(String.format("%.2f", mb) + " MB");
+//                        } else if (kb >= 1) {
+//                            sizeTv.setText(String.format("%.2f", kb) + " KB");
+//                        } else {
+//                            sizeTv.setText(String.format("%.2f", bytes) + " bytes");
+//                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -234,7 +234,7 @@ public class MyApplication extends Application {
                         String category = "" + snapshot.child("category").getValue();
 
                         //set to category text view
-                        categoryTv.setText(category);
+//                        categoryTv.setText(category);
 
                     }
 

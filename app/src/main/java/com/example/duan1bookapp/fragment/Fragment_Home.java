@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duan1bookapp.BooksUserFragment;
@@ -146,6 +148,10 @@ public class Fragment_Home extends Fragment {
                     // add to list
                     pdfArrayList.add(model);
                 }
+                //set layout recycler
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                binding.booksRv.setLayoutManager(linearLayoutManager);
                 // setup adapter
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 // set adapter to recyclerview

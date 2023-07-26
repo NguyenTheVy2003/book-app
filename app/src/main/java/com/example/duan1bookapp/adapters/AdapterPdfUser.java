@@ -65,7 +65,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         // set data
         holder.titleTv.setText(title);
         holder.descriptionTv.setText(description);
-        holder.dateTv.setText(date);
+//        holder.dateTv.setText(date);
 
         // we dont need page number here,pass null
         MyApplication.loadPdfFromUrlSinglePage(
@@ -117,9 +117,9 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
             titleTv = binding.titleTv;
             descriptionTv = binding.descriptionTv;
-            categoryTv = binding.categoryTv;
-            sizeTv = binding.sizeTv;
-            dateTv = binding.dateTv;
+//            categoryTv = binding.categoryTv;
+//            sizeTv = binding.sizeTv;
+//            dateTv = binding.dateTv;
 
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;

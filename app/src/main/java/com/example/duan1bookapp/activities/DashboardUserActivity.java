@@ -41,6 +41,10 @@ import java.util.ArrayList;
 
 public class DashboardUserActivity extends AppCompatActivity {
 
+    //to show in tabs
+    public ArrayList<ModelCategory> categoryArrayList;
+    public ViewPagerAdapter viewPagerAdapter;
+
 
 
     //view binding
@@ -65,6 +69,9 @@ public class DashboardUserActivity extends AppCompatActivity {
         checkUser();
 
         setUpViewPager();
+
+//        setupViewPagerAdapter(binding.viewPager);
+//        binding.tabLayout.setupWithViewPager(binding.viewPager);
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
