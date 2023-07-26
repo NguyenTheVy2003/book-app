@@ -41,9 +41,7 @@ import java.util.ArrayList;
 
 public class DashboardUserActivity extends AppCompatActivity {
 
-    public ArrayList<ModelCategory> categoryArrayList;
 
-    public ViewPagerAdapter viewPagerAdapter;
 
     //view binding
     private ActivityDashboardUserBinding binding;

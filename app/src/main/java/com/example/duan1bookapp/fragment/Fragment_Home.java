@@ -83,23 +83,23 @@ public class Fragment_Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding=FragmentHomeBinding.inflate(LayoutInflater.from(getContext()),container,false);
 
-        Log.d(TAG, "onCreateView: Category: " + category);
-        if ("All".equals(category)){
-            // load all books
-            loadAllBooks();
-        }
-        else if ("Most Viewed".equals(category)){
-            // load viewed books
-            loadMostViewedDownloadedBooks("viewsCount");
-        }
-        else if ("Most Downloaded".equals(category)){
-            // load most downloaded books
-            loadMostViewedDownloadedBooks("downloadsCount");
-        }
-        else {
-            // load selected category books
-            loadCategorizedBooks();
-        }
+//        Log.d(TAG, "onCreateView: Category: " + category);
+//        if ("All".equals(category)){
+//            // load all books
+//            loadAllBooks();
+//        }
+//        else if ("Most Viewed".equals(category)){
+//            // load viewed books
+//            loadMostViewedDownloadedBooks("viewsCount");
+//        }
+//        else if ("Most Downloaded".equals(category)){
+//            // load most downloaded books
+//            loadMostViewedDownloadedBooks("downloadsCount");
+//        }
+//        else {
+//            // load selected category books
+//            loadCategorizedBooks();
+//        }
 
         // search
         binding.searchEt.addTextChangedListener(new TextWatcher() {
@@ -124,6 +124,8 @@ public class Fragment_Home extends Fragment {
 
             }
         });
+
+        loadAllBooks();
 
 
         return binding.getRoot();
