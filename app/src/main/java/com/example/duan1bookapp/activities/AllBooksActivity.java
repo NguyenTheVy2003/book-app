@@ -10,18 +10,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import com.example.duan1bookapp.BooksUserFragment;
-import com.example.duan1bookapp.R;
-import com.example.duan1bookapp.adapters.AdapterPdfUser;
 import com.example.duan1bookapp.databinding.ActivityAllBooksBinding;
-import com.example.duan1bookapp.databinding.ActivityDashboardUserBinding;
 import com.example.duan1bookapp.models.ModelCategory;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,20 +34,11 @@ public class AllBooksActivity extends AppCompatActivity {
 
     private static final String TAG = "BOOKS_USER_TAG";
 
-
-
-
-    //firebase auth
-    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAllBooksBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        //init firebase auth
-        firebaseAuth = FirebaseAuth.getInstance();
-
 
         setupViewPagerAdapter(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);

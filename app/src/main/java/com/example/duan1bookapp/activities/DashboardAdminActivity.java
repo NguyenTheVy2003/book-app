@@ -102,7 +102,7 @@ public class DashboardAdminActivity extends AppCompatActivity {
         });
     }
 
-    private void loadCategories() {
+    public void loadCategories() {
 
         //init  arraylist
         categoryArrayList = new ArrayList<>();

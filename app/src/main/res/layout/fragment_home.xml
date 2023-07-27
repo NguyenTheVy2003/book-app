@@ -73,34 +73,6 @@
             android:text="All Books"
             android:textSize="15sp" />
     </LinearLayout>
-<!--    &lt;!&ndash;Tabs&ndash;&gt;-->
-
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tabLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/toolbarRl"-->
-<!--        android:layout_margin="5dp"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        app:tabBackground="@drawable/tab_selector"-->
-<!--        app:tabIndicatorFullWidth="false"-->
-<!--        app:tabIndicatorHeight="0dp"-->
-<!--        app:tabMode="scrollable"-->
-<!--        app:tabUnboundedRipple="false" />-->
-
-
-
-<!--    &lt;!&ndash;RecyclerView: Load books&ndash;&gt;-->
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/booksRv"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:stackFromEnd="true"-->
-<!--        app:reverseLayout="true"-->
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--        tools:listitem="@layout/row_pdf_user"/>-->
-
-    <!--Tabs-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
