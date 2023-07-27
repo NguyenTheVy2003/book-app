@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -95,7 +97,8 @@ public class BooksUserFragment extends Fragment {
             loadCategorizedBooks();
         }
 
-        // search
+
+//         search
         biding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,6 +121,8 @@ public class BooksUserFragment extends Fragment {
 
             }
         });
+
+
         return biding.getRoot();
     }
 
@@ -131,6 +136,7 @@ public class BooksUserFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //clear list before starting adding data into it
                 pdfArrayList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()){
                     // get data
@@ -138,6 +144,10 @@ public class BooksUserFragment extends Fragment {
                     // add to list
                     pdfArrayList.add(model);
                 }
+                //set layout recycler
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                biding.booksRv.setLayoutManager(linearLayoutManager);
                 // setup adapter
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 // set adapter to recyclerview
@@ -166,6 +176,10 @@ public class BooksUserFragment extends Fragment {
                     // add to list
                     pdfArrayList.add(model);
                 }
+                //set layout recycler
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                biding.booksRv.setLayoutManager(linearLayoutManager);
                 // setup adapter
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 // set adapter to recyclerview
@@ -182,6 +196,8 @@ public class BooksUserFragment extends Fragment {
     private void loadCategorizedBooks() {
         // inti list
         pdfArrayList = new ArrayList<>();
+
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.orderByChild("categoryId").equalTo(categoryId)
                 .addValueEventListener(new ValueEventListener() {
@@ -194,6 +210,11 @@ public class BooksUserFragment extends Fragment {
                             // add to list
                             pdfArrayList.add(model);
                         }
+                        //set layout recycler
+                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                        biding.booksRv.setLayoutManager(linearLayoutManager);
+
                         // setup adapter
                         adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                         // set adapter to recyclerview

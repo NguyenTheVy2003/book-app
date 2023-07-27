@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activities.AllBooksActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ProfileEditActivity"
             android:exported="false" />
         <activity

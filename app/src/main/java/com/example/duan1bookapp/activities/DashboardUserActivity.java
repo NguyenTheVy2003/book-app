@@ -71,7 +71,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         setUpViewPager();
 
 //        setupViewPagerAdapter(binding.viewPager);
-//        binding.tabLayout.setupWithViewPager(binding.viewPager);
+//        binding.tabLayout.setupWithViewPager(binding.viewpager);
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -97,6 +97,8 @@ public class DashboardUserActivity extends AppCompatActivity {
     private void setUpViewPager(){
         ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         binding.viewpager.setAdapter(viewPagerAdapter);
+
+        categoryArrayList = new ArrayList<>();
 
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -124,6 +126,7 @@ public class DashboardUserActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 
@@ -201,9 +204,8 @@ public class DashboardUserActivity extends AppCompatActivity {
 //        private ArrayList<String> fragmentTitleList = new ArrayList<>();
 //        private Context context;
 //
-//        public ViewPagerAdapter( FragmentManager fm, int behavior, Context context) {
+//        public ViewPagerAdapter( FragmentManager fm, int behavior) {
 //            super(fm, behavior);
-//            this.context = context;
 //        }
 //
 //        @Override

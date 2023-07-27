@@ -2,6 +2,7 @@ package com.example.duan1bookapp.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,18 +16,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duan1bookapp.BooksUserFragment;
-import com.example.duan1bookapp.R;
-import com.example.duan1bookapp.activities.DashboardUserActivity;
+
+import com.example.duan1bookapp.activities.AllBooksActivity;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
-import com.example.duan1bookapp.databinding.ActivityDashboardUserBinding;
-import com.example.duan1bookapp.databinding.FragmentBooksUserBinding;
+
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
+
 import com.example.duan1bookapp.models.ModelPdf;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,47 +39,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Fragment_Home extends Fragment {
+public class Fragment_Home extends Fragment{
     // view biding
     private FragmentHomeBinding binding;
 
-    // that we passed while creating instance of this fragment
-    private String categoryId;
-    private String category;
-    private String uid;
-
-    private ArrayList<ModelPdf> pdfArrayList;
-    private AdapterPdfUser adapterPdfUser;
-
     private static final String TAG = "BOOKS_USER_TAG";
 
-    public Fragment_Home() {
-        // Required empty public constructor
-    }
+    //to show in tabs
+    public ArrayList<ModelCategory> categoryArrayList;
+    public ViewPagerAdapter viewPagerAdapter;
 
-
-    public static BooksUserFragment newInstance(String categoryId, String category, String uid ) {
-        BooksUserFragment fragment = new BooksUserFragment();
-        Bundle args = new Bundle();
-        args.putString("categoryId", categoryId);
-        args.putString("category", category);
-        args.putString("uid", uid);
-
-
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            categoryId = getArguments().getString("categoryId");
-            category = getArguments().getString("category");
-            uid = getArguments().getString("uid");
-
-        }
-    }
+    //firebase auth
+    private FirebaseAuth firebaseAuth;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -85,140 +58,99 @@ public class Fragment_Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding=FragmentHomeBinding.inflate(LayoutInflater.from(getContext()),container,false);
 
-//        Log.d(TAG, "onCreateView: Category: " + category);
-//        if ("All".equals(category)){
-//            // load all books
-//            loadAllBooks();
-//        }
-//        else if ("Most Viewed".equals(category)){
-//            // load viewed books
-//            loadMostViewedDownloadedBooks("viewsCount");
-//        }
-//        else if ("Most Downloaded".equals(category)){
-//            // load most downloaded books
-//            loadMostViewedDownloadedBooks("downloadsCount");
-//        }
-//        else {
-//            // load selected category books
-//            loadCategorizedBooks();
-//        }
 
-        // search
-        binding.searchEt.addTextChangedListener(new TextWatcher() {
+        //init firebase auth
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        setupViewPagerAdapter(binding.viewpager);
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
+
+
+
+        //handle click all Books
+        binding.tvAllBooks.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // called as and when user type any letter
-                try {
-                    adapterPdfUser.getFilter().filter(s);
-                }
-                catch (Exception e){
-                    Log.d(TAG, "onTextChanged: " + e.getMessage());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AllBooksActivity.class));
             }
         });
 
-        loadAllBooks();
+
 
 
         return binding.getRoot();
-
-
     }
-    private void loadAllBooks() {
-        // inti list
-        pdfArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.addValueEventListener(new ValueEventListener() {
+
+        private void setupViewPagerAdapter(ViewPager viewPager){
+        viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getContext());
+        categoryArrayList = new ArrayList<>();
+
+        // load categories from firebase
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories"); // be careful of spelling
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pdfArrayList.clear();
-                for (DataSnapshot ds: snapshot.getChildren()){
+            public void onDataChange( DataSnapshot snapshot) {
+                // clear before adding to list
+                categoryArrayList.clear();
+
+                // Now Load from firebase
+                for (DataSnapshot ds: snapshot.getChildren()) {
                     // get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
-                    // add to list
-                    pdfArrayList.add(model);
+                    ModelCategory model = ds.getValue(ModelCategory.class);
+                    // add data to list
+                    categoryArrayList.add(model);
+                    // add data to viewPagerAdapter
+                    viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
+                            "" + model.getId(),
+                            "" + model.getCategory(),
+                            "" + model.getUid()), model.getCategory());
+                    // refresh list
+                    viewPagerAdapter.notifyDataSetChanged();
                 }
-                //set layout recycler
-                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                binding.booksRv.setLayoutManager(linearLayoutManager);
-                // setup adapter
-                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                // set adapter to recyclerview
-                binding.booksRv.setAdapter(adapterPdfUser);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
+
+        // set adapter to view pager
+        viewPager.setAdapter(viewPagerAdapter);
     }
 
-    private void loadMostViewedDownloadedBooks(String oderBy) {
-        // inti list
-        pdfArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild(oderBy).limitToLast(10) // load 10 most viewed or downloaded books
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        pdfArrayList.clear();
-                        for (DataSnapshot ds: snapshot.getChildren()){
-                            // get data
-                            ModelPdf model = ds.getValue(ModelPdf.class);
-                            // add to list
-                            pdfArrayList.add(model);
-                        }
-                        // setup adapter
-                        adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                        // set adapter to recyclerview
-                        binding.booksRv.setAdapter(adapterPdfUser);
-                    }
+    public class ViewPagerAdapter extends FragmentPagerAdapter{
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+        private ArrayList<BooksUserFragment> fragmentList = new ArrayList<>();
+        private ArrayList<String> fragmentTitleList = new ArrayList<>();
+        private Context context;
 
-                    }
-                });
+        public ViewPagerAdapter( FragmentManager fm, int behavior,Context context) {
+            super(fm, behavior);
+            this.context =context;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        private void addFragment(BooksUserFragment fragment,String title){
+            // add fragment passed as parameter in fragmentList
+            fragmentList.add(fragment);
+            // add title passed as parameter in fragmentTitleList
+            fragmentTitleList.add(title);
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmentTitleList.get(position);
+        }
     }
 
-    private void loadCategorizedBooks() {
-        // inti list
-        pdfArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild("categoryId").equalTo(categoryId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        pdfArrayList.clear();
-                        for (DataSnapshot ds: snapshot.getChildren()){
-                            // get data
-                            ModelPdf model = ds.getValue(ModelPdf.class);
-                            // add to list
-                            pdfArrayList.add(model);
-                        }
-                        // setup adapter
-                        adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                        // set adapter to recyclerview
-                        binding.booksRv.setAdapter(adapterPdfUser);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
 
 }
