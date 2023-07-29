@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
+import com.example.duan1bookapp.adapters.AdapterPdfUser2;
 import com.example.duan1bookapp.databinding.FragmentBooksUserBinding;
 import com.example.duan1bookapp.models.ModelPdf;
+import com.example.duan1bookapp.models.ModelPdf2;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,8 +40,8 @@ public class BooksUserFragment extends Fragment {
    private String category;
    private String uid;
 
-   private ArrayList<ModelPdf> pdfArrayList;
-   private AdapterPdfUser adapterPdfUser;
+   private ArrayList<ModelPdf2> pdfArrayList;
+   private AdapterPdfUser2 adapterPdfUser2;
 
    // view biding
     private FragmentBooksUserBinding biding;
@@ -83,16 +86,7 @@ public class BooksUserFragment extends Fragment {
         if (category.equals("All")){
             // load all books
             loadAllBooks();
-        }
-        else if (category.equals("Most Viewed")){
-            // load viewed books
-            loadMostViewedDownloadedBooks("viewsCount");
-        }
-        else if (category.equals("Most Downloaded")){
-            // load most downloaded books
-            loadMostViewedDownloadedBooks("downloadsCount");
-        }
-        else {
+        }else {
             // load selected category books
             loadCategorizedBooks();
         }
@@ -109,7 +103,7 @@ public class BooksUserFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // called as and when user type any letter
                 try {
-                    adapterPdfUser.getFilter().filter(s);
+                    adapterPdfUser2.getFilter().filter(s);
                 }
                 catch (Exception e){
                     Log.d(TAG, "onTextChanged: " + e.getMessage());
@@ -140,50 +134,17 @@ public class BooksUserFragment extends Fragment {
                 pdfArrayList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()){
                     // get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
+                    ModelPdf2 model = ds.getValue(ModelPdf2.class);
                     // add to list
                     pdfArrayList.add(model);
                 }
                 //set layout recycler
-                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                biding.booksRv.setLayoutManager(linearLayoutManager);
+                GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
+                biding.booksRv.setLayoutManager(gridLayoutManager);
                 // setup adapter
-                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+                adapterPdfUser2 = new AdapterPdfUser2(getContext(), pdfArrayList);
                 // set adapter to recyclerview
-                biding.booksRv.setAdapter(adapterPdfUser);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    private void loadMostViewedDownloadedBooks(String oderBy) {
-        // inti list
-        pdfArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild(oderBy).limitToLast(10) // load 10 most viewed or downloaded books
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pdfArrayList.clear();
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    // get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
-                    // add to list
-                    pdfArrayList.add(model);
-                }
-                //set layout recycler
-                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                biding.booksRv.setLayoutManager(linearLayoutManager);
-                // setup adapter
-                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                // set adapter to recyclerview
-                biding.booksRv.setAdapter(adapterPdfUser);
+                biding.booksRv.setAdapter(adapterPdfUser2);
             }
 
             @Override
@@ -206,19 +167,19 @@ public class BooksUserFragment extends Fragment {
                         pdfArrayList.clear();
                         for (DataSnapshot ds: snapshot.getChildren()){
                             // get data
-                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            ModelPdf2 model = ds.getValue(ModelPdf2.class);
                             // add to list
                             pdfArrayList.add(model);
                         }
                         //set layout recycler
-                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                        biding.booksRv.setLayoutManager(linearLayoutManager);
+                        //set layout recycler
+                        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
+                        biding.booksRv.setLayoutManager(gridLayoutManager);
 
                         // setup adapter
-                        adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+                        adapterPdfUser2 = new AdapterPdfUser2(getContext(), pdfArrayList);
                         // set adapter to recyclerview
-                        biding.booksRv.setAdapter(adapterPdfUser);
+                        biding.booksRv.setAdapter(adapterPdfUser2);
                     }
 
                     @Override

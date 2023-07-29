@@ -27,6 +27,6 @@
         app:stackFromEnd="true"
         app:reverseLayout="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/row_pdf_user"/>
+        tools:listitem="@layout/row_pdf_user2"/>
 
 </LinearLayout>

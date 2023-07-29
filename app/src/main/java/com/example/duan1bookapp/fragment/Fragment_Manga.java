@@ -16,9 +16,11 @@ import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.DashboardAdminActivity;
 import com.example.duan1bookapp.activities.MainActivity;
 import com.example.duan1bookapp.adapters.AdapterCategory;
+import com.example.duan1bookapp.adapters.AdapterCategory2;
 import com.example.duan1bookapp.databinding.FragmentBooksUserBinding;
 import com.example.duan1bookapp.databinding.FragmentMangaBinding;
 import com.example.duan1bookapp.models.ModelCategory;
+import com.example.duan1bookapp.models.ModelCategory2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,8 +38,8 @@ public class Fragment_Manga extends Fragment {
     private FirebaseAuth firebaseAuth;
 
     //arraylist to story category
-    private ArrayList<ModelCategory> categoryArrayList;
-    private AdapterCategory adapterCategory;
+    private ArrayList<ModelCategory2> categoryArrayList;
+    private AdapterCategory2 adapterCategory;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +47,6 @@ public class Fragment_Manga extends Fragment {
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
-        checkUser();
         loadCategories();
 
 
@@ -87,12 +88,12 @@ public class Fragment_Manga extends Fragment {
                 categoryArrayList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //get data
-                    ModelCategory mode = ds.getValue(ModelCategory.class);
+                    ModelCategory2 mode = ds.getValue(ModelCategory2.class);
                     // add to arraylist
                     categoryArrayList.add(mode);
                 }
                 //setup adapter
-                adapterCategory = new AdapterCategory(getContext(), categoryArrayList);
+                adapterCategory = new AdapterCategory2(getContext(), categoryArrayList);
                 //set adapter to recyclerview
                 binding.categoriesRv.setAdapter(adapterCategory);
             }
@@ -102,19 +103,5 @@ public class Fragment_Manga extends Fragment {
 
             }
         });
-    }
-
-
-    private void checkUser() {
-        //get current user
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser == null) {
-            //not logged in, go to main screen
-            startActivity(new Intent(getContext(), MainActivity.class));
-            return;
-        } else {
-
-        }
-
     }
 }

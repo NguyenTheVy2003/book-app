@@ -15,5 +15,8 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
-
+<!--textsizeTablayout-->
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

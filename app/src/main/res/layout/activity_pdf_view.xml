@@ -61,5 +61,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
-
+    <TextView
+        android:id="@+id/sotrang"
+        android:text="10"
+        android:textSize="30sp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>
