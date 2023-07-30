@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="140dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -44,7 +45,8 @@
             android:padding="5dp"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_favorite_white"
-            android:tint="@color/black"/>
+            android:tint="@color/black"
+            tools:ignore="UseAppTint" />
         <TextView
             android:id="@+id/descriptionTv"
             style="@style/TextAppearance.MaterialComponents.Body2"

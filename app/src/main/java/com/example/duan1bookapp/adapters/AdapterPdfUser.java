@@ -9,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.duan1bookapp.databinding.RowPdfUserBinding;
 import com.example.duan1bookapp.filters.FilterPdfUser;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,10 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
     private FilterPdfUser filter;
 
     private RowPdfUserBinding binding;
+
+    private FirebaseAuth firebaseAuth;
+
+
 
     private static final String TAG = "ADAPTER_PDF_USER_TAG";
 
@@ -49,7 +55,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPdfUser.HolderPdfUser holder, int position) {
-
+        firebaseAuth=FirebaseAuth.getInstance();
 
         ModelPdf model = pdfArrayList.get(position);
         String bookId = model.getId();
@@ -92,6 +98,20 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
                 context.startActivity(intent);
             }
         });
+
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
+                }else {
+                    //not in favorite ,add to favorite
+                    MyApplication.readingBooks(context,bookId);
+                }
+            }
+        });
+
+
     }
 
     @Override

@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.activities.PdfDetailActivity;
-import com.example.duan1bookapp.databinding.RowCategoryBinding;
 import com.example.duan1bookapp.databinding.RowPdfFavoriteBinding;
+import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
 import com.example.duan1bookapp.models.ModelPdf;
+import com.example.duan1bookapp.models.ModelPdfReadingBooks;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.google.android.play.integrity.internal.c;
-import com.google.android.play.integrity.internal.f;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,15 +28,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.HolderPdfFavorite>{
+public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadingBooks.HolderPdfFavorite>{
     private Context context;
-    private ArrayList<ModelPdf> pdfArrayList;
+    private ArrayList<ModelPdfReadingBooks> pdfArrayList;
     //view binding for row_pdf_favorite.xml
-    private RowPdfFavoriteBinding binding;
+    private RowPdfReadingBooksBinding binding;
     private static final String TAG="FAV_BOOK_TAG";
 
     //constructor
-    public AdapterPdfFavorite(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterPdfReadingBooks(Context context, ArrayList<ModelPdfReadingBooks> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
     }
@@ -46,7 +45,7 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
     @Override
     public HolderPdfFavorite onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //bind/inflate row_pdf_favorite.xml layout
-        binding =RowPdfFavoriteBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding =RowPdfReadingBooksBinding.inflate(LayoutInflater.from(context),parent,false);
         return new HolderPdfFavorite(binding.getRoot());
     }
 
@@ -54,15 +53,9 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
     public void onBindViewHolder(@NonNull HolderPdfFavorite holder, int position) {
         //get Data,set Data,handle click
         //handle click,open pdf details page,already done in previous videis
-        ModelPdf model=pdfArrayList.get(position);
+        ModelPdfReadingBooks model=pdfArrayList.get(position);
 
         loadBookPdfDatails(model,holder);
-
-
-
-
-
-
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -74,16 +67,9 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
 
             }
         });
-        //handle click, remove from favorite
-        holder.removeFavBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyApplication.removeFromFavorite(context,model.getId());//pass book id not category id
-            }
-        });
     }
 
-    private void loadBookPdfDatails(ModelPdf model, HolderPdfFavorite holder) {
+    private void loadBookPdfDatails(ModelPdfReadingBooks model, HolderPdfFavorite holder) {
         String bookId=model.getId();
         Log.d(TAG, "loadBookPdfDatails: Book Details of Book ID:"+bookId);
 
@@ -113,14 +99,11 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
                         //format Data
                         String date= MyApplication.formatTimestamp(Long.parseLong(timestamp));
 
-                        MyApplication.loadCategory(categoryId,holder.categoryTv);
                         MyApplication.loadPdfFromUrlSinglePage(""+bookUrl,""+bookTitle,holder.pdfView,holder.progressBar,null);
-                        MyApplication.loadPdfSize(""+bookUrl,""+bookTitle, holder.sizeTv);
 
                         //set data to views
                         holder.titleTv.setText(bookTitle);
                         holder.descriptionTv.setText(description);
-                        holder.dateTv.setText(date);
 
                     }
 
@@ -140,8 +123,7 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
     class HolderPdfFavorite extends RecyclerView.ViewHolder{
         private PDFView pdfView;
         private ProgressBar progressBar;
-        private TextView titleTv,descriptionTv,categoryTv,sizeTv,dateTv;
-        private ImageButton removeFavBtn;
+        private TextView titleTv,descriptionTv;
         public HolderPdfFavorite(@NonNull View itemView) {
             super(itemView);
 
@@ -150,10 +132,6 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
             progressBar=binding.progressBar;
             titleTv=binding.titleTv;
             descriptionTv=binding.descriptionTv;
-            categoryTv=binding.categoryTv;
-            sizeTv=binding.sizeTv;
-            dateTv=binding.dateTv;
-            removeFavBtn=binding.removeFavBtn;
         }
     }
 }

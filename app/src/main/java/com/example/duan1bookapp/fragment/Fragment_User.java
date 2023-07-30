@@ -81,30 +81,37 @@ public class Fragment_User extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //get all info of user here from snapshot
-                        String email=""+snapshot.child("email").getValue();
-                        String name=""+snapshot.child("name").getValue();
-                        String profileImage=""+snapshot.child("profileImage").getValue();
-                        String timestamp=""+snapshot.child("timestamp").getValue();
-                        String uid=""+snapshot.child("uid").getValue();
-                        String userType=""+snapshot.child("userType").getValue();
 
-                        //format data to dd/MM/yyyy
-                        String formattedDate = MyApplication.formatTimestamp(Long.parseLong(timestamp));
+                        if(getActivity() == null){
+                            return;
+                        }else {
+                            //get all info of user here from snapshot
+                            String email=""+snapshot.child("email").getValue();
+                            String name=""+snapshot.child("name").getValue();
+                            String profileImage=""+snapshot.child("profileImage").getValue();
+                            String timestamp=""+snapshot.child("timestamp").getValue();
+                            String uid=""+snapshot.child("uid").getValue();
+                            String userType=""+snapshot.child("userType").getValue();
 
-                        //set data to ui
-                        binding.emailTv.setText(email);
-                        binding.nameTv.setText(name);
-                        binding.memberDateTv.setText(formattedDate);
-                        binding.accountTypeTv.setText(userType);
+                            //format data to dd/MM/yyyy
+                            String formattedDate = MyApplication.formatTimestamp(Long.parseLong(timestamp));
 
-                        //setImage,using glide
-                        Glide.with(getContext())
-                                .load(profileImage)
-                                .placeholder(R.drawable.ic_person_gray)
-                                .into(binding.profileTv);
+                            //set data to ui
+                            binding.emailTv.setText(email);
+                            binding.nameTv.setText(name);
+                            binding.memberDateTv.setText(formattedDate);
+                            binding.accountTypeTv.setText(userType);
 
-                    }
+
+                            //setImage,using glide
+                            Glide.with(getActivity())
+                                    .load(profileImage)
+                                    .placeholder(R.drawable.ic_person_gray)
+                                    .into(binding.profileTv);
+
+                        }
+                        }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
