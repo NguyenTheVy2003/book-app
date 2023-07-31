@@ -99,17 +99,17 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
             }
         });
 
-        holder.pdfView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(firebaseAuth.getCurrentUser() == null){
-                    Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
-                }else {
-                    //not in favorite ,add to favorite
-                    MyApplication.readingBooks(context,bookId);
-                }
-            }
-        });
+//        holder.pdfView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(firebaseAuth.getCurrentUser() == null){
+//                    Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
+//                }else {
+//                    //not in favorite ,add to favorite
+//                    MyApplication.readingBooks(context,bookId);
+//                }
+//            }
+//        });
 
 
     }

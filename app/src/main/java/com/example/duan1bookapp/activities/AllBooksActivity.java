@@ -69,6 +69,33 @@ public class AllBooksActivity extends AppCompatActivity {
                 //clear before adding to list
                 categoryArrayList.clear();
 
+                //                //Add data to models
+                ModelCategory modelAll = new ModelCategory("01", "All", "", 1);
+                ModelCategory modelMostViewed = new ModelCategory("02", "Most Viewed", "", 1);
+                ModelCategory modelMostDownloaded = new ModelCategory("02", "Most Downloaded", "", 1);
+                //add models to list
+                categoryArrayList.add(modelAll);
+                categoryArrayList.add(modelMostViewed);
+                categoryArrayList.add(modelMostDownloaded);
+                //add data to view pager adapter
+                viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
+                        "" + modelAll.getId(),
+                        "" + modelAll.getCategory(),
+                        "" + modelAll.getUid()
+                ), modelAll.getCategory());
+                viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
+                        "" + modelMostViewed.getId(),
+                        "" + modelMostViewed.getCategory(),
+                        "" + modelMostViewed.getUid()
+                ), modelMostViewed.getCategory());
+                viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
+                        "" + modelMostDownloaded.getId(),
+                        "" + modelMostDownloaded.getCategory(),
+                        "" + modelMostDownloaded.getUid()
+                ), modelMostDownloaded.getCategory());
+//                refresh list
+                viewPagerAdapter.notifyDataSetChanged();
+
                 //Now Load from firebase
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //get data

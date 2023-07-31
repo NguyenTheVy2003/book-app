@@ -134,13 +134,13 @@ public class MyApplication extends Application {
                         double kb = bytes / 1024;
                         double mb = kb / 1024;
 
-//                        if (mb >= 1) {
-//                            sizeTv.setText(String.format("%.2f", mb) + " MB");
-//                        } else if (kb >= 1) {
-//                            sizeTv.setText(String.format("%.2f", kb) + " KB");
-//                        } else {
-//                            sizeTv.setText(String.format("%.2f", bytes) + " bytes");
-//                        }
+                        if (mb >= 1) {
+                            sizeTv.setText(String.format("%.2f", mb) + " MB");
+                        } else if (kb >= 1) {
+                            sizeTv.setText(String.format("%.2f", kb) + " KB");
+                        } else {
+                            sizeTv.setText(String.format("%.2f", bytes) + " bytes");
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -446,40 +446,4 @@ public class MyApplication extends Application {
                     });
         }
     }
-
-    public static void readingBooks(Context context,String bookId){
-        //we can add only if user is logged in
-        //1) check if user is logged in
-        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
-            //not logged in,cant add to favorite
-            Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
-        }else {
-            long timestamp =System.currentTimeMillis();
-
-            //setup data to add in firebase db of current user for favorite book
-            HashMap<String,Object> hashMap=new HashMap<>();
-            hashMap.put("bookId",""+bookId);
-            hashMap.put("timestamp",""+timestamp);
-
-            //save to db
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
-            ref.child(firebaseAuth.getUid()).child("ReadingBooks").child(bookId)
-                    .setValue(hashMap)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(context, "Added in Reading Books", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Failed to add to Reading Books due to"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-
-
 }
