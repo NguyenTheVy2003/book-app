@@ -90,16 +90,7 @@ public class BooksUserFragment2 extends Fragment {
         if (category.equals("All")){
             // load all books
             loadAllBooks();
-        }
-        else if (category.equals("Most Viewed")){
-            // load viewed books
-            loadMostViewedDownloadedBooks("viewsCount");
-        }
-        else if (category.equals("Most Downloaded")){
-            // load most downloaded books
-            loadMostViewedDownloadedBooks("downloadsCount");
-        }
-        else {
+        }else {
             // load selected category books
             loadCategorizedBooks();
         }
@@ -140,39 +131,6 @@ public class BooksUserFragment2 extends Fragment {
             }
         });
     }
-
-    private void loadMostViewedDownloadedBooks(String oderBy) {
-        // inti list
-        pdfArrayList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild(oderBy).limitToLast(10) // load 10 most viewed or downloaded books
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pdfArrayList.clear();
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    // get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
-                    // add to list
-                    pdfArrayList.add(model);
-                }
-                //set layout recycler
-                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                biding.booksRv.setLayoutManager(linearLayoutManager);
-                // setup adapter
-                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                // set adapter to recyclerview
-                biding.booksRv.setAdapter(adapterPdfUser);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     private void loadCategorizedBooks() {
         // inti list
         pdfArrayList = new ArrayList<>();

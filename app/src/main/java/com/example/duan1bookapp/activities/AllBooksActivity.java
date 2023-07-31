@@ -69,18 +69,6 @@ public class AllBooksActivity extends AppCompatActivity {
                 //clear before adding to list
                 categoryArrayList.clear();
 
-                /*Load Categories = Stastic e.g. All, Most Viewed, Most Downloaded*/
-                //Add data to models
-                ModelCategory modelAll = new ModelCategory("01","All","",1);
-                categoryArrayList.add(modelAll);
-                viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
-                        "" + modelAll.getId(),
-                        "" + modelAll.getCategory(),
-                        "" + modelAll.getUid()
-                ), modelAll.getCategory());
-//                refresh list
-                viewPagerAdapter.notifyDataSetChanged();
-
                 //Now Load from firebase
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //get data

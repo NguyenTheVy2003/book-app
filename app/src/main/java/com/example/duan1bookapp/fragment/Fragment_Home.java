@@ -137,16 +137,6 @@ public class Fragment_Home extends Fragment{
                 // clear before adding to list
                 categoryArrayList.clear();
 
-                ModelCategory modelAll = new ModelCategory("01","All","",1);
-
-                //add models to list
-                categoryArrayList.add(modelAll);
-
-                viewPagerAdapter.addFragment(BooksUserFragment2.newInstance(
-                        "" + modelAll.getId(),
-                        "" + modelAll.getCategory(),
-                        "" + modelAll.getUid()
-                ), modelAll.getCategory());
 
                 // Now Load from firebase
                 for (DataSnapshot ds: snapshot.getChildren()) {
