@@ -137,7 +137,7 @@ public class BooksUserFragment2 extends Fragment {
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild("categoryId").equalTo(categoryId)
+        ref.orderByChild("categoryId").equalTo(categoryId).limitToLast(5)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

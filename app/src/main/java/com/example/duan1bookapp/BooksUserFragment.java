@@ -86,13 +86,7 @@ public class BooksUserFragment extends Fragment {
         if (category.equals("All")){
             // load all books
             loadAllBooks();
-        }else if (category.equals("Most Viewed")) {
-            //load most viewed books
-            loadMostViewedDownloadedBooks("viewsCount");
-        } else if (category.equals("Most Downloaded")) {
-            //load most downloaded books
-            loadMostViewedDownloadedBooks("downloadsCount");
-        } else {
+        }else {
             // load selected category books
             loadCategorizedBooks();
         }
@@ -159,36 +153,6 @@ public class BooksUserFragment extends Fragment {
             }
         });
     }
-    private void loadMostViewedDownloadedBooks(String orderBy) {
-        //init list
-        pdfArrayList = new ArrayList<>();
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild(orderBy).limitToLast(10) // load 10 most viewed or downloaded books
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //clear list before starting adding data into it
-                        pdfArrayList.clear();
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            //get data
-                            ModelPdf2 model = ds.getValue(ModelPdf2.class);
-                            //add to list
-                            pdfArrayList.add(model);
-                        }
-                        //setup adapter
-                        adapterPdfUser2 = new AdapterPdfUser2(getContext(), pdfArrayList);
-                        //set adapter to recyclerview
-                        biding.booksRv.setAdapter(adapterPdfUser2);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
-
     private void loadCategorizedBooks() {
         // inti list
         pdfArrayList = new ArrayList<>();

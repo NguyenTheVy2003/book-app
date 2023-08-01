@@ -24,10 +24,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
+import com.example.duan1bookapp.activities.ProfileActivity;
+import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 
+import com.example.duan1bookapp.models.ModelPdf;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,6 +55,10 @@ public class Fragment_Home extends Fragment{
 
     //firebase auth,for leading user data using user uid
     private FirebaseAuth firebaseAuth;
+    //reading books
+    //arrayList to hold the books
+    private ArrayList<ModelPdf> pdfArrayList;
+    private AdapterPdfFavorite adapterPdfFavorite;
 
 
 
@@ -64,6 +71,8 @@ public class Fragment_Home extends Fragment{
 
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
+
+        loadFavoriteBooks();
 
 
 
@@ -179,6 +188,43 @@ public class Fragment_Home extends Fragment{
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
         }
+    }
+    private void loadFavoriteBooks() {
+        //init list
+        pdfArrayList=new ArrayList<>();
+
+        //load favorite books from database
+        //Users > userId  > Favorites
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Favorites")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //clear list before starting adding data
+                        pdfArrayList.clear();
+                        for (DataSnapshot ds: snapshot.getChildren()) {
+                            //we will only get the bookId here and we got other details in adapter using that bookId
+                            String bookId=""+ds.child("bookId").getValue();
+                            //set id to model
+                            ModelPdf modelPdf=new ModelPdf();
+                            modelPdf.setId(bookId);
+                            //add model to list
+                            pdfArrayList.add(modelPdf);
+                        }
+                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                        binding.booksRv.setLayoutManager(linearLayoutManager);
+                        //setup adapter
+                        adapterPdfFavorite=new AdapterPdfFavorite(getContext(),pdfArrayList);
+                        //set Adapter to recyclerView
+                        binding.booksRv.setAdapter(adapterPdfFavorite);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 
 
