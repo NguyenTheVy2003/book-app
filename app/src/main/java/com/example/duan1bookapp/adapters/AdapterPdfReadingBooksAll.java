@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
+import com.example.duan1bookapp.activities.PdfDetailActivity;
+import com.example.duan1bookapp.databinding.RowPdfReadingBooksAllBinding;
 import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -23,12 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AdapterPdfReadingBooksAll extends RecyclerView.Adapter<AdapterPdfReadingBooksAll.HolderPdfReadingBooks>{
     private Context context;
     private ArrayList<ModelPdf> pdfArrayList;
     //view binding
-    private RowPdfReadingBooksBinding binding;
+    private RowPdfReadingBooksAllBinding binding;
 
     private static final String TAG="REA_BOOK_TAG";
 
@@ -38,10 +41,15 @@ public class AdapterPdfReadingBooksAll extends RecyclerView.Adapter<AdapterPdfRe
         this.pdfArrayList = pdfArrayList;
     }
 
+    public void loaddata(ArrayList<ModelPdf> pdfArrayList){
+        ArrayList<ModelPdf> list = pdfArrayList;
+        Collections.reverse(list);
+    }
+
     @NonNull
     @Override
     public HolderPdfReadingBooks onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding=RowPdfReadingBooksBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding=RowPdfReadingBooksAllBinding.inflate(LayoutInflater.from(context),parent,false);
         return new HolderPdfReadingBooks(binding.getRoot());
     }
 
@@ -54,7 +62,7 @@ public class AdapterPdfReadingBooksAll extends RecyclerView.Adapter<AdapterPdfRe
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, AdapterPdfUser.class);
+                Intent intent=new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",model.getId());
                 context.startActivity(intent);
             }

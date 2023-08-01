@@ -120,9 +120,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         binding.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isCheck=false;
-
-                    MyApplication.addReadingBooks(context,bookId);
+                MyApplication.addReadingBooks(context,bookId);
 
 
             }

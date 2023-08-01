@@ -95,6 +95,18 @@ public class AdapterPdfUser2 extends RecyclerView.Adapter<AdapterPdfUser2.Holder
                 context.startActivity(intent);
             }
         });
+
+        //addReadingBooks
+
+        binding.pdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyApplication.addReadingBooks(context,bookId);
+
+
+            }
+        });
+
     }
 
     @Override
