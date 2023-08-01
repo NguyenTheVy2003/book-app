@@ -52,6 +52,7 @@
             android:textStyle="bold" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/booksRv"
+            tools:listitem="@layout/row_pdf_reading_books"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

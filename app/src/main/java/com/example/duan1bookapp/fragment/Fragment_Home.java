@@ -24,8 +24,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
-import com.example.duan1bookapp.activities.ProfileActivity;
 import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
+import com.example.duan1bookapp.adapters.AdapterPdfReadingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
@@ -58,7 +58,11 @@ public class Fragment_Home extends Fragment{
     //reading books
     //arrayList to hold the books
     private ArrayList<ModelPdf> pdfArrayList;
-    private AdapterPdfFavorite adapterPdfFavorite;
+    //adapter to set in recyclerView
+    private AdapterPdfReadingBooks adapterPdfReadingBooks;
+
+
+
 
 
 
@@ -68,11 +72,10 @@ public class Fragment_Home extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding=FragmentHomeBinding.inflate(LayoutInflater.from(getContext()),container,false);
 
-
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
+        loadReadingBooks();
 
-        loadFavoriteBooks();
 
 
 
@@ -189,20 +192,17 @@ public class Fragment_Home extends Fragment{
             return fragmentTitleList.get(position);
         }
     }
-    private void loadFavoriteBooks() {
-        //init list
+
+    private void loadReadingBooks(){
         pdfArrayList=new ArrayList<>();
 
-        //load favorite books from database
-        //Users > userId  > Favorites
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid()).child("Favorites")
+        ref.child(firebaseAuth.getUid()).child("ReadingBooks")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //clear list before starting adding data
                         pdfArrayList.clear();
-                        for (DataSnapshot ds: snapshot.getChildren()) {
+                        for (DataSnapshot ds:snapshot.getChildren()){
                             //we will only get the bookId here and we got other details in adapter using that bookId
                             String bookId=""+ds.child("bookId").getValue();
                             //set id to model
@@ -211,12 +211,14 @@ public class Fragment_Home extends Fragment{
                             //add model to list
                             pdfArrayList.add(modelPdf);
                         }
+                        //set LinearLayout Manager
                         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
                         binding.booksRv.setLayoutManager(linearLayoutManager);
                         //setup adapter
-                        adapterPdfFavorite=new AdapterPdfFavorite(getContext(),pdfArrayList);
+                        adapterPdfReadingBooks=new AdapterPdfReadingBooks(viewPagerAdapter.context,pdfArrayList);
                         //set Adapter to recyclerView
-                        binding.booksRv.setAdapter(adapterPdfFavorite);
+                        binding.booksRv.setAdapter(adapterPdfReadingBooks);
                     }
 
                     @Override
@@ -224,8 +226,11 @@ public class Fragment_Home extends Fragment{
 
                     }
                 });
-
     }
+
+
+
+
 
 
 }

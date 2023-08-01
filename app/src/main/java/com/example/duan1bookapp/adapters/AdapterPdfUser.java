@@ -1,5 +1,6 @@
 package com.example.duan1bookapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringDef;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
@@ -20,9 +22,14 @@ import com.example.duan1bookapp.databinding.RowPdfUserBinding;
 import com.example.duan1bookapp.filters.FilterPdfUser;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPdfUser> implements Filterable {
 
@@ -37,12 +44,16 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
 
 
+
+
     private static final String TAG = "ADAPTER_PDF_USER_TAG";
 
     public AdapterPdfUser(Context context, ArrayList<ModelPdf> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
         this.filterList = pdfArrayList;
+
+
     }
 
     @NonNull
@@ -57,12 +68,17 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
     public void onBindViewHolder(@NonNull AdapterPdfUser.HolderPdfUser holder, int position) {
         firebaseAuth=FirebaseAuth.getInstance();
 
+
+
+
         ModelPdf model = pdfArrayList.get(position);
         String bookId = model.getId();
         String title = model.getTitle();
         String description = model.getDescription();;
         String pdfUrl = model.getUrl();
         String categoryId = model.getCategoryId();
+        String id= model.getId();
+        String uid=model.getUid();
         long timestamp = model.getTimestamp();
 
         // convert time
@@ -99,17 +115,15 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
             }
         });
 
-//        holder.pdfView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(firebaseAuth.getCurrentUser() == null){
-//                    Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
-//                }else {
-//                    //not in favorite ,add to favorite
-//                    MyApplication.readingBooks(context,bookId);
-//                }
-//            }
-//        });
+        //addReadingBooks
+
+        binding.pdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyApplication.addReadingBooks(context,bookId);
+            }
+        });
+
 
 
     }
@@ -145,4 +159,6 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
             progressBar = binding.progressBar;
         }
     }
+
+
 }

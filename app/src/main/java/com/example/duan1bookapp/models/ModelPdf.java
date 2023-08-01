@@ -5,7 +5,8 @@ public class ModelPdf {
     //variable
     String uid, id , title , description, categoryId, url;
     long timestamp,viewsCount,downloadsCount;
-    boolean favorite;
+    boolean favorite,readingBooks;
+
 
     //empty constructor , required for firebase
 
@@ -15,7 +16,8 @@ public class ModelPdf {
 
     //constructor with all params
 
-    public ModelPdf(String uid, String id, String title, String description, String categoryId, String url, long timestamp, long viewsCount, long downloadsCount, boolean favorite) {
+
+    public ModelPdf(String uid, String id, String title, String description, String categoryId, String url, long timestamp, long viewsCount, long downloadsCount, boolean favorite, boolean readingBooks) {
         this.uid = uid;
         this.id = id;
         this.title = title;
@@ -26,11 +28,8 @@ public class ModelPdf {
         this.viewsCount = viewsCount;
         this.downloadsCount = downloadsCount;
         this.favorite = favorite;
+        this.readingBooks = readingBooks;
     }
-
-
-    //getter setter
-
 
     public String getUid() {
         return uid;
@@ -110,5 +109,13 @@ public class ModelPdf {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    public boolean isReadingBooks() {
+        return readingBooks;
+    }
+
+    public void setReadingBooks(boolean readingBooks) {
+        this.readingBooks = readingBooks;
     }
 }
