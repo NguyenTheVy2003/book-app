@@ -24,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
+import com.example.duan1bookapp.activities.AllViewHistory;
 import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.adapters.AdapterPdfReadingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
@@ -60,6 +61,8 @@ public class Fragment_Home extends Fragment{
     private ArrayList<ModelPdf> pdfArrayList;
     //adapter to set in recyclerView
     private AdapterPdfReadingBooks adapterPdfReadingBooks;
+    private Boolean isCheck;
+
 
 
 
@@ -74,7 +77,9 @@ public class Fragment_Home extends Fragment{
 
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
+
         loadReadingBooks();
+
 
 
 
@@ -114,6 +119,12 @@ public class Fragment_Home extends Fragment{
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), AllBooksActivity.class));
+            }
+        });
+        binding.tvAllViewedHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AllViewHistory.class));
             }
         });
         return binding.getRoot();
@@ -197,7 +208,7 @@ public class Fragment_Home extends Fragment{
         pdfArrayList=new ArrayList<>();
 
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid()).child("ReadingBooks")
+        ref.child(firebaseAuth.getUid()).child("ReadingBooks").limitToLast(10)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

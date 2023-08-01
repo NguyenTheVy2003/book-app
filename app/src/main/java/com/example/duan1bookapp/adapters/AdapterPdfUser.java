@@ -120,7 +120,11 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         binding.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.addReadingBooks(context,bookId);
+                boolean isCheck=false;
+
+                    MyApplication.addReadingBooks(context,bookId);
+
+
             }
         });
 
@@ -143,17 +147,16 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
     class HolderPdfUser extends RecyclerView.ViewHolder {
 
-        TextView titleTv, descriptionTv, categoryTv, sizeTv, dateTv;
+        TextView titleTv, descriptionTv, categoryTv, sizeTv;
         PDFView pdfView;
         ProgressBar progressBar;
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
 
             titleTv = binding.titleTv;
+
             descriptionTv = binding.descriptionTv;
-//            categoryTv = binding.categoryTv;
-//            sizeTv = binding.sizeTv;
-//            dateTv = binding.dateTv;
+
 
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;

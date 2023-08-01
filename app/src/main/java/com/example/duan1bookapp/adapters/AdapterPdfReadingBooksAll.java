@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,9 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
-import com.example.duan1bookapp.activities.PdfDetailActivity;
 import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
-import com.example.duan1bookapp.fragment.Fragment_Home;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadingBooks.HolderPdfReadingBooks>{
+public class AdapterPdfReadingBooksAll extends RecyclerView.Adapter<AdapterPdfReadingBooksAll.HolderPdfReadingBooks>{
     private Context context;
     private ArrayList<ModelPdf> pdfArrayList;
     //view binding
@@ -36,7 +33,7 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
     private static final String TAG="REA_BOOK_TAG";
 
 
-    public AdapterPdfReadingBooks(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterPdfReadingBooksAll(Context context, ArrayList<ModelPdf> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
     }
@@ -57,7 +54,7 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, PdfDetailActivity.class);
+                Intent intent=new Intent(context, AdapterPdfUser.class);
                 intent.putExtra("bookId",model.getId());
                 context.startActivity(intent);
             }
