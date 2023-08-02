@@ -79,10 +79,7 @@ public class Fragment_Home extends Fragment{
         firebaseAuth =FirebaseAuth.getInstance();
 
         loadReadingBooks();
-
-
-
-
+        loadTrendingBooks();
 
 
         setupViewPagerAdapter(binding.viewpager);
@@ -132,9 +129,6 @@ public class Fragment_Home extends Fragment{
         private void setupViewPagerAdapter(ViewPager viewPager){
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getContext());
         categoryArrayList = new ArrayList<>();
-
-
-
 
         // load categories from firebase
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories"); // be careful of spelling
@@ -203,7 +197,7 @@ public class Fragment_Home extends Fragment{
             return fragmentTitleList.get(position);
         }
     }
-
+//    view history
     private void loadReadingBooks(){
         pdfArrayList=new ArrayList<>();
 
@@ -230,6 +224,39 @@ public class Fragment_Home extends Fragment{
                         adapterPdfReadingBooks=new AdapterPdfReadingBooks(viewPagerAdapter.context,pdfArrayList);
                         //set Adapter to recyclerView
                         binding.booksRv.setAdapter(adapterPdfReadingBooks);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+//trending books
+    private void loadTrendingBooks() {
+        //init list
+        pdfArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.limitToLast(10) // load 10 most viewed or downloaded books
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //clear list before starting adding data into it
+                        pdfArrayList.clear();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            //get data
+                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            //add to list
+                            pdfArrayList.add(model);
+                        }
+                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                        binding.booksRv0.setLayoutManager(linearLayoutManager);
+                        //setup adapter
+                        adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+                        //set adapter to recyclerview
+                        binding.booksRv0.setAdapter(adapterPdfUser);
                     }
 
                     @Override
