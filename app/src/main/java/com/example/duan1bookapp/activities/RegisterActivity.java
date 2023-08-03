@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
         String emailInput = binding.emailTil.getEditText().getText().toString().trim();
 
         if (emailInput.isEmpty()){
-            binding.emailTil.setError("Field can't be empty");
+            binding.emailTil.setError("Email cannot be blank");
             return false;
         }
         else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches())
@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateRepeatPassword(){
         String repeatPassword = binding.cPasswordTil.getEditText().getText().toString().trim();;
         if (repeatPassword.isEmpty()){
-            binding.cPasswordTil.setError("Field can't be empty");
+            binding.cPasswordTil.setError("Repeat password cannot be blank");
             return false;
         }
         else {
@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validatePassWord(){
          String passwordInput = binding.passwordTil.getEditText().getText().toString().trim();
         if (passwordInput.isEmpty()){
-            binding.passwordTil.setError("Field can't be empty");
+            binding.passwordTil.setError("Password cannot be blank");
             return false;
         }
         else {
@@ -134,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateName(){
         String usernameInput = binding.nameTil.getEditText().getText().toString();
         if (usernameInput.isEmpty()){
-            binding.nameTil.setError("Field can't be empty");
+            binding.nameTil.setError("Name cannot be blank");
             return false;
         }
         else if (usernameInput.length() > 20) {

@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validateEmail() {
        String inputE = binding.emailEt.getText().toString().trim();
         if (inputE.isEmpty()){
-            binding.emailTil.setError("Field can't be empty");
+            binding.emailTil.setError("Email cannot be blank");
             return false;
         }
         else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches() ){
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validatePassword(){
         String inputPass = binding.passwordTil.getEditText().getText().toString().trim();
         if (inputPass.isEmpty()){
-            binding.passwordTil.setError("Field can't be empty");
+            binding.passwordTil.setError("Password cannot be blank");
             return false;
         }
         else {
