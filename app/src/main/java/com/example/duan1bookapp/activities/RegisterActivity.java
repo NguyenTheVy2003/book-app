@@ -63,9 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
                     createUserAccount();
-                    Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(i);
-
                 }
             }
         });
@@ -124,8 +121,10 @@ public class RegisterActivity extends AppCompatActivity {
         if (passwordInput.isEmpty()){
             binding.passwordTil.setError("Password cannot be blank");
             return false;
-        }
-        else {
+        } else if (passwordInput.length() <6) {
+            binding.passwordTil.setError("Password must have at least 6 characters");
+            return false;
+        } else {
             binding.passwordTil.setError(null);
             return true;
         }
@@ -200,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
                         // since user account is created so start dashboard user
-                        startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         finish();
                     }
                 })
