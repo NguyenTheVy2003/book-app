@@ -66,22 +66,49 @@ public class LoginActivity extends AppCompatActivity {
 
     private String email = "", password = "";
 
-    private void validateData() {
+    private boolean validateData() {
         // Before login, lets do some data validation
-
         //get data
         email = binding.emailEt.getText().toString().trim();
         password = binding.passwordEt.getText().toString().trim();
 
         //validate data
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Invalid email pattern...!", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Enter password...", Toast.LENGTH_SHORT).show();
-        } else {
-            // data is validate, begin login
+        if (!validateEmail() | !validatePassword()) {
+           return false;
+            //Toast.makeText(this, "Invalid email pattern...!", Toast.LENGTH_SHORT).show();
+        }
+        else {
             loginUser();
+            return true;
+            // data is validate, begin login
+        }
+    }
 
+    private boolean validateEmail() {
+       String inputE = binding.emailEt.getText().toString().trim();
+        if (inputE.isEmpty()){
+            binding.emailTil.setError("Field can't be empty");
+            return false;
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches() ){
+            binding.emailTil.setError("Invalid email pattern...!");
+            return false;
+        }
+        else {
+            binding.emailTil.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword(){
+        String inputPass = binding.passwordTil.getEditText().getText().toString().trim();
+        if (inputPass.isEmpty()){
+            binding.passwordTil.setError("Field can't be empty");
+            return false;
+        }
+        else {
+            binding.passwordTil.setError(null);
+            return true;
         }
     }
 

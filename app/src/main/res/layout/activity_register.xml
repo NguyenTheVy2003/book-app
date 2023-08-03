@@ -60,9 +60,14 @@
                 android:id="@+id/nameTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false">
+                app:hintEnabled="false"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
+                app:errorEnabled="true"
+                app:helperTextTextColor="@color/design_default_color_error"
+                app:endIconMode="clear_text">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,9 +88,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameTil"
-                app:hintEnabled="false">
+                app:hintEnabled="false"
+                app:endIconMode="clear_text">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +116,7 @@
                 app:hintEnabled="false"
                 app:passwordToggleEnabled="true">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +141,7 @@
                 app:hintEnabled="false"
                 app:passwordToggleEnabled="true">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cPasswordEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
