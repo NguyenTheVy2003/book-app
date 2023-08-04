@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.activities.PdfDetailActivity;
 import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
+import com.example.duan1bookapp.filters.FilterPdfViewHistory;
+import com.example.duan1bookapp.filters.FilterPdfViewHistory2;
 import com.example.duan1bookapp.fragment.Fragment_Home;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -27,11 +31,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadingBooks.HolderPdfReadingBooks>{
+public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadingBooks.HolderPdfReadingBooks> implements Filterable {
     private Context context;
-    private ArrayList<ModelPdf> pdfArrayList;
+    public ArrayList<ModelPdf> pdfArrayList,filterList;
     //view binding
     private RowPdfReadingBooksBinding binding;
+    private FilterPdfViewHistory2 filter;
 
     private static final String TAG="REA_BOOK_TAG";
 
@@ -39,6 +44,7 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
     public AdapterPdfReadingBooks(Context context, ArrayList<ModelPdf> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
+        this.filterList=pdfArrayList;
     }
 
     @NonNull
@@ -113,6 +119,14 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
     @Override
     public int getItemCount() {
         return pdfArrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null){
+            filter = new FilterPdfViewHistory2(filterList, this);
+        }
+        return filter;
     }
 
     class HolderPdfReadingBooks extends RecyclerView.ViewHolder{

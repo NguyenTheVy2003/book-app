@@ -25,15 +25,7 @@
             android:hint="Search"
             android:padding="10dp"
             android:textColorHint="@color/gray01" />
-<!--        slide Show-->
-        <com.denzcoskun.imageslider.ImageSlider
-            android:id="@+id/image_slider"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            app:iss_auto_cycle="true"
-            app:iss_period="1000"
-            app:iss_delay="1000"
-            app:iss_text_align="CENTER"/>
+
         <!--    trending books + view history-->
         <LinearLayout
             android:id="@+id/lnTong"
@@ -41,6 +33,23 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchEt"
             android:orientation="vertical">
+            <!--Slider view for displaying our sliding images-->
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorEnabled="false"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderScrollTimeInSec="1" />
             <!--Trending Books -->
             <LinearLayout
                 android:id="@+id/ln0"

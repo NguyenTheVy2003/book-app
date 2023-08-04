@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.AllBooksActivity;
@@ -33,18 +31,28 @@ import com.example.duan1bookapp.activities.AllViewHistory;
 import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.adapters.AdapterPdfReadingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
+
+import com.example.duan1bookapp.adapters.SliderAdapter;
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 
 import com.example.duan1bookapp.models.ModelPdf;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Fragment_Home extends Fragment{
     // view biding
@@ -68,6 +76,11 @@ public class Fragment_Home extends Fragment{
     private AdapterPdfReadingBooks adapterPdfReadingBooks;
     private Boolean isCheck;
 
+    //slideShow
+    private SliderAdapter adapter;
+    private ArrayList<ModelPdf> sliderDataArrayList;
+    FirebaseFirestore db;
+
 
 
 
@@ -86,9 +99,9 @@ public class Fragment_Home extends Fragment{
         loadReadingBooks();
         //load View History
         loadTrendingBooks();
-        //Load Slide Show
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        loadSlideShow();
+        //slide Show
+        loadImages();
+
 
 
         setupViewPagerAdapter(binding.viewpager);
@@ -109,6 +122,7 @@ public class Fragment_Home extends Fragment{
                 // called as and when user type any letter
                 try {
                     adapterPdfUser.getFilter().filter(s);
+                    adapterPdfReadingBooks.getFilter().filter(s);
                 }
                 catch (Exception e){
                     Log.d(TAG, "onTextChanged: " + e.getMessage());
@@ -274,33 +288,66 @@ private void loadTrendingBooks() {
                 }
             });
 }
+    private void loadImages() {
+        // getting data from our collection and after
+        // that calling a method for on success listener.
+        sliderDataArrayList = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
+        db.collection("Books").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-        private void loadSlideShow(){
-            ArrayList<SlideModel> slideShowList=new ArrayList<>();
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds: snapshot.getChildren()) {
-                        slideShowList.add(new SlideModel(
-                                ds.child("url").getValue().toString(),
-                                ds.child("title").getValue().toString(),
-                                ScaleTypes.valueOf(ds.child("description").getValue().toString())));
+                // inside the on success method we are running a for loop
+                // and we are getting the data from Firebase Firestore
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                        binding.imageSlider.setImageList(slideShowList,ScaleTypes.FIT);
-                    }
+                    // after we get the data we are passing inside our object class.
+                    ModelPdf sliderData = documentSnapshot.toObject(ModelPdf.class);
+                    ModelPdf model = new ModelPdf();
+
+                    // below line is use for setting our
+                    // image url for our modal class.
+                    model.setUrl(sliderData.getUrl());
+
+                    // after that we are adding that
+                    // data inside our array list.
+                    sliderDataArrayList.add(model);
+
+                    // after adding data to our array list we are passing
+                    // that array list inside our adapter class.
+                    adapter = new SliderAdapter(getContext(), sliderDataArrayList);
+
+                    // below line is for setting adapter
+                    // to our slider view
+                    binding.slider.setSliderAdapter(adapter);
+
+                    // below line is for setting animation to our slider.
+                    binding.slider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+
+                    // below line is for setting auto cycle duration.
+                    binding.slider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+
+                    // below line is for setting
+                    // scroll time animation
+                    binding.slider.setScrollTimeInSec(3);
+
+                    // below line is for setting auto
+                    // cycle animation to our slider
+                    binding.slider.setAutoCycle(true);
+
+                    // below line is use to start
+                    // the animation of our slider view.
+                    binding.slider.startAutoCycle();
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-
-
-
-
-
-
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // if we get any error from Firebase we are
+                // displaying a toast message for failure
+                Toast.makeText(getContext(), "Fail to load slider data..", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
+

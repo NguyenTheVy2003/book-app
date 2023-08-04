@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:paddingStart="10dp"
+        android:paddingTop="10dp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:text="category book"/>
@@ -40,7 +41,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tv_categorybook"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="-5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

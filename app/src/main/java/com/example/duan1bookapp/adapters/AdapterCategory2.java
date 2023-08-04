@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.activities.PdfListAdminActivity;
+import com.example.duan1bookapp.activities.PdfListUserActivity;
 import com.example.duan1bookapp.databinding.RowCategory2Binding;
 import com.example.duan1bookapp.databinding.RowCategoryBinding;
 import com.example.duan1bookapp.filters.FilterCategory;
@@ -72,7 +73,7 @@ public class AdapterCategory2 extends RecyclerView.Adapter<AdapterCategory2.Hold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, PdfListAdminActivity.class);
+                Intent intent=new Intent(context, PdfListUserActivity.class);
                 intent.putExtra("categoryId",id);
                 intent.putExtra("categoryTitle",category);
                 context.startActivity(intent);
@@ -80,31 +81,6 @@ public class AdapterCategory2 extends RecyclerView.Adapter<AdapterCategory2.Hold
         });
 
     }
-
-    private void deleteCategory(ModelCategory2 model, HolderCategory holder) {
-        //get id of category to delete
-        String id = model.getId();
-
-        //Firebase DB > Categories > categoryId
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
-        ref.child(id)
-                .removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        //delete successfully
-                        Toast.makeText(context, "Successfully delete....", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //failed to delete
-                        Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     @Override
     public int getItemCount() {
         return categoryArrayList.size();

@@ -21,8 +21,21 @@
             android:src="@drawable/ic_back_white" />
 
     </RelativeLayout>
-    <TextView
+    <!--    Search-->
+    <EditText
         android:layout_below="@id/toolbarRl"
+        android:id="@+id/searchEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/ic_search_gray"
+        android:hint="Search"
+        android:padding="10dp"
+        android:textColorHint="@color/gray01"/>
+
+    <TextView
+        android:layout_below="@id/searchEt"
         android:id="@+id/tv_nd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

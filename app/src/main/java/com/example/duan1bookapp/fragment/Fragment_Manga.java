@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.DashboardAdminActivity;
@@ -92,6 +93,8 @@ public class Fragment_Manga extends Fragment {
                     // add to arraylist
                     categoryArrayList.add(mode);
                 }
+                GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
+                binding.categoriesRv.setLayoutManager(gridLayoutManager);
                 //setup adapter
                 adapterCategory = new AdapterCategory2(getContext(), categoryArrayList);
                 //set adapter to recyclerview
