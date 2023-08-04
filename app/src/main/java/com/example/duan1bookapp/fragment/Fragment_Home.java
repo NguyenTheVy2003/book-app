@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.duan1bookapp.BooksUserFragment2;
+import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
 import com.example.duan1bookapp.activities.AllViewHistory;
@@ -77,9 +82,13 @@ public class Fragment_Home extends Fragment{
 
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
-
+        //load Reading Books
         loadReadingBooks();
+        //load View History
         loadTrendingBooks();
+        //Load Slide Show
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        loadSlideShow();
 
 
         setupViewPagerAdapter(binding.viewpager);
@@ -233,38 +242,61 @@ public class Fragment_Home extends Fragment{
                 });
     }
 //trending books
-    private void loadTrendingBooks() {
-        //init list
-        pdfArrayList = new ArrayList<>();
+private void loadTrendingBooks() {
+    //init list
+    pdfArrayList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.limitToLast(10) // load 10 most viewed or downloaded books
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //clear list before starting adding data into it
-                        pdfArrayList.clear();
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            //get data
-                            ModelPdf model = ds.getValue(ModelPdf.class);
-                            //add to list
-                            pdfArrayList.add(model);
-                        }
-                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                        binding.booksRv0.setLayoutManager(linearLayoutManager);
-                        //setup adapter
-                        adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                        //set adapter to recyclerview
-                        binding.booksRv0.setAdapter(adapterPdfUser);
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+    ref.orderByChild("viewsCount").startAt(10).limitToLast(10) // load 10 most viewed or downloaded books
+            .addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //clear list before starting adding data into it
+                    pdfArrayList.clear();
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        //get data
+                        ModelPdf model = ds.getValue(ModelPdf.class);
+                        //add to list
+                        pdfArrayList.add(model);
                     }
+                    LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                    linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                    binding.booksRv0.setLayoutManager(linearLayoutManager);
+                    //setup adapter
+                    adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+                    //set adapter to recyclerview
+                    binding.booksRv0.setAdapter(adapterPdfUser);
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+}
+
+        private void loadSlideShow(){
+            ArrayList<SlideModel> slideShowList=new ArrayList<>();
+            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds: snapshot.getChildren()) {
+                        slideShowList.add(new SlideModel(
+                                ds.child("url").getValue().toString(),
+                                ds.child("title").getValue().toString(),
+                                ScaleTypes.valueOf(ds.child("description").getValue().toString())));
+
+                        binding.imageSlider.setImageList(slideShowList,ScaleTypes.FIT);
                     }
-                });
-    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
 
 
 
