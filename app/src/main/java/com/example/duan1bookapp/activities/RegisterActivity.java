@@ -63,9 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
                     createUserAccount();
-                    Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(i);
-
                 }
             }
         });
@@ -94,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
         String emailInput = binding.emailTil.getEditText().getText().toString().trim();
 
         if (emailInput.isEmpty()){
-            binding.emailTil.setError("Field can't be empty");
+            binding.emailTil.setError("Email cannot be blank");
             return false;
         }
         else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches())
@@ -111,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateRepeatPassword(){
         String repeatPassword = binding.cPasswordTil.getEditText().getText().toString().trim();;
         if (repeatPassword.isEmpty()){
-            binding.cPasswordTil.setError("Field can't be empty");
+            binding.cPasswordTil.setError("Repeat password cannot be blank");
             return false;
         }
         else {
@@ -122,10 +119,12 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validatePassWord(){
          String passwordInput = binding.passwordTil.getEditText().getText().toString().trim();
         if (passwordInput.isEmpty()){
-            binding.passwordTil.setError("Field can't be empty");
+            binding.passwordTil.setError("Password cannot be blank");
             return false;
-        }
-        else {
+        } else if (passwordInput.length() <6) {
+            binding.passwordTil.setError("Password must have at least 6 characters");
+            return false;
+        } else {
             binding.passwordTil.setError(null);
             return true;
         }
@@ -134,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateName(){
         String usernameInput = binding.nameTil.getEditText().getText().toString();
         if (usernameInput.isEmpty()){
-            binding.nameTil.setError("Field can't be empty");
+            binding.nameTil.setError("Name cannot be blank");
             return false;
         }
         else if (usernameInput.length() > 20) {
@@ -200,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
                         // since user account is created so start dashboard user
-                        startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         finish();
                     }
                 })
