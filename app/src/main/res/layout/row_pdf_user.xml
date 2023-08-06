@@ -32,8 +32,7 @@
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="match_parent" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -49,10 +48,12 @@
                     android:textSize="13sp"
                     android:layout_centerHorizontal="true"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="Book Title" />
 
                 <TextView
                     android:id="@+id/descriptionTv"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/titleTv"

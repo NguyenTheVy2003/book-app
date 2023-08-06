@@ -2,6 +2,7 @@ package com.example.duan1bookapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -161,6 +162,7 @@ public class PdfEditActivity extends AppCompatActivity {
                         Log.d(TAG, "onSuccess: Book updated...");
                         progressDialog.dismiss();
                         Toast.makeText(PdfEditActivity.this, "Book info update ...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PdfEditActivity.this, DashboardAdminActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

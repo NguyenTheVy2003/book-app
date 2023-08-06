@@ -1,6 +1,7 @@
 package com.example.duan1bookapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -104,6 +105,7 @@ public class CategoryAddActivity extends AppCompatActivity {
                         //category add success
                         progressDialog.dismiss();
                         Toast.makeText(CategoryAddActivity.this, "Category added successfully...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(CategoryAddActivity.this, DashboardAdminActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -29,11 +29,8 @@ public class PdfViewActivity extends AppCompatActivity {
 
     // View biding
     private ActivityPdfViewBinding binding;
-
     private String bookId;
-
     private static final String TAG = "PDF_VIEW_TAG";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +44,6 @@ public class PdfViewActivity extends AppCompatActivity {
         Log.d(TAG,"onCreate: BookId: "+bookId);
 
         loadBookDetail();
-
         // handle click, go back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

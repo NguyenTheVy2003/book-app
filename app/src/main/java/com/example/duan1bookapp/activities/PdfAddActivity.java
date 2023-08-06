@@ -200,6 +200,7 @@ public class PdfAddActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Log.d(TAG, "onSuccess: Successfully uploaded...");
                         Toast.makeText(PdfAddActivity.this, "Successfully uploaded...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PdfAddActivity.this, DashboardAdminActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

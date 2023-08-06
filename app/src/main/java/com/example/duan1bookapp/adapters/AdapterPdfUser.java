@@ -35,16 +35,9 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
     private Context context;
     public ArrayList<ModelPdf> pdfArrayList, filterList;
-
     private FilterPdfUser filter;
-
     private RowPdfUserBinding binding;
-
     private FirebaseAuth firebaseAuth;
-
-
-
-
 
     private static final String TAG = "ADAPTER_PDF_USER_TAG";
 
@@ -52,8 +45,6 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         this.context = context;
         this.pdfArrayList = pdfArrayList;
         this.filterList = pdfArrayList;
-
-
     }
 
     @NonNull
@@ -67,10 +58,6 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
     @Override
     public void onBindViewHolder(@NonNull AdapterPdfUser.HolderPdfUser holder, int position) {
         firebaseAuth=FirebaseAuth.getInstance();
-
-
-
-
         ModelPdf model = pdfArrayList.get(position);
         String bookId = model.getId();
         String title = model.getTitle();
@@ -121,13 +108,8 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
             @Override
             public void onClick(View view) {
                 MyApplication.addReadingBooks(context,bookId);
-
-
             }
         });
-
-
-
     }
 
     @Override
@@ -150,12 +132,8 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         ProgressBar progressBar;
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
-
             titleTv = binding.titleTv;
-
             descriptionTv = binding.descriptionTv;
-
-
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;
         }

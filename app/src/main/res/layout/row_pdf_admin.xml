@@ -7,12 +7,12 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
-    app:contentPadding="5dp">
+    app:contentPadding="5dp"
+    android:layout_marginEnd="3dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <RelativeLayout
             android:id="@+id/pdfRl"
             android:layout_width="100dp"
