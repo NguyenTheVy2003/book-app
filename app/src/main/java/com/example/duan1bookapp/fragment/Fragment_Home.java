@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duan1bookapp.BooksUserFragment2;
-import com.example.duan1bookapp.activities.AllBooksActivity;
+import com.example.duan1bookapp.activities.BooksAllActivity;
 
 import com.example.duan1bookapp.activities.ViewsHistoryBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
@@ -114,7 +114,7 @@ public class Fragment_Home extends Fragment{
         binding.tvAllBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), AllBooksActivity.class));
+                startActivity(new Intent(getContext(), BooksAllActivity.class));
             }
         });
         binding.tvAllViewedHistory.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +220,7 @@ public class Fragment_Home extends Fragment{
                         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
                         binding.booksRv.setLayoutManager(linearLayoutManager);
                         //setup adapter
-                        adapterPdfViewsHistoryBooks=new AdapterPdfViewsHistoryBooks(viewPagerAdapter.context,pdfViewsHistoryBooksList);
+                        adapterPdfViewsHistoryBooks=new AdapterPdfViewsHistoryBooks(getContext(),pdfViewsHistoryBooksList);
                         //set Adapter to recyclerView
                         binding.booksRv.setAdapter(adapterPdfViewsHistoryBooks);
                     }

@@ -26,7 +26,7 @@
             android:name=".activities.ViewsHistoryBooksAll"
             android:exported="false" />
         <activity
-            android:name=".activities.AllBooksActivity"
+            android:name=".activities.BooksAllActivity"
             android:exported="false" />
         <activity
             android:name=".activities.ProfileEditActivity"

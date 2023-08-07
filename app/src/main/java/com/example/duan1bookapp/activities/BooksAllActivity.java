@@ -12,7 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.duan1bookapp.BooksUserFragment;
+import com.example.duan1bookapp.BooksUserAll;
 import com.example.duan1bookapp.databinding.ActivityAllBooksBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AllBooksActivity extends AppCompatActivity {
+public class BooksAllActivity extends AppCompatActivity {
     //view binding
     private ActivityAllBooksBinding binding;
 
@@ -74,7 +74,7 @@ public class AllBooksActivity extends AppCompatActivity {
                 //add models to list
                 categoryArrayList.add(modelAll);
                 //add data to view pager adapter
-                viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
+                viewPagerAdapter.addFragment(BooksUserAll.newInstance(
                         "" + modelAll.getId(),
                         "" + modelAll.getCategory(),
                         "" + modelAll.getUid()
@@ -89,7 +89,7 @@ public class AllBooksActivity extends AppCompatActivity {
                     // add data to list
                     categoryArrayList.add(model);
                     // add data to view pagerAdapter
-                    viewPagerAdapter.addFragment(BooksUserFragment.newInstance(
+                    viewPagerAdapter.addFragment(BooksUserAll.newInstance(
                             "" + model.getId(),
                             "" + model.getCategory(),
                             "" + model.getUid()), model.getCategory());
@@ -111,7 +111,7 @@ public class AllBooksActivity extends AppCompatActivity {
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        private ArrayList<BooksUserFragment> fragmentList = new ArrayList<>();
+        private ArrayList<BooksUserAll> fragmentList = new ArrayList<>();
         private ArrayList<String> fragmentTitleList = new ArrayList<>();
         private Context context;
 
@@ -131,7 +131,7 @@ public class AllBooksActivity extends AppCompatActivity {
             return fragmentList.size();
         }
 
-        private void addFragment(BooksUserFragment fragment, String title) {
+        private void addFragment(BooksUserAll fragment, String title) {
             //add fragment passed as parameter in fragment in fragmentList
             fragmentList.add(fragment);
             //add title passed as parameter in fragment in fragmentTitleList

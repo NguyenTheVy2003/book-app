@@ -2,22 +2,22 @@ package com.example.duan1bookapp.filters;
 
 import android.widget.Filter;
 
-import com.example.duan1bookapp.adapters.AdapterPdfUser;
-import com.example.duan1bookapp.adapters.AdapterPdfUser2;
-import com.example.duan1bookapp.models.ModelPdf;
-import com.example.duan1bookapp.models.ModelPdf2;
+import com.example.duan1bookapp.adapters.AdapterPdfUserBooksAll;
+import com.example.duan1bookapp.adapters.AdapterPdfUserBooksAll2;
+import com.example.duan1bookapp.models.ModelPdfBooksAll;
+import com.example.duan1bookapp.models.ModelPdfBooksAll2;
 
 import java.util.ArrayList;
 
-public class FilterPdfUser2 extends Filter {
+public class FilterPdfUserBooksAll2 extends Filter {
 
     // arraylist in which we want to search
-    ArrayList<ModelPdf2> filterList;
-    AdapterPdfUser2 adapterPdfUser;
+    ArrayList<ModelPdfBooksAll2> filterList;
+    AdapterPdfUserBooksAll2 adapterPdfUserBooksAll2;
 
-    public FilterPdfUser2(ArrayList<ModelPdf2> filterList, AdapterPdfUser2 adapterPdfUser) {
+    public FilterPdfUserBooksAll2(ArrayList<ModelPdfBooksAll2> filterList, AdapterPdfUserBooksAll2 adapterPdfUserBooksAll2) {
         this.filterList = filterList;
-        this.adapterPdfUser = adapterPdfUser;
+        this.adapterPdfUserBooksAll2 = adapterPdfUserBooksAll2;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class FilterPdfUser2 extends Filter {
             // not null nar empty
             // change to uppercase to lower case to avoid case sensitivity
             constraint = constraint.toString().toUpperCase();
-            ArrayList<ModelPdf2> filteredModels = new ArrayList<>();
+            ArrayList<ModelPdfBooksAll2> filteredModels = new ArrayList<>();
 
             for (int i = 0; i<filterList.size(); i++){
                 // validate
@@ -50,8 +50,8 @@ public class FilterPdfUser2 extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterPdfUser.pdfArrayList = (ArrayList<ModelPdf2>)results.values;
+        adapterPdfUserBooksAll2.pdfArrayList = (ArrayList<ModelPdfBooksAll2>)results.values;
         // notify changes
-        adapterPdfUser.notifyDataSetChanged();
+        adapterPdfUserBooksAll2.notifyDataSetChanged();
     }
 }
