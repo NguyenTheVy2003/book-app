@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,21 +22,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duan1bookapp.BooksUserFragment2;
-import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
 import com.example.duan1bookapp.activities.AllViewHistory;
-import com.example.duan1bookapp.adapters.AdapterPdfFavorite;
 import com.example.duan1bookapp.adapters.AdapterPdfReadingBooks;
+import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
 
-import com.example.duan1bookapp.adapters.SliderAdapter;
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 
 import com.example.duan1bookapp.models.ModelPdf;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.duan1bookapp.models.ModelPdfTrendingBooks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,13 +41,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Fragment_Home extends Fragment{
     // view biding
@@ -76,14 +66,9 @@ public class Fragment_Home extends Fragment{
     private AdapterPdfReadingBooks adapterPdfReadingBooks;
     private Boolean isCheck;
 
-    //slideShow
-    private SliderAdapter adapter;
-    private ArrayList<ModelPdf> sliderDataArrayList;
-    FirebaseFirestore db;
-
-
-
-
+    //Trending Books
+    private ArrayList<ModelPdfTrendingBooks> pdfTrendingBooksList;
+    AdapterPdfTrendingBooks adapterPdfTrendingBooks;
 
 
 
@@ -95,12 +80,10 @@ public class Fragment_Home extends Fragment{
 
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
-        //load Reading Books
+        //load viewsHistory
         loadReadingBooks();
-        //load View History
+        //load trending books
         loadTrendingBooks();
-        //slide Show
-        loadImages();
 
 
 
@@ -225,7 +208,7 @@ public class Fragment_Home extends Fragment{
         pdfArrayList=new ArrayList<>();
 
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid()).child("ReadingBooks").limitToLast(10)
+        ref.child(firebaseAuth.getUid()).child("ReadingBooks").limitToFirst(10)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -258,28 +241,32 @@ public class Fragment_Home extends Fragment{
 //trending books
 private void loadTrendingBooks() {
     //init list
-    pdfArrayList = new ArrayList<>();
+    pdfTrendingBooksList = new ArrayList<>();
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-    ref.orderByChild("viewsCount").startAt(10).limitToLast(10) // load 10 most viewed or downloaded books
+    ref.limitToFirst(10) // load 10 most viewed or downloaded books
             .addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //clear list before starting adding data into it
-                    pdfArrayList.clear();
+                    pdfTrendingBooksList.clear();
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         //get data
-                        ModelPdf model = ds.getValue(ModelPdf.class);
-                        //add to list
-                        pdfArrayList.add(model);
+                        ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
+                        int viewCount= (int) model.getViewsCount();
+                        if(viewCount >= 2){
+                            //add to list
+                            pdfTrendingBooksList.add(model);
+                        }
+
                     }
                     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
                     linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
                     binding.booksRv0.setLayoutManager(linearLayoutManager);
                     //setup adapter
-                    adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+                    adapterPdfTrendingBooks = new AdapterPdfTrendingBooks(getContext(), pdfTrendingBooksList);
                     //set adapter to recyclerview
-                    binding.booksRv0.setAdapter(adapterPdfUser);
+                    binding.booksRv0.setAdapter(adapterPdfTrendingBooks);
                 }
 
                 @Override
@@ -288,66 +275,5 @@ private void loadTrendingBooks() {
                 }
             });
 }
-    private void loadImages() {
-        // getting data from our collection and after
-        // that calling a method for on success listener.
-        sliderDataArrayList = new ArrayList<>();
-        db = FirebaseFirestore.getInstance();
-        db.collection("Books").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                // inside the on success method we are running a for loop
-                // and we are getting the data from Firebase Firestore
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-
-                    // after we get the data we are passing inside our object class.
-                    ModelPdf sliderData = documentSnapshot.toObject(ModelPdf.class);
-                    ModelPdf model = new ModelPdf();
-
-                    // below line is use for setting our
-                    // image url for our modal class.
-                    model.setUrl(sliderData.getUrl());
-
-                    // after that we are adding that
-                    // data inside our array list.
-                    sliderDataArrayList.add(model);
-
-                    // after adding data to our array list we are passing
-                    // that array list inside our adapter class.
-                    adapter = new SliderAdapter(getContext(), sliderDataArrayList);
-
-                    // below line is for setting adapter
-                    // to our slider view
-                    binding.slider.setSliderAdapter(adapter);
-
-                    // below line is for setting animation to our slider.
-                    binding.slider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-
-                    // below line is for setting auto cycle duration.
-                    binding.slider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-
-                    // below line is for setting
-                    // scroll time animation
-                    binding.slider.setScrollTimeInSec(3);
-
-                    // below line is for setting auto
-                    // cycle animation to our slider
-                    binding.slider.setAutoCycle(true);
-
-                    // below line is use to start
-                    // the animation of our slider view.
-                    binding.slider.startAutoCycle();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // if we get any error from Firebase we are
-                // displaying a toast message for failure
-                Toast.makeText(getContext(), "Fail to load slider data..", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
 
