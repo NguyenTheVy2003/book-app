@@ -24,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.BooksAllActivity;
 
+import com.example.duan1bookapp.activities.TrendingBooksAll;
 import com.example.duan1bookapp.activities.ViewsHistoryBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
@@ -110,6 +111,13 @@ public class Fragment_Home extends Fragment{
 
             }
         });
+        //handle click all trending books
+        binding.tvAllTrendingBooks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), TrendingBooksAll.class));
+            }
+        });
         //handle click all Books
         binding.tvAllBooks.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +125,7 @@ public class Fragment_Home extends Fragment{
                 startActivity(new Intent(getContext(), BooksAllActivity.class));
             }
         });
+        //handle click all viewHistory
         binding.tvAllViewedHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
