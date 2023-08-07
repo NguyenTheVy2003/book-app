@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".BooksUserFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +24,31 @@
             android:hint="Search"
             android:padding="10dp"
             android:textColorHint="@color/gray01" />
+<!--        slideShow-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="20dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content">
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="1"
+                    app:sliderStartAutoCycle="true" />
+            </androidx.cardview.widget.CardView>
 
         <!--    trending books + view history-->
         <LinearLayout
@@ -33,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchEt"
             android:orientation="vertical">
+
             <!--Trending Books -->
             <LinearLayout
                 android:id="@+id/ln0"
@@ -63,6 +88,15 @@
                         android:text="All"
                         android:textSize="15sp" />
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_nd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    android:textColor="#F00"
+                    android:text="No Data"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/booksRv0"
                     android:layout_width="match_parent"

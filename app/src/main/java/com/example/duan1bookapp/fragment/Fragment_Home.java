@@ -3,6 +3,7 @@ package com.example.duan1bookapp.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,17 +30,22 @@ import com.example.duan1bookapp.activities.ViewsHistoryBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
 
+import com.example.duan1bookapp.adapters.SliderAdapterExample;
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 
 import com.example.duan1bookapp.models.ModelPdfTrendingBooks;
 import com.example.duan1bookapp.models.ModelPdfViewsHistoryBooks;
+import com.example.duan1bookapp.models.ModelSlideShow;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
 
@@ -66,6 +72,10 @@ public class Fragment_Home extends Fragment{
 
 
 
+    //slideShow
+    ArrayList<ModelSlideShow> slideShowsList;
+    SliderAdapterExample sliderAdapterExample;
+
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
@@ -78,6 +88,9 @@ public class Fragment_Home extends Fragment{
         loadViewHistory();
         //load trending books
         loadTrendingBooks();
+        //loadSlideShow
+        loadSlideShow();
+
 
 
 
@@ -245,7 +258,7 @@ private void loadTrendingBooks() {
     pdfTrendingBooksList = new ArrayList<>();
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-    ref.limitToFirst(10) // load 10 most viewed or downloaded books
+    ref// load 10 most viewed or downloaded books
             .addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -254,10 +267,12 @@ private void loadTrendingBooks() {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         //get data
                         ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
-                        long viewCount=model.getViewsCount();
-                        if(viewCount >= 2){
+                        int viewCount= (int) model.getViewsCount();
+                        if(viewCount >= 5){
                             //add to list
                             pdfTrendingBooksList.add(model);
+                        }else {
+                            binding.tvNd.setVisibility(View.GONE);
                         }
 
                     }
@@ -275,6 +290,39 @@ private void loadTrendingBooks() {
 
                 }
             });
-}
+        }
+        private void loadSlideShow(){
+            slideShowsList=new ArrayList<>();
+
+            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
+            ref.limitToFirst(5).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    slideShowsList.clear();
+                    for (DataSnapshot ds: snapshot.getChildren()) {
+                        ModelSlideShow modelSlideShow=ds.getValue(ModelSlideShow.class);
+                        slideShowsList.add(modelSlideShow);
+                    }
+
+                    sliderAdapterExample=new SliderAdapterExample(getContext(),slideShowsList);
+
+                    binding.imageSlider.setSliderAdapter(sliderAdapterExample);
+                    binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                    binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                    binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                    binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
+                    binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
+                    binding.imageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+                    binding.imageSlider.startAutoCycle();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
+
 }
 

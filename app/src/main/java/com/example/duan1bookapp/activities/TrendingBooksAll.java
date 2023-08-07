@@ -86,7 +86,7 @@ public class TrendingBooksAll extends AppCompatActivity {
                             //get data
                             ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
                             int viewCount = (int) model.getViewsCount();
-                            if(viewCount >= 2){
+                            if(viewCount >= 5){
                                 //add to list
                                 pdfTrendingBooksList.add(model);
                             }

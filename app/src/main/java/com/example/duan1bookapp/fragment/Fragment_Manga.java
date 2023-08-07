@@ -18,7 +18,7 @@ import com.example.duan1bookapp.activities.DashboardAdminActivity;
 import com.example.duan1bookapp.activities.MainActivity;
 import com.example.duan1bookapp.adapters.AdapterCategory;
 import com.example.duan1bookapp.adapters.AdapterCategory2;
-import com.example.duan1bookapp.databinding.FragmentBooksUserBinding;
+
 import com.example.duan1bookapp.databinding.FragmentMangaBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 import com.example.duan1bookapp.models.ModelCategory2;
