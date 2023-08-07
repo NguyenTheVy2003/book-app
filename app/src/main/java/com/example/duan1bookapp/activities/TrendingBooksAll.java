@@ -75,8 +75,7 @@ public class TrendingBooksAll extends AppCompatActivity {
         pdfTrendingBooksList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.limitToFirst(10) // load 10 most viewed or downloaded books
-                .addValueEventListener(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //clear list before starting adding data into it
