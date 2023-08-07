@@ -60,6 +60,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.DashboardUserActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.RegisterActivity"
