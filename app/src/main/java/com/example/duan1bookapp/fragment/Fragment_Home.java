@@ -24,15 +24,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
-import com.example.duan1bookapp.activities.AllViewHistory;
+import com.example.duan1bookapp.activities.ViewsHistoryBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
-import com.example.duan1bookapp.adapters.AdapterPdfUser;
 
 import com.example.duan1bookapp.databinding.FragmentHomeBinding;
 import com.example.duan1bookapp.models.ModelCategory;
 
-import com.example.duan1bookapp.models.ModelPdf;
 import com.example.duan1bookapp.models.ModelPdfTrendingBooks;
 import com.example.duan1bookapp.models.ModelPdfViewsHistoryBooks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -122,7 +120,7 @@ public class Fragment_Home extends Fragment{
         binding.tvAllViewedHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), AllViewHistory.class));
+                startActivity(new Intent(getContext(), ViewsHistoryBooksAll.class));
             }
         });
         return binding.getRoot();

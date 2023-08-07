@@ -2,22 +2,20 @@ package com.example.duan1bookapp.filters;
 
 import android.widget.Filter;
 
-import com.example.duan1bookapp.adapters.AdapterPdfReadingBooksAll;
-import com.example.duan1bookapp.adapters.AdapterPdfUser2;
-import com.example.duan1bookapp.models.ModelPdf;
-import com.example.duan1bookapp.models.ModelPdf2;
+import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooksAll;
+import com.example.duan1bookapp.models.ModelPdfViewsBooksAll;
 
 import java.util.ArrayList;
 
-public class FilterPdfViewHistory extends Filter {
+public class FilterPdfViewHistoryBooksAll extends Filter {
 
     // arraylist in which we want to search
-    ArrayList<ModelPdf> filterList;
-    AdapterPdfReadingBooksAll adapterPdfReadingBooksAll;
+    ArrayList<ModelPdfViewsBooksAll> filterList;
+    AdapterPdfViewsHistoryBooksAll adapterPdfViewsHistoryBooksAll;
 
-    public FilterPdfViewHistory(ArrayList<ModelPdf> filterList, AdapterPdfReadingBooksAll adapterPdfReadingBooksAll) {
+    public FilterPdfViewHistoryBooksAll(ArrayList<ModelPdfViewsBooksAll> filterList, AdapterPdfViewsHistoryBooksAll adapterPdfViewsHistoryBooksAll) {
         this.filterList = filterList;
-        this.adapterPdfReadingBooksAll = adapterPdfReadingBooksAll;
+        this.adapterPdfViewsHistoryBooksAll = adapterPdfViewsHistoryBooksAll;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class FilterPdfViewHistory extends Filter {
             // not null nar empty
             // change to uppercase to lower case to avoid case sensitivity
             constraint = constraint.toString().toUpperCase();
-            ArrayList<ModelPdf> filteredModels = new ArrayList<>();
+            ArrayList<ModelPdfViewsBooksAll> filteredModels = new ArrayList<>();
 
             for (int i = 0; i<filterList.size(); i++){
                 // validate
@@ -50,8 +48,8 @@ public class FilterPdfViewHistory extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterPdfReadingBooksAll.pdfArrayList = (ArrayList<ModelPdf>)results.values;
+        adapterPdfViewsHistoryBooksAll.pdfArrayList = (ArrayList<ModelPdfViewsBooksAll>)results.values;
         // notify changes
-        adapterPdfReadingBooksAll.notifyDataSetChanged();
+        adapterPdfViewsHistoryBooksAll.notifyDataSetChanged();
     }
 }

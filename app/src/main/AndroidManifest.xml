@@ -23,7 +23,7 @@
             android:name=".activities.PdfListUserActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AllViewHistory"
+            android:name=".activities.ViewsHistoryBooksAll"
             android:exported="false" />
         <activity
             android:name=".activities.AllBooksActivity"

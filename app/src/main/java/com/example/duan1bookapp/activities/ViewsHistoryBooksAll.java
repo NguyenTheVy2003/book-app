@@ -10,9 +10,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
-import com.example.duan1bookapp.adapters.AdapterPdfReadingBooksAll;
-import com.example.duan1bookapp.databinding.ActivityAllViewHistoryBinding;
-import com.example.duan1bookapp.models.ModelPdf;
+import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooksAll;
+import com.example.duan1bookapp.databinding.ActivityViewHistoryBooksAllBinding;
+import com.example.duan1bookapp.models.ModelPdfViewsBooksAll;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,19 +22,19 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AllViewHistory extends AppCompatActivity {
-    private ActivityAllViewHistoryBinding binding;
+public class ViewsHistoryBooksAll extends AppCompatActivity {
+    private ActivityViewHistoryBooksAllBinding binding;
     //firebase auth,for leading user data using user uid
     private FirebaseAuth firebaseAuth;
     //reading books
     //arrayList to hold the books
-    private ArrayList<ModelPdf> pdfArrayList;
+    private ArrayList<ModelPdfViewsBooksAll> pdfArrayList;
     //adapter to set in recyclerView
-    private AdapterPdfReadingBooksAll adapterPdfReadingBooks;
+    private AdapterPdfViewsHistoryBooksAll adapterPdfViewsHistoryBooksAll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAllViewHistoryBinding.inflate(getLayoutInflater());
+        binding = ActivityViewHistoryBooksAllBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         firebaseAuth=FirebaseAuth.getInstance();
@@ -60,7 +60,7 @@ public class AllViewHistory extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // called as and when user type any letter
                 try {
-                    adapterPdfReadingBooks.getFilter().filter(s);
+                    adapterPdfViewsHistoryBooksAll.getFilter().filter(s);
                 }
                 catch (Exception e){
                     Log.d("TAG", "onTextChanged: " + e.getMessage());
@@ -88,19 +88,19 @@ public class AllViewHistory extends AppCompatActivity {
                             //we will only get the bookId here and we got other details in adapter using that bookId
                             String bookId=""+ds.child("bookId").getValue();
                             //set id to model
-                            ModelPdf modelPdf=new ModelPdf();
+                            ModelPdfViewsBooksAll modelPdf=new ModelPdfViewsBooksAll();
                             modelPdf.setId(bookId);
                             //add model to list
                             pdfArrayList.add(modelPdf);
                         }
                         //set LinearLayout Manager
-                        GridLayoutManager gridLayoutManager=new GridLayoutManager(AllViewHistory.this,2);
+                        GridLayoutManager gridLayoutManager=new GridLayoutManager(ViewsHistoryBooksAll.this,2);
                         binding.booksRv.setLayoutManager(gridLayoutManager);
 
                         //setup adapter
-                        adapterPdfReadingBooks=new AdapterPdfReadingBooksAll(AllViewHistory.this,pdfArrayList);
+                        adapterPdfViewsHistoryBooksAll=new AdapterPdfViewsHistoryBooksAll(ViewsHistoryBooksAll.this,pdfArrayList);
                         //set Adapter to recyclerView
-                        binding.booksRv.setAdapter(adapterPdfReadingBooks);
+                        binding.booksRv.setAdapter(adapterPdfViewsHistoryBooksAll);
 //                        adapterPdfReadingBooks.loaddata(pdfArrayList);
                     }
 
