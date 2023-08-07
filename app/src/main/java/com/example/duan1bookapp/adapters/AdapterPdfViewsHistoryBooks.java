@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,10 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.activities.PdfDetailActivity;
 import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
-import com.example.duan1bookapp.filters.FilterPdfViewHistory;
-import com.example.duan1bookapp.filters.FilterPdfViewHistory2;
-import com.example.duan1bookapp.fragment.Fragment_Home;
-import com.example.duan1bookapp.models.ModelPdf;
+import com.example.duan1bookapp.filters.FilterPdfViewHistoryBooks;
+import com.example.duan1bookapp.models.ModelPdfViewsHistoryBooks;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,17 +28,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadingBooks.HolderPdfReadingBooks> implements Filterable {
+public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdfViewsHistoryBooks.HolderPdfReadingBooks> implements Filterable {
     private Context context;
-    public ArrayList<ModelPdf> pdfArrayList,filterList;
+    public ArrayList<ModelPdfViewsHistoryBooks> pdfArrayList,filterList;
     //view binding
     private RowPdfReadingBooksBinding binding;
-    private FilterPdfViewHistory2 filter;
+    private FilterPdfViewHistoryBooks filter;
 
     private static final String TAG="REA_BOOK_TAG";
 
 
-    public AdapterPdfReadingBooks(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterPdfViewsHistoryBooks(Context context, ArrayList<ModelPdfViewsHistoryBooks> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
         this.filterList=pdfArrayList;
@@ -56,7 +53,7 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
 
     @Override
     public void onBindViewHolder(@NonNull HolderPdfReadingBooks holder, int position) {
-        ModelPdf model=pdfArrayList.get(position);
+        ModelPdfViewsHistoryBooks model=pdfArrayList.get(position);
         //loadReadingBooks FragmentHome
         loadBooksPdfFragmentHome(model,holder);
 
@@ -70,7 +67,7 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
         });
     }
 
-    private void loadBooksPdfFragmentHome(ModelPdf model, HolderPdfReadingBooks holder) {
+    private void loadBooksPdfFragmentHome(ModelPdfViewsHistoryBooks model, HolderPdfReadingBooks holder) {
         String bookId=model.getId();
         Log.d(TAG, "loadBooksPdfFragmentHome: Book Reading of Book ID:"+bookId);
 
@@ -124,7 +121,7 @@ public class AdapterPdfReadingBooks extends RecyclerView.Adapter<AdapterPdfReadi
     @Override
     public Filter getFilter() {
         if (filter == null){
-            filter = new FilterPdfViewHistory2(filterList, this);
+            filter = new FilterPdfViewHistoryBooks(filterList, this);
         }
         return filter;
     }

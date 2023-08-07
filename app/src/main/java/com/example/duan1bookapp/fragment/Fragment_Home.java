@@ -25,7 +25,7 @@ import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.AllBooksActivity;
 
 import com.example.duan1bookapp.activities.AllViewHistory;
-import com.example.duan1bookapp.adapters.AdapterPdfReadingBooks;
+import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfUser;
 
@@ -34,13 +34,13 @@ import com.example.duan1bookapp.models.ModelCategory;
 
 import com.example.duan1bookapp.models.ModelPdf;
 import com.example.duan1bookapp.models.ModelPdfTrendingBooks;
+import com.example.duan1bookapp.models.ModelPdfViewsHistoryBooks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -53,22 +53,18 @@ public class Fragment_Home extends Fragment{
     //to show in tabs
     public ArrayList<ModelCategory> categoryArrayList;
     public ViewPagerAdapter viewPagerAdapter;
-    AdapterPdfUser adapterPdfUser;
-
-
 
     //firebase auth,for leading user data using user uid
     private FirebaseAuth firebaseAuth;
     //reading books
-    //arrayList to hold the books
-    private ArrayList<ModelPdf> pdfArrayList;
-    //adapter to set in recyclerView
-    private AdapterPdfReadingBooks adapterPdfReadingBooks;
-    private Boolean isCheck;
 
     //Trending Books
     private ArrayList<ModelPdfTrendingBooks> pdfTrendingBooksList;
     AdapterPdfTrendingBooks adapterPdfTrendingBooks;
+
+    //ViewsHistory
+    private ArrayList<ModelPdfViewsHistoryBooks> pdfViewsHistoryBooksList;
+    AdapterPdfViewsHistoryBooks adapterPdfViewsHistoryBooks;
 
 
 
@@ -81,7 +77,7 @@ public class Fragment_Home extends Fragment{
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
         //load viewsHistory
-        loadReadingBooks();
+        loadViewHistory();
         //load trending books
         loadTrendingBooks();
 
@@ -104,8 +100,8 @@ public class Fragment_Home extends Fragment{
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // called as and when user type any letter
                 try {
-                    adapterPdfUser.getFilter().filter(s);
-                    adapterPdfReadingBooks.getFilter().filter(s);
+                    adapterPdfViewsHistoryBooks.getFilter().filter(s);
+                    adapterPdfTrendingBooks.getFilter().filter(s);
                 }
                 catch (Exception e){
                     Log.d(TAG, "onTextChanged: " + e.getMessage());
@@ -203,33 +199,33 @@ public class Fragment_Home extends Fragment{
             return fragmentTitleList.get(position);
         }
     }
-//    view history
-    private void loadReadingBooks(){
-        pdfArrayList=new ArrayList<>();
+//    view history(xong)
+    private void loadViewHistory(){
+        pdfViewsHistoryBooksList=new ArrayList<>();
 
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
         ref.child(firebaseAuth.getUid()).child("ReadingBooks").limitToFirst(10)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        pdfArrayList.clear();
+                        pdfViewsHistoryBooksList.clear();
                         for (DataSnapshot ds:snapshot.getChildren()){
                             //we will only get the bookId here and we got other details in adapter using that bookId
                             String bookId=""+ds.child("bookId").getValue();
                             //set id to model
-                            ModelPdf modelPdf=new ModelPdf();
+                            ModelPdfViewsHistoryBooks modelPdf=new ModelPdfViewsHistoryBooks();
                             modelPdf.setId(bookId);
                             //add model to list
-                            pdfArrayList.add(modelPdf);
+                            pdfViewsHistoryBooksList.add(modelPdf);
                         }
                         //set LinearLayout Manager
                         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
                         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
                         binding.booksRv.setLayoutManager(linearLayoutManager);
                         //setup adapter
-                        adapterPdfReadingBooks=new AdapterPdfReadingBooks(viewPagerAdapter.context,pdfArrayList);
+                        adapterPdfViewsHistoryBooks=new AdapterPdfViewsHistoryBooks(viewPagerAdapter.context,pdfViewsHistoryBooksList);
                         //set Adapter to recyclerView
-                        binding.booksRv.setAdapter(adapterPdfReadingBooks);
+                        binding.booksRv.setAdapter(adapterPdfViewsHistoryBooks);
                     }
 
                     @Override
@@ -238,7 +234,7 @@ public class Fragment_Home extends Fragment{
                     }
                 });
     }
-//trending books
+//trending books(xong)
 private void loadTrendingBooks() {
     //init list
     pdfTrendingBooksList = new ArrayList<>();

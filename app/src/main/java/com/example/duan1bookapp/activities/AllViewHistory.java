@@ -3,8 +3,6 @@ package com.example.duan1bookapp.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,10 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
-import com.example.duan1bookapp.R;
-import com.example.duan1bookapp.adapters.AdapterPdfReadingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfReadingBooksAll;
-import com.example.duan1bookapp.databinding.ActivityAllBooksBinding;
 import com.example.duan1bookapp.databinding.ActivityAllViewHistoryBinding;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.google.firebase.auth.FirebaseAuth;
