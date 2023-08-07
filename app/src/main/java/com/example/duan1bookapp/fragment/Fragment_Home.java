@@ -98,7 +98,6 @@ public class Fragment_Home extends Fragment{
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // called as and when user type any letter
                 try {
-                    adapterPdfViewsHistoryBooks.getFilter().filter(s);
                     adapterPdfTrendingBooks.getFilter().filter(s);
                 }
                 catch (Exception e){
