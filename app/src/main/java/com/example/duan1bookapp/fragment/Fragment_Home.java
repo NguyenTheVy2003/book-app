@@ -56,7 +56,6 @@ public class Fragment_Home extends Fragment{
 
     //firebase auth,for leading user data using user uid
     private FirebaseAuth firebaseAuth;
-    //reading books
 
     //Trending Books
     private ArrayList<ModelPdfTrendingBooks> pdfTrendingBooksList;

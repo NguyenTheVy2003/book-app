@@ -28,7 +28,7 @@ public class FilterPdfViewHistoryBooks extends Filter {
             constraint = constraint.toString().toUpperCase();
             ArrayList<ModelPdfViewsHistoryBooks> filteredModels = new ArrayList<>();
 
-            for (int i = 0; i<filterList.size(); i++){
+            for (int i = 0; i< filterList.size(); i++){
                 // validate
                 if (filterList.get(i).getTitle().toUpperCase().contains(constraint)){
                     // search matches, add to list

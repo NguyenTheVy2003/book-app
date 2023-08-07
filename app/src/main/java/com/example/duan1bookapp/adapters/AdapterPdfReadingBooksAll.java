@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.activities.PdfDetailActivity;
 import com.example.duan1bookapp.databinding.RowPdfReadingBooksAllBinding;
-import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
-import com.example.duan1bookapp.filters.FilterPdfUser2;
 import com.example.duan1bookapp.filters.FilterPdfViewHistory;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;

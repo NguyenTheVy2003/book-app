@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.activities.PdfDetailActivity;
-import com.example.duan1bookapp.databinding.RowPdfReadingBooksBinding;
+import com.example.duan1bookapp.databinding.RowPdfViewsHistoryBooksBinding;
 import com.example.duan1bookapp.filters.FilterPdfViewHistoryBooks;
 import com.example.duan1bookapp.models.ModelPdfViewsHistoryBooks;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -32,7 +32,7 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
     private Context context;
     public ArrayList<ModelPdfViewsHistoryBooks> pdfArrayList,filterList;
     //view binding
-    private RowPdfReadingBooksBinding binding;
+    private RowPdfViewsHistoryBooksBinding binding;
     private FilterPdfViewHistoryBooks filter;
 
     private static final String TAG="REA_BOOK_TAG";
@@ -47,7 +47,7 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
     @NonNull
     @Override
     public HolderPdfReadingBooks onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding=RowPdfReadingBooksBinding.inflate(LayoutInflater.from(context),parent,false);
+        binding=RowPdfViewsHistoryBooksBinding.inflate(LayoutInflater.from(context),parent,false);
         return new HolderPdfReadingBooks(binding.getRoot());
     }
 

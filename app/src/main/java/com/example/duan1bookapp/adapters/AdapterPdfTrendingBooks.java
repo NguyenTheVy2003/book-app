@@ -90,12 +90,13 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
 
         //addReadingBooks
 
-        binding.pdfView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MyApplication.addReadingBooks(context,bookId);
-            }
-        });
+//        binding.pdfView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //nhấn 1 cái là hiện ở
+//                MyApplication.addReadingBooks(context,bookId);
+//            }
+//        });
     }
 
     @Override
