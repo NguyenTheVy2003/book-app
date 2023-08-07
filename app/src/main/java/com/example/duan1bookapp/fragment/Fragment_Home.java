@@ -254,7 +254,7 @@ private void loadTrendingBooks() {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         //get data
                         ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
-                        int viewCount= (int) model.getViewsCount();
+                        long viewCount=model.getViewsCount();
                         if(viewCount >= 2){
                             //add to list
                             pdfTrendingBooksList.add(model);

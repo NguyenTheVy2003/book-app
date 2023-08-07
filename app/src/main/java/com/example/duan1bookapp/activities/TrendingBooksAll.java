@@ -2,6 +2,7 @@ package com.example.duan1bookapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.view.View;
 
 import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
+import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooksAll;
 import com.example.duan1bookapp.databinding.ActivityTrendingBooksAllBinding;
 import com.example.duan1bookapp.models.ModelPdfTrendingBooks;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +31,7 @@ public class TrendingBooksAll extends AppCompatActivity {
 
     //Trending Books
     private ArrayList<ModelPdfTrendingBooks> pdfTrendingBooksList;
-    AdapterPdfTrendingBooks adapterPdfTrendingBooks;
+    AdapterPdfTrendingBooksAll adapterPdfTrendingBooksAll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class TrendingBooksAll extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // called as and when user type any letter
                 try {
-                    adapterPdfTrendingBooks.getFilter().filter(s);
+                    adapterPdfTrendingBooksAll.getFilter().filter(s);
                 }
                 catch (Exception e){
                     Log.d("TAG", "onTextChanged: " + e.getMessage());
@@ -90,13 +92,12 @@ public class TrendingBooksAll extends AppCompatActivity {
                             }
 
                         }
-                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(TrendingBooksAll.this);
-                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                        binding.booksRv.setLayoutManager(linearLayoutManager);
+                        GridLayoutManager gridLayoutManager=new GridLayoutManager(TrendingBooksAll.this,2);
+                        binding.booksRv.setLayoutManager(gridLayoutManager);
                         //setup adapter
-                        adapterPdfTrendingBooks = new AdapterPdfTrendingBooks(TrendingBooksAll.this, pdfTrendingBooksList);
+                        adapterPdfTrendingBooksAll = new AdapterPdfTrendingBooksAll(TrendingBooksAll.this, pdfTrendingBooksList);
                         //set adapter to recyclerview
-                        binding.booksRv.setAdapter(adapterPdfTrendingBooks);
+                        binding.booksRv.setAdapter(adapterPdfTrendingBooksAll);
                     }
 
                     @Override
