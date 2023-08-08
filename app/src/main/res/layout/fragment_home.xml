@@ -88,15 +88,6 @@
                         android:text="All"
                         android:textSize="15sp" />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_nd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:paddingStart="10dp"
-                    android:textColor="#F00"
-                    android:text="No Data"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/booksRv0"
                     android:layout_width="match_parent"

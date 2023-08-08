@@ -268,11 +268,9 @@ private void loadTrendingBooks() {
                         //get data
                         ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
                         int viewCount= (int) model.getViewsCount();
-                        if(viewCount >= 5){
+                        if(viewCount >= 5) {
                             //add to list
                             pdfTrendingBooksList.add(model);
-                        }else {
-                            binding.tvNd.setVisibility(View.GONE);
                         }
 
                     }

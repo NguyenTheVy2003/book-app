@@ -76,8 +76,6 @@ public class PdfDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         bookId = intent.getStringExtra("bookId");
 
-        // at start hide download button, because we need book url that we will load later in function loadBookDetails()
-        binding.downloadBookBtn.setVisibility(View.GONE);
 
         //init progress dialog
         progressDialog=new ProgressDialog(this);
@@ -112,22 +110,6 @@ public class PdfDetailActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivity.class); // create activity for reading book
                 intent1.putExtra("bookId", bookId);
                 startActivity(intent1);
-            }
-        });
-
-        // handle click, download pdf
-        binding.downloadBookBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG_DOWNLOAD, "onClick: Checking permission");
-                if (ContextCompat.checkSelfPermission(PdfDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    Log.d(TAG_DOWNLOAD, "onClick: Permission already granted, can download book");
-                    MyApplication.downloadBook(PdfDetailActivity.this,"" + bookId, "" + bookTitle, "" + bookUrl);
-                }
-                else {
-                    Log.d(TAG_DOWNLOAD, "onClick: Permission was not granted, request permission...");
-                    requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                }
             }
         });
 
@@ -298,9 +280,6 @@ public class PdfDetailActivity extends AppCompatActivity {
                         bookUrl = "" + snapshot.child("url").getValue();
                         String timestamp = "" + snapshot.child("timestamp").getValue();
 
-                        // required data is loaded, show download button
-                        binding.downloadBookBtn.setVisibility(View.VISIBLE);
-
                         //format date
                         String date = MyApplication.formatTimestamp(Long.parseLong(timestamp));
 
@@ -348,12 +327,10 @@ public class PdfDetailActivity extends AppCompatActivity {
                         isInMyFavorite =snapshot.exists();//true:if exists ,false if not exists
                         if(isInMyFavorite){
                             //exists in favorite
-                            binding.favoritedBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_favorite_white,0,0);
-                            binding.favoritedBtn.setText("Remove Favorite");
+                            binding.favoritedBtn.setImageResource(R.drawable.ic_favorite_white);
                         }else {
                             //not exists in favorite
-                            binding.favoritedBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_favorite_border_white,0,0);
-                            binding.favoritedBtn.setText("Add Favorite");
+                            binding.favoritedBtn.setImageResource(R.drawable.ic_favorite_border_white);
                         }
                     }
 
