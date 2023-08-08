@@ -26,14 +26,16 @@
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back_white"/>
+
         <TextView
             android:id="@+id/titleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/jost_semibold"
             android:text="Profile"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            />
 <!--        out imagaeView-->
         <ImageView
             android:id="@+id/logoutBtn"

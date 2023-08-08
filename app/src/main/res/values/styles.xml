@@ -21,7 +21,7 @@
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:fontFamily">@font/jost</item>
         <item name="fontFamily">@font/jost</item>
     </style>

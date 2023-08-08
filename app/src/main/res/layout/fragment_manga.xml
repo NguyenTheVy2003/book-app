@@ -26,11 +26,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:fontFamily="@font/jost_semibold"
         android:paddingStart="10dp"
+        android:layout_marginStart="5dp"
         android:paddingTop="10dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:text="category book"/>
+        android:text="Category book"/>
     <!--Category-->
 
 
