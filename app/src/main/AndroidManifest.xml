@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PdfViewActivityContinue"
+            android:exported="false" />
+        <activity
             android:name=".activities.TrendingBooksAll"
             android:exported="false" />
         <activity
@@ -60,8 +63,8 @@
             android:exported="false" />
         <activity
             android:name=".activities.DashboardUserActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false" />

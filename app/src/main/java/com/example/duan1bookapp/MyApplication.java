@@ -40,6 +40,7 @@ import java.util.Locale;
 public class MyApplication extends Application {
 
     private static final String TAG_DOWNLOAD = "DOWNLOAD_TAG";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -152,7 +153,7 @@ public class MyApplication extends Application {
                 });
     }
 
-    public static void loadPdfFromUrlSinglePage(String pdfUrl, String pdfTitle, PDFView pdfView, ProgressBar progressBar,TextView pagesTv) {
+    public static void loadPdfFromUrlSinglePage(String pdfUrl, String pdfTitle, PDFView pdfView, ProgressBar progressBar, TextView pagesTv) {
         // Lấy url của sách từ model
         // Sử dụng FirebaseStorage và StorageReference để tải file PDF từ url
         // Khi tải xong, hiển thị file PDF trong PDFView
@@ -200,8 +201,8 @@ public class MyApplication extends Application {
                                         Log.d(TAG, "loadComplete: pdf loaded");
 
                                         //if pagesTv param is not null then set page numbers
-                                        if(pagesTv !=null){
-                                            pagesTv.setText(""+nbPages);//concatnate with double quotes because cant set int in TextView
+                                        if (pagesTv != null) {
+                                            pagesTv.setText("" + nbPages);//concatnate with double quotes because cant set int in TextView
                                         }
                                     }
                                 })
@@ -246,26 +247,26 @@ public class MyApplication extends Application {
 
     }
 
-    public static void incrementBookViewCount(String bookId){
+    public static void incrementBookViewCount(String bookId) {
         //get book view count
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.child(bookId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //get views count
-                        String viewsCount = ""+snapshot.child("viewsCount").getValue();
+                        String viewsCount = "" + snapshot.child("viewsCount").getValue();
                         //in case of null replace with 0
-                        if(viewsCount.equals("")||viewsCount.equals("null")){
-                            viewsCount="0";
+                        if (viewsCount.equals("") || viewsCount.equals("null")) {
+                            viewsCount = "0";
                         }
 
                         // increment views count
-                        long newViewsCount=Long.parseLong(viewsCount)+1;
-                        HashMap<String,Object> hashMap=new HashMap<>();
-                        hashMap.put("viewsCount",newViewsCount);
+                        long newViewsCount = Long.parseLong(viewsCount) + 1;
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("viewsCount", newViewsCount);
 
-                        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Books");
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
                         reference.child(bookId)
                                 .updateChildren(hashMap);
                     }
@@ -277,7 +278,7 @@ public class MyApplication extends Application {
                 });
     }
 
-    public static void downloadBook(Context context, String bookId, String bookTitle, String bookUrl){
+    public static void downloadBook(Context context, String bookId, String bookTitle, String bookUrl) {
         Log.d(TAG_DOWNLOAD, "downloadBook: downloading book...");
         String nameWithExtension = bookTitle + ".pdf";
         Log.d(TAG_DOWNLOAD, "downloadBook: NAME: " + nameWithExtension);
@@ -326,8 +327,7 @@ public class MyApplication extends Application {
 
             incrementBookDownloadCount(bookId);
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.d(TAG_DOWNLOAD, "saveDownloadedBook: Failed saving to Download Folder due to " + e.getMessage());
             Toast.makeText(context, "Failed saving to Download Folder due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
@@ -347,7 +347,7 @@ public class MyApplication extends Application {
                         String downloadsCount = "" + snapshot.child("downloadsCount").getValue();
                         Log.d(TAG_DOWNLOAD, "onDataChange: Downloads Count: " + downloadsCount);
 
-                        if (downloadsCount.equals("") || downloadsCount.equals("null")){
+                        if (downloadsCount.equals("") || downloadsCount.equals("null")) {
                             downloadsCount = "@";
                         }
 
@@ -384,23 +384,23 @@ public class MyApplication extends Application {
                 });
     }
 
-    public static void addToFavorite(Context context,String bookId){
+    public static void addToFavorite(Context context, String bookId) {
         //we can add only if user is logged in
         //1) check if user is logged in
-        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
             //not logged in,cant add to favorite
             Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
-        }else {
-            long timestamp =System.currentTimeMillis();
+        } else {
+            long timestamp = System.currentTimeMillis();
 
             //setup data to add in firebase db of current user for favorite book
-            HashMap<String,Object> hashMap=new HashMap<>();
-            hashMap.put("bookId",""+bookId);
-            hashMap.put("timestamp",""+timestamp);
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("bookId", "" + bookId);
+            hashMap.put("timestamp", "" + timestamp);
 
             //save to db
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).child("Favorites").child(bookId)
                     .setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -412,24 +412,24 @@ public class MyApplication extends Application {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Failed to add to favorites due to"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Failed to add to favorites due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
 
-    public static void removeFromFavorite(Context context,String bookId){
+    public static void removeFromFavorite(Context context, String bookId) {
         //we can add remove if user is logged in
         //1) check if user is logged in
-        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
             //not logged in,cant remove from favorite
             Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
 
 
             //remove to db
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).child("Favorites").child(bookId)
                     .removeValue()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -441,28 +441,29 @@ public class MyApplication extends Application {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Failed to remove from favorites due to"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Failed to remove from favorites due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
-    public static void addReadingBooks(Context context,String bookId){
+
+    public static void addReadingBooks(Context context, String bookId) {
         //we can add only if user is logged in
         //1) check if user is logged in
-        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
             //not logged in,cant add to favorite
             Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
-        }else {
-            long timestamp =System.currentTimeMillis();
+        } else {
+            long timestamp = System.currentTimeMillis();
 
             //setup data to add in firebase db of current user for favorite book
-            HashMap<String,Object> hashMap=new HashMap<>();
-            hashMap.put("bookId",""+bookId);
-            hashMap.put("timestamp",""+timestamp);
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("bookId", "" + bookId);
+            hashMap.put("timestamp", "" + timestamp);
 
             //save to db
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).child("ReadingBooks").child(bookId)
                     .setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -474,11 +475,74 @@ public class MyApplication extends Application {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Failed to add to ReadingBooks due to"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Failed to add to ReadingBooks due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+    //AddContinue
+    public static void addContinue(Context context, String bookId) {
+        //we can add only if user is logged in
+        //1) check if user is logged in
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            //not logged in,cant add to favorite
+            Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
+        } else {
+            long timestamp = System.currentTimeMillis();
+
+            //setup data to add in firebase db of current user for favorite book
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("bookId", "" + bookId);
+            hashMap.put("timestamp", "" + timestamp);
+
+            //save to db
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Continue").child(bookId)
+                    .setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context, "Added to your Continue list...", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Failed to add to Continue due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+    //RemoveContinue
+    public static void removeContinue(Context context, String bookId) {
+        //we can add remove if user is logged in
+        //1) check if user is logged in
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            //not logged in,cant remove from favorite
+            Toast.makeText(context, "You're not logged in", Toast.LENGTH_SHORT).show();
+        } else {
+
+
+            //remove to db
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Continue").child(bookId)
+                    .removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context, "Remove from your Continue list...", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Failed to remove from Continue due to" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
 
-    }
+}
 

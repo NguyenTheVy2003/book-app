@@ -268,11 +268,9 @@ private void loadTrendingBooks() {
                         //get data
                         ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
                         int viewCount= (int) model.getViewsCount();
-                        if(viewCount >= 5){
+                        if(viewCount >= 5) {
                             //add to list
                             pdfTrendingBooksList.add(model);
-                        }else {
-                            binding.tvNd.setVisibility(View.GONE);
                         }
 
                     }
@@ -312,7 +310,7 @@ private void loadTrendingBooks() {
                     binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
                     binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
                     binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
-                    binding.imageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+                    binding.imageSlider.setScrollTimeInSec(4);//set scroll delay in seconds
                     binding.imageSlider.startAutoCycle();
                 }
 

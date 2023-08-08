@@ -59,7 +59,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:textSize="15sp"
-                    android:maxLines="4"
+                    android:maxLines="1"
                     android:ellipsize="end"
                     android:text="Book Description" />
             </RelativeLayout>

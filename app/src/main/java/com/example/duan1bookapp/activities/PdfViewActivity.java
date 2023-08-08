@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.duan1bookapp.Constants;
+import com.example.duan1bookapp.MyApplication;
+import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.databinding.ActivityPdfViewBinding;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +35,16 @@ public class PdfViewActivity extends AppCompatActivity {
     private ActivityPdfViewBinding binding;
     private String bookId;
     private static final String TAG = "PDF_VIEW_TAG";
+
+    //Continue Books
+    boolean isInContinue = false;
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPdfViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
 
         // get bookId from intent that we passed in intent
@@ -45,6 +54,12 @@ public class PdfViewActivity extends AppCompatActivity {
 
         loadBookDetail();
         // handle click, go back
+
+        firebaseAuth=FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() != null){
+            checkIsContinue();
+        }
+
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +67,49 @@ public class PdfViewActivity extends AppCompatActivity {
             }
         });
 
+
+        //continue
+        binding.imvStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(PdfViewActivity.this, "You're not logged in", Toast.LENGTH_SHORT).show();
+                }else {
+                    if(isInContinue){
+                        //in favorite ,remove from favorite
+                        MyApplication.removeContinue(PdfViewActivity.this,bookId);
+                    }else {
+                        //not in favorite ,add to favorite
+                        MyApplication.addContinue(PdfViewActivity.this,bookId);
+                    }
+                }
+            }
+        });
+
+    }
+    //check Continue
+    private void checkIsContinue() {
+        //logged in check if its in favorite list or not
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Continue").child(bookId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        isInContinue =snapshot.exists();//true:if exists ,false if not exists
+                        if(isInContinue){
+                            //exists in favorite
+                            binding.imvStart.setImageResource(R.drawable.ic_star_white);
+                        }else {
+                            //not exists in favorite
+                            binding.imvStart.setImageResource(R.drawable.ic_star_border_white);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void loadBookDetail() {
@@ -69,7 +127,6 @@ public class PdfViewActivity extends AppCompatActivity {
                         // Step (2) Load Pdf using that url from firebase storage
                         loadBookFromUrl(pdfUrl);
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
