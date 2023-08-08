@@ -57,7 +57,7 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
         //loadReadingBooks FragmentHome
         loadBooksPdfFragmentHome(model,holder);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, PdfDetailActivity.class);

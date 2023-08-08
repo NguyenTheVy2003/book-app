@@ -63,7 +63,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
         ModelSlideShow model = mSliderItems.get(position);
         loadSlideShow(model,viewHolder);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, PdfDetailActivity.class);

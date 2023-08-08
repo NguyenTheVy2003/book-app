@@ -78,7 +78,7 @@ public class AdapterPdfTrendingBooksAll extends RecyclerView.Adapter<AdapterPdfT
                 holder.progressBar,
                 null
         );
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PdfDetailActivity.class);

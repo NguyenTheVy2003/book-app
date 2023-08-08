@@ -87,6 +87,7 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
         String pdfId = model.getId();
         String categoryId = model.getCategoryId();
         long timestamp = model.getTimestamp();
+        String bookId=model.getId();
         //convert timestamp to dd/MM/yyyy
 
 
@@ -103,9 +104,11 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
 
 
         //handle click , open pdf detail page
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyApplication.addReadingBooks(context,bookId);
+
                 Intent intent = new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",pdfId);
                 context.startActivity(intent);

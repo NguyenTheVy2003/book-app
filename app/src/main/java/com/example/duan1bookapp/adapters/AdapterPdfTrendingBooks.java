@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
@@ -79,7 +80,7 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
                 holder.progressBar,
                 null
         );
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PdfDetailActivity.class);

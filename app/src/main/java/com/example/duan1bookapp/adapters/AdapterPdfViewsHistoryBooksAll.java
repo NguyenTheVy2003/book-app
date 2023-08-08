@@ -65,19 +65,14 @@ public class AdapterPdfViewsHistoryBooksAll extends RecyclerView.Adapter<Adapter
         //loadReadingBooks FragmentHome
         loadBooksPdfFragmentHome(model,holder);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, PdfDetailActivity.class);
-                intent.putExtra("bookId",model.getId());
-                context.startActivity(intent);
-            }
-        });
-
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyApplication.addReadingBooks(context,model.getId());
+
+                Intent intent=new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",model.getId());
+                context.startActivity(intent);
             }
         });
     }

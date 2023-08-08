@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,21 +94,13 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
                 "" + title,
                 holder.sizeTv
         );
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PdfDetailActivity.class);
-                intent.putExtra("bookId",bookId);
-                context.startActivity(intent);
-            }
-        });
-
-        //addReadingBooks
-
-        binding.pdfView.setOnClickListener(new View.OnClickListener() {
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyApplication.addReadingBooks(context,bookId);
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",bookId);
+                context.startActivity(intent);
             }
         });
     }

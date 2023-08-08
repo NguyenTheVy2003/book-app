@@ -289,6 +289,7 @@ private void loadTrendingBooks() {
                 }
             });
         }
+        //slideShow
         private void loadSlideShow(){
             slideShowsList=new ArrayList<>();
 

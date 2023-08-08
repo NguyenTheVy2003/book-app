@@ -75,21 +75,15 @@ public class AdapterPdfUserBooksAll extends RecyclerView.Adapter<AdapterPdfUserB
                 holder.progressBar,
                 null
         );
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                //addReadingBooks
+                MyApplication.addReadingBooks(context,bookId);
+                //chuyển Id books Sang PdfDetailActivity
                 Intent intent = new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",bookId);
                 context.startActivity(intent);
-            }
-        });
-
-        //addReadingBooks
-
-        binding.pdfView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MyApplication.addReadingBooks(context,bookId);
             }
         });
 
