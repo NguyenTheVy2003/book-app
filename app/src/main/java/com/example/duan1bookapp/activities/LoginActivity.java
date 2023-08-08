@@ -55,6 +55,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // back to main_activity
+        binding.bookIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         // handle click, begin login
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

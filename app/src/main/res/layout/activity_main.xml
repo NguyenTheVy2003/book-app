@@ -18,8 +18,6 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-
-            android:layout_centerHorizontal="true"
             android:src="@drawable/ic_menu_book_white" />
 
         <TextView
@@ -50,7 +48,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/jost_semibold"
-        android:text="Welcome to our"
+        android:text="Welcome to"
         android:textColor="@color/white"
         android:textSize="24sp" />
 
@@ -60,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title01"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/jost_semibold"
         android:text="Book App"
         android:textColor="@color/white"
@@ -71,8 +69,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/skipBtn"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/shape_button04"
+        app:backgroundTint="@null"
+        android:textSize="14sp"
         android:text="Login"
         android:textColor="@color/white" />
 
@@ -81,8 +81,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="14sp"
         android:background="@drawable/shape_button02"
+        app:backgroundTint="@null"
         android:text="Continue Without Login"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
 </RelativeLayout>
