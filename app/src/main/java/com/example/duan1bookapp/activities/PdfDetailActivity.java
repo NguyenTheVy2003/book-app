@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -112,6 +113,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+
 
         //handle click,add/remove favorite
         binding.favoritedBtn.setOnClickListener(new View.OnClickListener() {
@@ -280,6 +282,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                         bookUrl = "" + snapshot.child("url").getValue();
                         String timestamp = "" + snapshot.child("timestamp").getValue();
 
+
                         //format date
                         String date = MyApplication.formatTimestamp(Long.parseLong(timestamp));
 
@@ -328,9 +331,14 @@ public class PdfDetailActivity extends AppCompatActivity {
                         if(isInMyFavorite){
                             //exists in favorite
                             binding.favoritedBtn.setImageResource(R.drawable.ic_favorite_white);
+                            binding.tvFollow.setText("UnFollow");
+                            binding.ln.setBackgroundColor(Color.RED);
                         }else {
                             //not exists in favorite
                             binding.favoritedBtn.setImageResource(R.drawable.ic_favorite_border_white);
+                            binding.tvFollow.setText("Follow");
+                            binding.ln.setBackgroundColor(getColor(R.color.yellow2));
+
                         }
                     }
 

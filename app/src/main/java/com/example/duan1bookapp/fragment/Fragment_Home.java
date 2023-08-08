@@ -310,7 +310,7 @@ private void loadTrendingBooks() {
                     binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
                     binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
                     binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
-                    binding.imageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+                    binding.imageSlider.setScrollTimeInSec(4);//set scroll delay in seconds
                     binding.imageSlider.startAutoCycle();
                 }
 
