@@ -49,7 +49,7 @@ import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
 
-public class Fragment_Home extends Fragment{
+public class Fragment_Home extends Fragment {
     // view biding
     private FragmentHomeBinding binding;
 
@@ -71,7 +71,6 @@ public class Fragment_Home extends Fragment{
     AdapterPdfViewsHistoryBooks adapterPdfViewsHistoryBooks;
 
 
-
     //slideShow
     ArrayList<ModelSlideShow> slideShowsList;
     SliderAdapterExample sliderAdapterExample;
@@ -80,10 +79,10 @@ public class Fragment_Home extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding=FragmentHomeBinding.inflate(LayoutInflater.from(getContext()),container,false);
+        binding = FragmentHomeBinding.inflate(LayoutInflater.from(getContext()), container, false);
 
         //setup firebase auth
-        firebaseAuth =FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         //load viewsHistory
         loadViewHistory();
         //load trending books
@@ -92,12 +91,8 @@ public class Fragment_Home extends Fragment{
         loadSlideShow();
 
 
-
-
         setupViewPagerAdapter(binding.viewpager);
         binding.tabLayout.setupWithViewPager(binding.viewpager);
-
-
 
 
         //search user
@@ -112,8 +107,7 @@ public class Fragment_Home extends Fragment{
                 // called as and when user type any letter
                 try {
                     adapterPdfTrendingBooks.getFilter().filter(s);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Log.d(TAG, "onTextChanged: " + e.getMessage());
                 }
             }
@@ -146,7 +140,8 @@ public class Fragment_Home extends Fragment{
         });
         return binding.getRoot();
     }
-        private void setupViewPagerAdapter(ViewPager viewPager){
+
+    private void setupViewPagerAdapter(ViewPager viewPager) {
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getContext());
         categoryArrayList = new ArrayList<>();
 
@@ -154,13 +149,13 @@ public class Fragment_Home extends Fragment{
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories"); // be careful of spelling
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange( DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 // clear before adding to list
                 categoryArrayList.clear();
 
 
                 // Now Load from firebase
-                for (DataSnapshot ds: snapshot.getChildren()) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     // get data
                     ModelCategory model = ds.getValue(ModelCategory.class);
                     // add data to list
@@ -185,15 +180,15 @@ public class Fragment_Home extends Fragment{
         viewPager.setAdapter(viewPagerAdapter);
     }
 
-    public class ViewPagerAdapter extends FragmentPagerAdapter{
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private ArrayList<BooksUserFragment2> fragmentList = new ArrayList<>();
         private ArrayList<String> fragmentTitleList = new ArrayList<>();
         private Context context;
 
-        public ViewPagerAdapter( FragmentManager fm, int behavior,Context context) {
+        public ViewPagerAdapter(FragmentManager fm, int behavior, Context context) {
             super(fm, behavior);
-            this.context =context;
+            this.context = context;
         }
 
         @Override
@@ -206,42 +201,44 @@ public class Fragment_Home extends Fragment{
             return fragmentList.size();
         }
 
-        private void addFragment(BooksUserFragment2 fragment, String title){
+        private void addFragment(BooksUserFragment2 fragment, String title) {
             // add fragment passed as parameter in fragmentList
             fragmentList.add(fragment);
             // add title passed as parameter in fragmentTitleList
             fragmentTitleList.add(title);
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
         }
     }
-//    view history(xong)
-    private void loadViewHistory(){
-        pdfViewsHistoryBooksList=new ArrayList<>();
 
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+    //    view history(xong)
+    private void loadViewHistory() {
+        pdfViewsHistoryBooksList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(firebaseAuth.getUid()).child("ReadingBooks").limitToFirst(10)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         pdfViewsHistoryBooksList.clear();
-                        for (DataSnapshot ds:snapshot.getChildren()){
+                        for (DataSnapshot ds : snapshot.getChildren()) {
                             //we will only get the bookId here and we got other details in adapter using that bookId
-                            String bookId=""+ds.child("bookId").getValue();
+                            String bookId = "" + ds.child("bookId").getValue();
                             //set id to model
-                            ModelPdfViewsHistoryBooks modelPdf=new ModelPdfViewsHistoryBooks();
+                            ModelPdfViewsHistoryBooks modelPdf = new ModelPdfViewsHistoryBooks();
                             modelPdf.setId(bookId);
                             //add model to list
                             pdfViewsHistoryBooksList.add(modelPdf);
                         }
                         //set LinearLayout Manager
-                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
                         binding.booksRv.setLayoutManager(linearLayoutManager);
                         //setup adapter
-                        adapterPdfViewsHistoryBooks=new AdapterPdfViewsHistoryBooks(getContext(),pdfViewsHistoryBooksList);
+                        adapterPdfViewsHistoryBooks = new AdapterPdfViewsHistoryBooks(getContext(), pdfViewsHistoryBooksList);
                         //set Adapter to recyclerView
                         binding.booksRv.setAdapter(adapterPdfViewsHistoryBooks);
                     }
@@ -252,75 +249,77 @@ public class Fragment_Home extends Fragment{
                     }
                 });
     }
-//trending books(xong)
-private void loadTrendingBooks() {
-    //init list
-    pdfTrendingBooksList = new ArrayList<>();
 
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-    ref// load 10 most viewed or downloaded books
-            .addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    //clear list before starting adding data into it
-                    pdfTrendingBooksList.clear();
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        //get data
-                        ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
-                        int viewCount= (int) model.getViewsCount();
-                        if(viewCount >= 5) {
-                            //add to list
-                            pdfTrendingBooksList.add(model);
+    //trending books(xong)
+    private void loadTrendingBooks() {
+        //init list
+        pdfTrendingBooksList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref// load 10 most viewed or downloaded books
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //clear list before starting adding data into it
+                        pdfTrendingBooksList.clear();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            //get data
+                            ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
+                            int viewCount = (int) model.getViewsCount();
+                            if (viewCount >= 5) {
+                                //add to list
+                                pdfTrendingBooksList.add(model);
+                            }
+
                         }
-
-                    }
-                    LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                    linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                    binding.booksRv0.setLayoutManager(linearLayoutManager);
-                    //setup adapter
-                    adapterPdfTrendingBooks = new AdapterPdfTrendingBooks(getContext(), pdfTrendingBooksList);
-                    //set adapter to recyclerview
-                    binding.booksRv0.setAdapter(adapterPdfTrendingBooks);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-        private void loadSlideShow(){
-            slideShowsList=new ArrayList<>();
-
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Books");
-            ref.limitToFirst(5).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    slideShowsList.clear();
-                    for (DataSnapshot ds: snapshot.getChildren()) {
-                        ModelSlideShow modelSlideShow=ds.getValue(ModelSlideShow.class);
-                        slideShowsList.add(modelSlideShow);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                        binding.booksRv0.setLayoutManager(linearLayoutManager);
+                        //setup adapter
+                        adapterPdfTrendingBooks = new AdapterPdfTrendingBooks(getContext(), pdfTrendingBooksList);
+                        //set adapter to recyclerview
+                        binding.booksRv0.setAdapter(adapterPdfTrendingBooks);
                     }
 
-                    sliderAdapterExample=new SliderAdapterExample(getContext(),slideShowsList);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    binding.imageSlider.setSliderAdapter(sliderAdapterExample);
-                    binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                    binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                    binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-                    binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
-                    binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
-                    binding.imageSlider.setScrollTimeInSec(4);//set scroll delay in seconds
-                    binding.imageSlider.startAutoCycle();
+                    }
+                });
+    }
+
+    private void loadSlideShow() {
+        slideShowsList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.limitToFirst(5).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                slideShowsList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    ModelSlideShow modelSlideShow = ds.getValue(ModelSlideShow.class);
+                    slideShowsList.add(modelSlideShow);
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                sliderAdapterExample = new SliderAdapterExample(getContext(), slideShowsList);
 
-                }
-            });
+                binding.imageSlider.setSliderAdapter(sliderAdapterExample);
+                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
+                binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
+                binding.imageSlider.setScrollTimeInSec(4);//set scroll delay in seconds
+                binding.imageSlider.startAutoCycle();
+            }
 
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
 }
 

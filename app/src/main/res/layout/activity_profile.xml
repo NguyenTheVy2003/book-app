@@ -69,14 +69,14 @@
             android:layout_width="wrap_content"
             android:layout_marginStart="120dp"
             app:cardCornerRadius="100dp"
-            app:cardElevation="20dp"
+
             android:layout_centerVertical="true"
             android:layout_height="wrap_content">
             <ImageButton
                 android:padding="5dp"
                 android:id="@+id/profileEditBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25sp"
+                android:layout_height="25sp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_edit_white"/>
         </androidx.cardview.widget.CardView>
