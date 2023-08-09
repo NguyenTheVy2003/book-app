@@ -113,8 +113,6 @@ public class PdfDetailActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
-
-
         //handle click,add/remove favorite
         binding.lnClickFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +130,6 @@ public class PdfDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
         //handle click ,show comment add dialog
         binding.addCommentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +140,15 @@ public class PdfDetailActivity extends AppCompatActivity {
                 }else {
                     addCommentDialog();
                 }
+            }
+        });
+        //handle click continue books
+        binding.lnClickContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivityContinue.class); // create activity for reading book
+                intent1.putExtra("bookId", bookId);
+                startActivity(intent1);
             }
         });
 

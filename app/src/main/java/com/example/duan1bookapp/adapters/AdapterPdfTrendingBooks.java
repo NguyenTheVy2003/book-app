@@ -86,6 +86,8 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
                 Intent intent = new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",bookId);
                 context.startActivity(intent);
+
+                MyApplication.addReadingBooks(context,bookId);
             }
         });
     }
