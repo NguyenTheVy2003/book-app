@@ -83,6 +83,7 @@ public class PdfViewActivity extends AppCompatActivity {
                     }else {
                         //not in favorite ,add to favorite
                         MyApplication.addContinue(PdfViewActivity.this,bookId);
+
                         Intent intent1=new Intent(PdfViewActivity.this,PdfViewActivityContinue.class);
                         intent1.putExtra("currentPage",currentPage);
                         startActivity(intent1);
@@ -157,7 +158,7 @@ public class PdfViewActivity extends AppCompatActivity {
                                         currentPage = (page + 1); // do + 1 because page starts from 0
                                         binding.toolbarSubtitleTv.setText(currentPage + "/" + pageCount); // e.g. 3/290
                                         //save page start
-                                        binding.imvStart.setTag(currentPage);
+
 
                                         Log.d(TAG, "onPageChanged: " + currentPage + "/" + pageCount);
                                     }

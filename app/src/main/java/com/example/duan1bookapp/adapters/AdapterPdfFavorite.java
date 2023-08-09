@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1bookapp.MyApplication;
 import com.example.duan1bookapp.activities.PdfDetailActivity;
-import com.example.duan1bookapp.databinding.RowCategoryBinding;
 import com.example.duan1bookapp.databinding.RowPdfFavoriteBinding;
 import com.example.duan1bookapp.models.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -106,14 +105,15 @@ public class AdapterPdfFavorite extends RecyclerView.Adapter<AdapterPdfFavorite.
                         //format Data
                         String date= MyApplication.formatTimestamp(Long.parseLong(timestamp));
 
-                        MyApplication.loadCategory(categoryId,holder.categoryTv);
+                        MyApplication.loadCategory2(categoryId,holder.categoryTv);
                         MyApplication.loadPdfFromUrlSinglePage(""+bookUrl,""+bookTitle,holder.pdfView,holder.progressBar,null);
-                        MyApplication.loadPdfSize(""+bookUrl,""+bookTitle, holder.sizeTv);
+                        MyApplication.loadPdfSize2(""+bookUrl,""+bookTitle, holder.sizeTv);
 
                         //set data to views
                         holder.titleTv.setText(bookTitle);
                         holder.descriptionTv.setText(description);
                         holder.dateTv.setText(date);
+
 
                     }
 

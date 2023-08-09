@@ -44,7 +44,6 @@
             android:padding="5dp"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_favorite_white"
-            android:tint="@color/black"
             tools:ignore="UseAppTint" />
         <TextView
             android:id="@+id/descriptionTv"

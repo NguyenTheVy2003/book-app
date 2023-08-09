@@ -152,6 +152,47 @@ public class MyApplication extends Application {
                     }
                 });
     }
+    public static void loadPdfSize2(String pdfUrl, String pdfTitle, TextView sizeTv) {
+        // Lấy url của sách từ model
+        // Sử dụng FirebaseStorage và StorageReference để lấy kích thước của file PDF
+        // Chuyển đổi kích thước từ bytes sang đơn vị đo lường phù hợp (KB hoặc MB)
+        // Hiển thị kích thước trong TextView trong HolderPdfAdmin
+
+        //using url can get file and its metadata from firebase storage
+
+        String TAG = "PDF_SIZE_TAG";
+
+
+        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
+        ref.getMetadata()
+                .addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                    @Override
+                    public void onSuccess(StorageMetadata storageMetadata) {
+                        //get size in the bytes
+                        double bytes = storageMetadata.getSizeBytes();
+                        Log.d(TAG, "onSuccess" + pdfTitle + "" + bytes);
+
+                        // convert bytes to KB,Mb
+                        double kb = bytes / 1024;
+                        double mb = kb / 1024;
+
+                        if (mb >= 1) {
+                            sizeTv.setText(String.format("%.2f", mb) + " MB");
+                        } else if (kb >= 1) {
+                            sizeTv.setText(String.format("%.2f", kb) + " KB");
+                        } else {
+                            sizeTv.setText(String.format("%.2f", bytes) + " bytes");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed getting metadata
+                        Log.d(TAG, "onFailure" + e.getMessage());
+                    }
+                });
+    }
 
     public static void loadPdfFromUrlSinglePage(String pdfUrl, String pdfTitle, PDFView pdfView, ProgressBar progressBar, TextView pagesTv) {
         // Lấy url của sách từ model
@@ -236,6 +277,33 @@ public class MyApplication extends Application {
 
                         //set to category text view
 //                        categoryTv.setText(category);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
+    public static void loadCategory2(String categoryId, TextView categoryTv) {
+        // Lấy categoryId từ model và truy vấn database để lấy thông tin về danh mục
+        // Gán danh mục vào TextView trong HolderPdfAdmin
+
+        //get category using categoryId
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
+        ref.child(categoryId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //get category
+                        String category = "" + snapshot.child("category").getValue();
+
+                        //set to category text view
+                        categoryTv.setText(category);
 
                     }
 
