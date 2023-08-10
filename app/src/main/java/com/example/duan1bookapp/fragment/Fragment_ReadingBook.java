@@ -71,17 +71,13 @@ public class Fragment_ReadingBook extends Fragment {
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                binding.tv.setVisibility(View.GONE);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // called as and when user type any letter
                 try {
-                    String text=binding.tv.getText().toString();
-                    if(text == s){
-                        
-                    }
                     adapterPdfViewsHistoryBooks.getFilter().filter(s);
                 }
                 catch (Exception e){
@@ -91,7 +87,7 @@ public class Fragment_ReadingBook extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                binding.tv.setVisibility(View.VISIBLE);
             }
         });
 
