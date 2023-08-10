@@ -34,6 +34,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            android:visibility="gone"
             android:background="@color/white"
             android:drawableStart="@drawable/ic_search_gray"
             android:hint="Search"
@@ -45,11 +46,16 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="#F00"
-            android:text="Không Tìm Thấy Dữ Liệu"
+            android:textAlignment="center"
+            android:text="Danh sách trống.Bạn hãy chọn sách yêu thích để đọc nhé."
             android:textStyle="bold"
-            android:visibility="gone"
-            android:layout_marginStart="10dp"/>
-        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginHorizontal="30dp"/>
+        <Button
+            android:id="@+id/btn_onback_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="onBack"/>
+       <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/booksRv"
             android:layout_marginHorizontal="10dp"
             android:layout_width="match_parent"

@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duan1bookapp.BooksUserFragment2;
+import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.BooksAllActivity;
 import com.example.duan1bookapp.activities.TrendingBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
@@ -66,7 +71,11 @@ public class Fragment_ReadingBook extends Fragment {
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
 
+
+
         loadReadingBooks();
+
+
         //search user
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,6 +99,35 @@ public class Fragment_ReadingBook extends Fragment {
             }
         });
 
+        binding.btnOnbackFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        //click cursor out layout mất con trỏ trong edit Text
+        binding.ln1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
 
 
         return binding.getRoot();
@@ -105,13 +143,23 @@ public class Fragment_ReadingBook extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         pdfViewsHistoryBooksList.clear();
                         for (DataSnapshot ds:snapshot.getChildren()){
-                            //we will only get the bookId here and we got other details in adapter using that bookId
-                            String bookId=""+ds.child("bookId").getValue();
-                            //set id to model
-                            ModelPdfViewsHistoryBooks modelPdf=new ModelPdfViewsHistoryBooks();
-                            modelPdf.setId(bookId);
-                            //add model to list
-                            pdfViewsHistoryBooksList.add(modelPdf);
+                                if(ds.child("bookId").exists()){
+                                    //làm khi nó tồn tại
+                                    binding.tv.setVisibility(View.GONE);
+                                    binding.searchEt.setVisibility(View.VISIBLE);
+                                    //we will only get the bookId here and we got other details in adapter using that bookId
+                                    String bookId=""+ds.child("bookId").getValue();
+                                    //set id to model
+                                    ModelPdfViewsHistoryBooks modelPdf=new ModelPdfViewsHistoryBooks();
+                                    modelPdf.setId(bookId);
+                                    //add model to list
+                                    pdfViewsHistoryBooksList.add(modelPdf);
+                                }else {
+                                    //làm khi không tồn tại
+                                    binding.tv.setVisibility(View.VISIBLE);
+                                    binding.searchEt.setVisibility(View.GONE);
+                                }
+
                         }
                         //set LinearLayout Manager
                         GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
@@ -130,6 +178,7 @@ public class Fragment_ReadingBook extends Fragment {
 
 
     }
+
 
 
 }

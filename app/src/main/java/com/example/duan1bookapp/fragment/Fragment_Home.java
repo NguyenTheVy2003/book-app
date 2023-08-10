@@ -4,13 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -131,6 +134,25 @@ public class Fragment_Home extends Fragment{
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), BooksAllActivity.class));
+            }
+        });
+
+        //click cursor out layout mất con trỏ trong edit Text
+        binding.ln1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
             }
         });
         return binding.getRoot();
