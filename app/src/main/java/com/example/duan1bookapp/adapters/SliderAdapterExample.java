@@ -69,8 +69,6 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
                 Intent intent=new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",model.getId());
                 context.startActivity(intent);
-
-                MyApplication.addReadingBooks(context,model.getId());
             }
         });
 

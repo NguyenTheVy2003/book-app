@@ -26,7 +26,6 @@ import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.activities.BooksAllActivity;
 
 import com.example.duan1bookapp.activities.TrendingBooksAll;
-import com.example.duan1bookapp.activities.ViewsHistoryBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
 
@@ -66,9 +65,6 @@ public class Fragment_Home extends Fragment{
     private ArrayList<ModelPdfTrendingBooks> pdfTrendingBooksList;
     AdapterPdfTrendingBooks adapterPdfTrendingBooks;
 
-    //ViewsHistory
-    private ArrayList<ModelPdfViewsHistoryBooks> pdfViewsHistoryBooksList;
-    AdapterPdfViewsHistoryBooks adapterPdfViewsHistoryBooks;
 
 
 
@@ -85,7 +81,7 @@ public class Fragment_Home extends Fragment{
         //setup firebase auth
         firebaseAuth =FirebaseAuth.getInstance();
         //load viewsHistory
-        loadViewHistory();
+//        loadViewHistory();
         //load trending books
         loadTrendingBooks();
         //loadSlideShow
@@ -135,13 +131,6 @@ public class Fragment_Home extends Fragment{
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), BooksAllActivity.class));
-            }
-        });
-        //handle click all viewHistory
-        binding.tvAllViewedHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), ViewsHistoryBooksAll.class));
             }
         });
         return binding.getRoot();
@@ -217,41 +206,7 @@ public class Fragment_Home extends Fragment{
             return fragmentTitleList.get(position);
         }
     }
-//    view history(xong)
-    private void loadViewHistory(){
-        pdfViewsHistoryBooksList=new ArrayList<>();
 
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid()).child("ReadingBooks").limitToFirst(10)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        pdfViewsHistoryBooksList.clear();
-                        for (DataSnapshot ds:snapshot.getChildren()){
-                            //we will only get the bookId here and we got other details in adapter using that bookId
-                            String bookId=""+ds.child("bookId").getValue();
-                            //set id to model
-                            ModelPdfViewsHistoryBooks modelPdf=new ModelPdfViewsHistoryBooks();
-                            modelPdf.setId(bookId);
-                            //add model to list
-                            pdfViewsHistoryBooksList.add(modelPdf);
-                        }
-                        //set LinearLayout Manager
-                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-                        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                        binding.booksRv.setLayoutManager(linearLayoutManager);
-                        //setup adapter
-                        adapterPdfViewsHistoryBooks=new AdapterPdfViewsHistoryBooks(getContext(),pdfViewsHistoryBooksList);
-                        //set Adapter to recyclerView
-                        binding.booksRv.setAdapter(adapterPdfViewsHistoryBooks);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
 //trending books(xong)
 private void loadTrendingBooks() {
     //init list

@@ -68,8 +68,6 @@ public class AdapterPdfViewsHistoryBooksAll extends RecyclerView.Adapter<Adapter
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.addReadingBooks(context,model.getId());
-
                 Intent intent=new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",model.getId());
                 context.startActivity(intent);

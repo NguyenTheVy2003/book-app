@@ -57,10 +57,6 @@ public class PdfViewActivity extends AppCompatActivity {
         loadBookDetail();
         // handle click, go back
 
-        firebaseAuth=FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() != null){
-            checkIsContinue();
-        }
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,52 +66,6 @@ public class PdfViewActivity extends AppCompatActivity {
         });
 
 
-        //continue
-        binding.imvStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(firebaseAuth.getCurrentUser() == null){
-                    Toast.makeText(PdfViewActivity.this, "You're not logged in", Toast.LENGTH_SHORT).show();
-                }else {
-                    if(isInContinue){
-                        //in favorite ,remove from favorite
-                        MyApplication.removeContinue(PdfViewActivity.this,bookId);
-                    }else {
-                        //not in favorite ,add to favorite
-                        MyApplication.addContinue(PdfViewActivity.this,bookId);
-
-                        Intent intent1=new Intent(PdfViewActivity.this,PdfViewActivityContinue.class);
-                        intent1.putExtra("currentPage",currentPage);
-                        startActivity(intent1);
-                    }
-                }
-            }
-        });
-
-    }
-    //check Continue
-    private void checkIsContinue() {
-        //logged in check if its in favorite list or not
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid()).child("Continue").child(bookId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        isInContinue =snapshot.exists();//true:if exists ,false if not exists
-                        if(isInContinue){
-                            //exists in favorite
-                            binding.imvStart.setImageResource(R.drawable.ic_star_white);
-                        }else {
-                            //not exists in favorite
-                            binding.imvStart.setImageResource(R.drawable.ic_star_border_white);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
     }
 
     private void loadBookDetail() {

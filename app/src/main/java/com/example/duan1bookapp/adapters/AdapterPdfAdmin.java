@@ -94,14 +94,14 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         holder.dateTv.setText(formattedDate);
 
         //load further details like category, pdf from url, pdf size in seprate funtions
-        MyApplication.loadCategory(""+categoryId,holder.categoryTv);
+        MyApplication.loadCategory2(""+categoryId,holder.categoryTv);
         MyApplication.loadPdfFromUrlSinglePage(
                 ""+pdfUrl
                 ,""+title
                 ,holder.pdfView
                 ,holder.progressBar
         ,null);
-        MyApplication.loadPdfSize(""+pdfUrl,""+title,holder.sizeTv);
+        MyApplication.loadPdfSize2(""+pdfUrl,""+title,holder.sizeTv);
 
         //handel click , show dialog with option 1\edit, 2\delete
         holder.moreBtn.setOnClickListener(new View.OnClickListener() {

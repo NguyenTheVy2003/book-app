@@ -111,6 +111,8 @@ public class PdfDetailActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivity.class); // create activity for reading book
                 intent1.putExtra("bookId", bookId);
                 startActivity(intent1);
+
+                MyApplication.addReadingBooks(PdfDetailActivity.this,bookId);
             }
         });
         //handle click,add/remove favorite
@@ -140,15 +142,6 @@ public class PdfDetailActivity extends AppCompatActivity {
                 }else {
                     addCommentDialog();
                 }
-            }
-        });
-        //handle click continue books
-        binding.lnClickContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivityContinue.class); // create activity for reading book
-                intent1.putExtra("bookId", bookId);
-                startActivity(intent1);
             }
         });
 
@@ -292,7 +285,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                         //format date
                         String date = MyApplication.formatTimestamp(Long.parseLong(timestamp));
 
-                        MyApplication.loadCategory(
+                        MyApplication.loadCategory2(
                                 "" + categoryId,
                                 binding.categoryTv
                         );
@@ -304,7 +297,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                                 binding.pagesTv
 
                         );
-                        MyApplication.loadPdfSize(
+                        MyApplication.loadPdfSize2(
                                 "" + bookUrl,
                                 "" + bookTitle,
                                 binding.sizeTv
@@ -314,7 +307,6 @@ public class PdfDetailActivity extends AppCompatActivity {
                         binding.titleTv.setText(bookTitle);
                         binding.descriptionTv.setText(description);
                         binding.viewsTv.setText(viewsCount.replace("null", "N/A"));
-                        binding.downloadsTv.setText(downloadsCount.replace("null", "N/A"));
                         binding.dateTv.setText(date);
 
                     }

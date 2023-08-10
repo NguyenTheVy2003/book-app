@@ -78,8 +78,6 @@ public class AdapterPdfUserBooksAll extends RecyclerView.Adapter<AdapterPdfUserB
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //addReadingBooks
-                MyApplication.addReadingBooks(context,bookId);
                 //chuyển Id books Sang PdfDetailActivity
                 Intent intent = new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",bookId);

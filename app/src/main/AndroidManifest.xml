@@ -29,9 +29,6 @@
             android:name=".activities.PdfListUserActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ViewsHistoryBooksAll"
-            android:exported="false" />
-        <activity
             android:name=".activities.BooksAllActivity"
             android:exported="false" />
         <activity
