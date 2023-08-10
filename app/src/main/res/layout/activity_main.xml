@@ -4,35 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back01"
+    android:background="@color/blue01"
     android:padding="20sp"
     tools:context=".activities.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/titlell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_menu_book_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/jost_semibold"
+            android:text="BookApp"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iconIv"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_below="@id/titlell"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:src="@drawable/logo" />
 
     <TextView
+        android:id="@+id/title01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iconIv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Welcome to Book App"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/jost_semibold"
+        android:text="Welcome to"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/title02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title01"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/jost_semibold"
+        android:text="Book App"
+        android:textColor="@color/white"
+        android:textSize="26sp" />
 
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/skipBtn"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_button01"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/shape_button04"
+        app:backgroundTint="@null"
+        android:textSize="14sp"
         android:text="Login"
         android:textColor="@color/white" />
 
@@ -41,8 +81,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="14sp"
         android:background="@drawable/shape_button02"
+        app:backgroundTint="@null"
         android:text="Continue Without Login"
-        android:textColor="@color/purple_500" />
+        android:textColor="@color/black" />
 
 </RelativeLayout>
