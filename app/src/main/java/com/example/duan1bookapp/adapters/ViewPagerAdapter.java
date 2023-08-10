@@ -24,9 +24,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return new Fragment_Manga();
             case 2:
-                return new Fragment_User();
-            case 3:
                 return new Fragment_ReadingBook();
+            case 3:
+                return new Fragment_User();
             default:
                 return new Fragment_Home();
 
