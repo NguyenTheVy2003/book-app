@@ -335,7 +335,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                             //not exists in favorite
                             binding.favoritedBtn.setImageResource(R.drawable.ic_favorite_border_white);
                             binding.tvFollow.setText("Follow");
-                            binding.lnClickFollow.setBackgroundColor(getColor(R.color.yellow2));
+                            binding.lnClickFollow.setBackgroundColor(getColor(R.color.blue01));
 
                         }
                     }
