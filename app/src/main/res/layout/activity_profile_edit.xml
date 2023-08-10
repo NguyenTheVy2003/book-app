@@ -76,7 +76,8 @@
             android:layout_below="@+id/nameTil"
             android:text="Update"
             android:textColor="@color/white"
+            android:layout_marginTop="20dp"
             android:background="@drawable/shape_button01"
-            android:layout_marginTop="20dp"/>
+            app:backgroundTint="@null"/>
     </RelativeLayout>
 </RelativeLayout>

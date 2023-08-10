@@ -109,6 +109,7 @@
             android:background="@drawable/shape_button01"
             android:minHeight="50dp"
             android:text="+ Add Category"
+            app:backgroundTint="@null"
             android:textAllCaps="false"
             android:textColor="@color/white" />
         <!--Add PDF-->
@@ -117,10 +118,11 @@
             android:id="@+id/addPdfFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple_500"
+            android:backgroundTint="@color/blue01"
             android:src="@drawable/ic_pdf_add_white"
             app:fabCustomSize="50dp"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:backgroundTint="@null"/>
     </LinearLayout>
 
 </RelativeLayout>

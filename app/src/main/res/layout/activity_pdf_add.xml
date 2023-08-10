@@ -12,7 +12,8 @@
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_toolbar01">
+        android:background="@drawable/shape_toolbar01"
+        app:backgroundTint="@null">
         <!--Back button-->
         <ImageButton
             android:id="@+id/backBtn"
@@ -40,7 +41,8 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Add a new Book"
             android:textColor="@color/white"
-            android:textSize="28sp"/>
+            android:textSize="28sp"
+            android:layout_marginBottom="4dp"/>
         <!--Attach pdf button-->
         <ImageButton
             android:id="@+id/attachBtn"
@@ -134,6 +136,8 @@
         android:layout_marginEnd="30dp"
         android:layout_marginTop="10dp"
         android:text="UPLOAD"
-        android:textColor="@color/white"/>
+        android:background="@drawable/shape_button01"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"/>
 
 </RelativeLayout>
