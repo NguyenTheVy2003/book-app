@@ -19,6 +19,7 @@
             android:background="@drawable/boder"
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="10dp"
+
             android:layout_alignParentBottom="true"
             app:itemTextColor="@color/color_navigation"
             app:itemIconTint="@color/color_navigation"

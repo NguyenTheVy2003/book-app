@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back01"
     tools:context=".activities.DashboardAdminActivity">
 
     <!--Search-->
@@ -27,11 +26,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:fontFamily="@font/jost_semibold"
         android:paddingStart="10dp"
+        android:layout_marginStart="5dp"
         android:paddingTop="10dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:text="category book"/>
+        android:text="Category book"/>
     <!--Category-->
 
 

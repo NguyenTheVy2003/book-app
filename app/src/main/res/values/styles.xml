@@ -3,6 +3,7 @@
     <style name="styleRoundeCornersImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20%</item>
+
     </style>
 <!--    theme for circle image-->
     <style name="styleCircleImage">
@@ -19,4 +20,10 @@
     <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">13sp</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:fontFamily">@font/jost</item>
+        <item name="fontFamily">@font/jost</item>
+    </style>
+
 </resources>

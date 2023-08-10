@@ -26,14 +26,16 @@
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back_white"/>
+
         <TextView
             android:id="@+id/titleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/jost_semibold"
             android:text="Profile"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            />
 <!--        out imagaeView-->
         <ImageView
             android:id="@+id/logoutBtn"
@@ -69,14 +71,14 @@
             android:layout_width="wrap_content"
             android:layout_marginStart="120dp"
             app:cardCornerRadius="100dp"
-            app:cardElevation="20dp"
+
             android:layout_centerVertical="true"
             android:layout_height="wrap_content">
             <ImageButton
                 android:padding="5dp"
                 android:id="@+id/profileEditBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25sp"
+                android:layout_height="25sp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_edit_white"/>
         </androidx.cardview.widget.CardView>

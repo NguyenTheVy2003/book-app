@@ -5,21 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back01"
+    android:padding="15dp"
     tools:context=".activities.LoginActivity">
 
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@drawable/shape_toolbar01">
+        android:layout_height="250dp">
 
-        <ImageView
+        <!--No Account, Register-->
+        <RelativeLayout
+            android:id="@+id/titleLl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/bookIv"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="7dp"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_menu_book_blue" />
+
+            <TextView
+                android:id="@+id/noAccountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp"
+                android:text="@string/new_user_signup"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <TextView
             android:id="@+id/iconIv"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleLl"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/logo" />
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/jost_semibold"
+            android:gravity="center"
+            android:text="Sign in"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,17 +60,15 @@
             android:layout_below="@id/iconIv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="Please Login"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:fontFamily="@font/jost"
+            android:text="Enter your information to continue"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/noAccountTv"
         android:layout_marginStart="30dp"
         android:layout_marginTop="225dp"
         android:layout_marginEnd="30dp">
@@ -47,12 +78,13 @@
             android:layout_height="wrap_content">
 
             <!-- Email -->
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
-                app:endIconMode="clear_text">
+                app:endIconMode="clear_text"
+                app:boxBackgroundMode="outline"
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailEt"
@@ -67,6 +99,26 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray01" />
 
+            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailEt"
+                    style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/ic_email_gray"
+                    android:drawablePadding="10dp"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Password -->
@@ -75,36 +127,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/emailTil"
-                android:layout_marginTop="5dp"
-                app:hintEnabled="false"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundMode="outline"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEt"
+                    style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_edittext01"
+                    android:backgroundTint="@color/white"
                     android:drawableStart="@drawable/ic_lock_gray"
                     android:drawablePadding="10dp"
                     android:hint="Password"
                     android:inputType="textPassword"
+                    android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray01" />
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Forgot Password -->
             <TextView
                 android:id="@+id/forgotTv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/passwordTil"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/jost_semibold"
+                android:gravity="center_horizontal"
                 android:padding="5dp"
                 android:text="Forgot Password ?"
-                android:textColor="@color/gray02" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <!-- Login Button -->
             <Button
@@ -115,21 +170,12 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_button01"
                 android:text="Login"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:backgroundTint="@null" />
 
         </RelativeLayout>
 
     </ScrollView>
 
-    <!--No Account, Register-->
-    <TextView
-        android:id="@+id/noAccountTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:text="@string/new_user_signup"
-        android:textColor="@color/black" />
 
 </RelativeLayout>
