@@ -27,7 +27,6 @@ public class BooksAllActivity extends AppCompatActivity {
     //view binding
     private ActivityAllBooksBinding binding;
 
-
     //to show in tabs
     public ArrayList<ModelCategory> categoryArrayList;
     public ViewPagerAdapter viewPagerAdapter;
