@@ -72,6 +72,15 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
             }
         });
 
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",model.getId());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     private void loadSlideShow(ModelSlideShow model, SliderAdapterVH viewHolder) {
@@ -90,7 +99,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
                         String bookUrl=""+snapshot.child("url").getValue();
                         String timestamp=""+snapshot.child("timestamp").getValue();
                         String uid=""+snapshot.child("uid").getValue();
-                        String viewCount=""+snapshot.child("viewCount").getValue();
+                        String viewCount=""+snapshot.child("viewsCount").getValue();
                         String downloadsCount=""+snapshot.child("downloadsCount").getValue();
 
                         //set to model
@@ -108,7 +117,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
                         //set Data to views
                         viewHolder.tv_title.setText(bookTitle);
-                        viewHolder.tv_description.setText(description);
+                        viewHolder.tv_view.setText("viewCount:"+viewCount);
                     }
 
                     @Override
@@ -128,14 +137,14 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
         PDFView pdfView;
         ProgressBar progressBar;
-        TextView tv_title,tv_description;
+        TextView tv_title,tv_view;
 
         public SliderAdapterVH(View itemView) {
             super(itemView);
             pdfView=itemView.findViewById(R.id.pdfView);
             progressBar=itemView.findViewById(R.id.progressBar);
             tv_title=itemView.findViewById(R.id.tv_title);
-            tv_description=itemView.findViewById(R.id.tv_description);
+            tv_view=itemView.findViewById(R.id.tv_view);
         }
     }
 }

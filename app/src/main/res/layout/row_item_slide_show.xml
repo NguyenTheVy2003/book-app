@@ -42,17 +42,19 @@
                 android:layout_height="wrap_content"
                 android:text="title"
                 android:textAlignment="center"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/tv_description"
+                android:id="@+id/tv_view"
                 android:layout_below="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="description"
+                android:textColor="@color/gray02"
+                android:textStyle="bold"
                 android:textAlignment="center"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
         </RelativeLayout>
 
     </RelativeLayout>

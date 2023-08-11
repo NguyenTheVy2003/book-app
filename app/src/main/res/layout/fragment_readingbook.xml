@@ -40,21 +40,22 @@
             android:hint="Search"
             android:padding="10dp"
             android:textColorHint="@color/gray01" />
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="50mm"
-            android:textAlignment="center"
-            android:text="Danh sách trống.Bạn hãy chọn sách yêu thích để đọc nhé."
-            android:textStyle="bold"
-            android:layout_marginHorizontal="30dp"/>
        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/booksRv"
             android:layout_marginHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:text="Danh sách trống.Bạn hãy chọn sách yêu thích để đọc nhé."
+        android:textStyle="bold"
+        android:layout_marginHorizontal="30dp"/>
 </RelativeLayout>

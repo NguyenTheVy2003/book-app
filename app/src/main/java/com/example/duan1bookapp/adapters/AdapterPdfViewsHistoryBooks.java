@@ -65,6 +65,14 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
                 context.startActivity(intent);
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",model.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void loadBooksPdfFragmentHome(ModelPdfViewsHistoryBooks model, HolderPdfReadingBooks holder) {
@@ -83,7 +91,7 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
                         String bookUrl=""+snapshot.child("url").getValue();
                         String timestamp=""+snapshot.child("timestamp").getValue();
                         String uid=""+snapshot.child("uid").getValue();
-                        String viewCount=""+snapshot.child("viewCount").getValue();
+                        String viewCount=""+snapshot.child("viewsCount").getValue();
                         String downloadsCount=""+snapshot.child("downloadsCount").getValue();
 
                         //set to model
@@ -102,7 +110,7 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
 
                         //set Data to views
                         holder.titleTv.setText(bookTitle);
-                        holder.descriptionTv.setText(description);
+                        holder.viewCountTv.setText("viewCount:"+viewCount);
                     }
 
                     @Override
@@ -129,14 +137,14 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
     class HolderPdfReadingBooks extends RecyclerView.ViewHolder{
         private PDFView pdfView;
         private ProgressBar progressBar;
-        private TextView titleTv,descriptionTv;
+        private TextView titleTv,viewCountTv;
         public HolderPdfReadingBooks(@NonNull View itemView) {
             super(itemView);
             //init ui views of row_pdf_favorite.xml
             pdfView=binding.pdfView;
             progressBar=binding.progressBar;
             titleTv=binding.titleTv;
-            descriptionTv=binding.descriptionTv;
+            viewCountTv=binding.viewCountTv;
         }
     }
 }

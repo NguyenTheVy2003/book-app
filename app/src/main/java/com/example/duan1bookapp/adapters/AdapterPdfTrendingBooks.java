@@ -62,6 +62,7 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
         String categoryId = model.getCategoryId();
         String id= model.getId();
         String uid=model.getUid();
+        String viewsCount=""+model.getViewsCount();
         long timestamp = model.getTimestamp();
 
         // convert time
@@ -69,7 +70,7 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
 
         // set data
         holder.titleTv.setText(title);
-        holder.descriptionTv.setText(description);
+        holder.viewCountTv.setText("viewCount:"+viewsCount);
 //        holder.dateTv.setText(date);
 
         // we dont need page number here,pass null
@@ -83,6 +84,15 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",bookId);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId",bookId);
                 context.startActivity(intent);
@@ -105,13 +115,13 @@ public class AdapterPdfTrendingBooks extends RecyclerView.Adapter<AdapterPdfTren
 
     class HolderPdfUser extends RecyclerView.ViewHolder {
 
-        TextView titleTv, descriptionTv;
+        TextView titleTv, viewCountTv;
         PDFView pdfView;
         ProgressBar progressBar;
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
             titleTv = binding.titleTv;
-            descriptionTv = binding.descriptionTv;
+            viewCountTv = binding.viewCountTv;
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;
         }

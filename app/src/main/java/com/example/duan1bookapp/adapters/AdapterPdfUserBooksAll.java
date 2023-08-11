@@ -57,6 +57,7 @@ public class AdapterPdfUserBooksAll extends RecyclerView.Adapter<AdapterPdfUserB
         String title = model.getTitle();
         String description = model.getDescription();;
         String pdfUrl = model.getUrl();
+        String viewCount=""+model.getViewsCount();
         long timestamp = model.getTimestamp();
 
         // convert time
@@ -64,7 +65,7 @@ public class AdapterPdfUserBooksAll extends RecyclerView.Adapter<AdapterPdfUserB
 
         // set data
         holder.titleTv.setText(title);
-        holder.descriptionTv.setText(description);
+        holder.viewCountTv.setText("viewCount:"+viewCount);
 //        holder.dateTv.setText(date);
 
         // we dont need page number here,pass null
@@ -76,6 +77,15 @@ public class AdapterPdfUserBooksAll extends RecyclerView.Adapter<AdapterPdfUserB
                 null
         );
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //chuyển Id books Sang PdfDetailActivity
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",bookId);
+                context.startActivity(intent);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //chuyển Id books Sang PdfDetailActivity
@@ -103,14 +113,14 @@ public class AdapterPdfUserBooksAll extends RecyclerView.Adapter<AdapterPdfUserB
 
     class HolderPdfUser extends RecyclerView.ViewHolder {
 
-        TextView titleTv, descriptionTv;
+        TextView titleTv, viewCountTv;
         PDFView pdfView;
         ProgressBar progressBar;
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
 
             titleTv = binding.titleTv;
-            descriptionTv = binding.descriptionTv;
+            viewCountTv = binding.viewCountTv;
 //            categoryTv = binding.categoryTv;
 //            sizeTv = binding.sizeTv;
 //            dateTv = binding.dateTv;

@@ -88,12 +88,13 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
         String categoryId = model.getCategoryId();
         long timestamp = model.getTimestamp();
         String bookId=model.getId();
+        String viewCount=""+model.getViewsCount();
         //convert timestamp to dd/MM/yyyy
 
 
         //set data
         holder.titleTv.setText(title);
-        holder.descriptionTv.setText(description);
+        holder.viewCountTv.setText("viewCount:"+viewCount);
 
         MyApplication.loadPdfFromUrlSinglePage(
                 ""+pdfUrl
@@ -105,6 +106,15 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
 
         //handle click , open pdf detail page
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",pdfId);
+                context.startActivity(intent);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -144,10 +154,7 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
         //Ui View of the row_pdf_admin.xml
         PDFView pdfView;
         ProgressBar progressBar;
-        TextView titleTv, descriptionTv, categoryTv, sizeTv, dateTv;
-        ImageButton moreBtn;
-
-
+        TextView titleTv, viewCountTv;
         public HolderPdfAdmin(@NonNull View itemView) {
             super(itemView);
 
@@ -155,7 +162,7 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;
             titleTv = binding.titleTv;
-            descriptionTv = binding.descriptionTv;
+            viewCountTv = binding.viewCountTv;
 
         }
     }

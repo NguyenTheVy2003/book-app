@@ -60,6 +60,7 @@ public class AdapterPdfTrendingBooksAll extends RecyclerView.Adapter<AdapterPdfT
         String categoryId = model.getCategoryId();
         String id= model.getId();
         String uid=model.getUid();
+        String viewCount=""+model.getViewsCount();
         long timestamp = model.getTimestamp();
 
         // convert time
@@ -67,7 +68,7 @@ public class AdapterPdfTrendingBooksAll extends RecyclerView.Adapter<AdapterPdfT
 
         // set data
         holder.titleTv.setText(title);
-        holder.descriptionTv.setText(description);
+        holder.viewCountTv.setText("viewCount:"+viewCount);
 //        holder.dateTv.setText(date);
 
         // we dont need page number here,pass null
@@ -79,6 +80,14 @@ public class AdapterPdfTrendingBooksAll extends RecyclerView.Adapter<AdapterPdfT
                 null
         );
         holder.pdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId",bookId);
+                context.startActivity(intent);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PdfDetailActivity.class);
@@ -103,13 +112,13 @@ public class AdapterPdfTrendingBooksAll extends RecyclerView.Adapter<AdapterPdfT
 
     class HolderPdfUser extends RecyclerView.ViewHolder {
 
-        TextView titleTv, descriptionTv;
+        TextView titleTv, viewCountTv;
         PDFView pdfView;
         ProgressBar progressBar;
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
             titleTv = binding.titleTv;
-            descriptionTv = binding.descriptionTv;
+            viewCountTv = binding.viewCountTv;
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;
         }

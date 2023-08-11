@@ -94,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="All"
-                        android:textSize="15sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="All"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout

@@ -5,32 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="5dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="15dp"
-    android:layout_margin="10dp"
-    app:contentPadding="5dp">
+    app:cardCornerRadius="10dp"
+    android:layout_margin="5dp">
     <RelativeLayout
         android:id="@+id/rl_click_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
-            android:layout_centerHorizontal="true"
+            android:padding="5dp"
             android:id="@+id/rl"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:layout_centerHorizontal="true"
                 android:id="@+id/pdfRl"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginEnd="5dp"
                 android:background="@color/gray02">
-
                 <com.github.barteksc.pdfviewer.PDFView
                     android:id="@+id/pdfView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-
-
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="match_parent"
@@ -51,10 +46,12 @@
                     android:layout_centerHorizontal="true"
                     android:maxLines="1"
                     android:ellipsize="end"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:text="Book Title" />
 
                 <TextView
-                    android:id="@+id/descriptionTv"
+                    android:id="@+id/viewCountTv"
                     style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,8 +60,9 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:maxLines="1"
+                    android:textColor="@color/gray02"
                     android:ellipsize="end"
-                    android:text="Book Description" />
+                    android:text="view Count" />
 
 
             </RelativeLayout>

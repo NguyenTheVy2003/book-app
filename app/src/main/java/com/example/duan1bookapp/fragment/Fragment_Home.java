@@ -276,8 +276,13 @@ private void loadTrendingBooks() {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     slideShowsList.clear();
                     for (DataSnapshot ds: snapshot.getChildren()) {
+                        //xet view > 15 sẽ set lên layout banner
                         ModelSlideShow modelSlideShow=ds.getValue(ModelSlideShow.class);
-                        slideShowsList.add(modelSlideShow);
+                        int viewCount= (int) modelSlideShow.getViewsCount();
+                        if(viewCount > 15){
+                            slideShowsList.add(modelSlideShow);
+                        }
+
                     }
 
                     sliderAdapterExample=new SliderAdapterExample(getContext(),slideShowsList);
