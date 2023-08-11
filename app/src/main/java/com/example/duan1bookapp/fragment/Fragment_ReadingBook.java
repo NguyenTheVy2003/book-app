@@ -10,6 +10,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,15 +100,6 @@ public class Fragment_ReadingBook extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-
-        binding.btnOnbackFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
         //click cursor out layout mất con trỏ trong edit Text
         binding.ln1.setOnTouchListener(new View.OnTouchListener() {
             @Override
