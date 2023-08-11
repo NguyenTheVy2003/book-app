@@ -65,8 +65,8 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         String description = model.getDescription();;
         String pdfUrl = model.getUrl();
         String categoryId = model.getCategoryId();
-        String id= model.getId();
-        String uid=model.getUid();
+        String id = model.getId();
+        String uid = model.getUid();
         long timestamp = model.getTimestamp();
 
         // convert time

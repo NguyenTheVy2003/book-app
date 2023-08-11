@@ -165,27 +165,6 @@
                             android:layout_weight="1"
                             android:text="N/A" />
                     </TableRow>
-
-                    <TableRow android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/downloadsLabelTv"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
-                            android:text="Downloads : " />
-
-                        <TextView
-                            android:id="@+id/downloadsTv"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
-                            android:layout_weight="1"
-                            android:text="N/A" />
-                    </TableRow>
-
                     <TableRow android:layout_marginTop="5dp">
 
                         <TextView
@@ -319,7 +298,7 @@
                     android:layout_alignParentEnd="true"
                     android:background="@android:color/transparent"
                     android:padding="5dp"
-                    android:src="@drawable/ic_comment_add_black" />
+                    android:src="@drawable/ic_comment_add_black"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/commentsRv"
