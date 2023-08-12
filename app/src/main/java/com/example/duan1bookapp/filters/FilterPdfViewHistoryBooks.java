@@ -40,8 +40,11 @@ public class FilterPdfViewHistoryBooks extends Filter {
         }
         else {
             // empty or null make original list/result
+
             results.count = filterList.size();
             results.values = filterList;
+
+
         }
         return results; // dont miss it
     }

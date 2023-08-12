@@ -44,6 +44,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -235,7 +236,9 @@ private void loadTrendingBooks() {
     pdfTrendingBooksList = new ArrayList<>();
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-    ref// load 10 most viewed or downloaded books
+    //lọc dữ liệu
+    Query query=ref.orderByChild("viewsCount").startAt(5);
+    query// load 10 most viewed or downloaded books
             .addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -244,12 +247,8 @@ private void loadTrendingBooks() {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         //get data
                         ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
-                        int viewCount= (int) model.getViewsCount();
-                        if(viewCount >= 5) {
-                            //add to list
-                            pdfTrendingBooksList.add(model);
-                        }
-
+                        //add to list
+                        pdfTrendingBooksList.add(model);
                     }
                     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
                     linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -276,12 +275,8 @@ private void loadTrendingBooks() {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     slideShowsList.clear();
                     for (DataSnapshot ds: snapshot.getChildren()) {
-                        //xet view > 15 sẽ set lên layout banner
                         ModelSlideShow modelSlideShow=ds.getValue(ModelSlideShow.class);
-                        int viewCount= (int) modelSlideShow.getViewsCount();
-                        if(viewCount > 15){
-                            slideShowsList.add(modelSlideShow);
-                        }
+                        slideShowsList.add(modelSlideShow);
 
                     }
 

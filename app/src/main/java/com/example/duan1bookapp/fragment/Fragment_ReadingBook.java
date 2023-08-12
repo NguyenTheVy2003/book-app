@@ -98,6 +98,7 @@ public class Fragment_ReadingBook extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
         //click cursor out layout mất con trỏ trong edit Text
