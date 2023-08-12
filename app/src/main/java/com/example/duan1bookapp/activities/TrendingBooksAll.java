@@ -6,12 +6,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
@@ -22,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -69,6 +74,46 @@ public class TrendingBooksAll extends AppCompatActivity {
 
             }
         });
+        clickUnble();
+
+
+
+    }
+    private void clickUnble(){
+        binding.booksRv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+        binding.ln1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
 
     }
     //trending books(xong)
@@ -77,7 +122,8 @@ public class TrendingBooksAll extends AppCompatActivity {
         pdfTrendingBooksList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.addValueEventListener(new ValueEventListener() {
+        Query query=ref.orderByChild("viewsCount").startAt(10);
+        query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //clear list before starting adding data into it
@@ -85,12 +131,7 @@ public class TrendingBooksAll extends AppCompatActivity {
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             //get data
                             ModelPdfTrendingBooks model = ds.getValue(ModelPdfTrendingBooks.class);
-                            int viewCount = (int) model.getViewsCount();
-                            if(viewCount >= 5){
-                                //add to list
-                                pdfTrendingBooksList.add(model);
-                            }
-
+                            pdfTrendingBooksList.add(model);
                         }
                         GridLayoutManager gridLayoutManager=new GridLayoutManager(TrendingBooksAll.this,2);
                         binding.booksRv.setLayoutManager(gridLayoutManager);

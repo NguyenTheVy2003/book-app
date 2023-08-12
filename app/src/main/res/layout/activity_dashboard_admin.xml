@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/titleTv"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
             android:text="abc@example.com"
             android:textColor="@color/white"
             android:textStyle="bold" />

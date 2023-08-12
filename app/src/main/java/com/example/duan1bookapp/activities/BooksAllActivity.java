@@ -53,6 +53,8 @@ public class BooksAllActivity extends AppCompatActivity {
 
 
 
+
+
     }
 
     private void setupViewPagerAdapter(ViewPager viewPager) {

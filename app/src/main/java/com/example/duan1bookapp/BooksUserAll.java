@@ -1,12 +1,16 @@
 package com.example.duan1bookapp;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -42,7 +46,7 @@ public class BooksUserAll extends Fragment {
    private ArrayList<ModelPdfBooksAll> pdfArrayList;
    private AdapterPdfUserBooksAll adapterPdfUserBooksAll;
 //   // view biding
-    private FragmentBooksUserAllBinding biding;
+    private FragmentBooksUserAllBinding binding;
     private static final String TAG = "BOOKS_USER_TAG";
 
 
@@ -77,7 +81,7 @@ public class BooksUserAll extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        biding = FragmentBooksUserAllBinding.inflate(LayoutInflater.from(getContext()),container,false);
+        binding = FragmentBooksUserAllBinding.inflate(LayoutInflater.from(getContext()),container,false);
 
         Log.d(TAG, "onCreateView: Category: " + category);
         if (category.equals("All")){
@@ -90,7 +94,7 @@ public class BooksUserAll extends Fragment {
 
 
 //         search
-        biding.searchEt.addTextChangedListener(new TextWatcher() {
+        binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -114,15 +118,36 @@ public class BooksUserAll extends Fragment {
             }
         });
 
+        clickUnble();
 
-        return biding.getRoot();
+
+        return binding.getRoot();
     }
 
+    private void clickUnble(){
+        binding.booksRv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+    }
     private void loadAllBooks() {
         // inti list
         pdfArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("viewsCount").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //clear list before starting adding data into it
@@ -131,15 +156,15 @@ public class BooksUserAll extends Fragment {
                     // get data
                     ModelPdfBooksAll model = ds.getValue(ModelPdfBooksAll.class);
                     // add to list
-                    pdfArrayList.add(model);
+                    pdfArrayList.add(0,model);
                 }
                 //set layout recycler
                 GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
-                biding.booksRv.setLayoutManager(gridLayoutManager);
+                binding.booksRv.setLayoutManager(gridLayoutManager);
                 // setup adapter
                 adapterPdfUserBooksAll= new AdapterPdfUserBooksAll(getContext(), pdfArrayList);
                 // set adapter to recyclerview
-                biding.booksRv.setAdapter(adapterPdfUserBooksAll);
+                binding.booksRv.setAdapter(adapterPdfUserBooksAll);
             }
 
             @Override
@@ -168,12 +193,12 @@ public class BooksUserAll extends Fragment {
                         //set layout recycler
                         //set layout recycler
                         GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
-                        biding.booksRv.setLayoutManager(gridLayoutManager);
+                        binding.booksRv.setLayoutManager(gridLayoutManager);
 
                         // setup adapter
                         adapterPdfUserBooksAll = new AdapterPdfUserBooksAll(getContext(), pdfArrayList);
                         // set adapter to recyclerview
-                        biding.booksRv.setAdapter(adapterPdfUserBooksAll);
+                        binding.booksRv.setAdapter(adapterPdfUserBooksAll);
                     }
 
                     @Override

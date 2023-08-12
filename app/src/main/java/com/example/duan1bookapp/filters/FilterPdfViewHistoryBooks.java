@@ -1,6 +1,7 @@
 package com.example.duan1bookapp.filters;
 
 import android.widget.Filter;
+import android.widget.TextView;
 
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
 import com.example.duan1bookapp.models.ModelPdfViewsHistoryBooks;

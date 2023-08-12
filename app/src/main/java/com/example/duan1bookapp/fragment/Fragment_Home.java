@@ -138,7 +138,45 @@ public class Fragment_Home extends Fragment{
             }
         });
 
-        //click cursor out layout mất con trỏ trong edit Text
+        clickUnble();
+
+        return binding.getRoot();
+    }
+    private void clickUnble(){
+        binding.booksRv0.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+        binding.viewpager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (binding.searchEt.isFocused()) {
+                        Rect outRect = new Rect();
+                        binding.searchEt.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)motionEvent.getRawX(), (int)motionEvent.getRawY())) {
+                            binding.searchEt.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
         binding.ln1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -156,7 +194,7 @@ public class Fragment_Home extends Fragment{
                 return false;
             }
         });
-        return binding.getRoot();
+
     }
         private void setupViewPagerAdapter(ViewPager viewPager){
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getContext());
@@ -237,7 +275,7 @@ private void loadTrendingBooks() {
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
     //lọc dữ liệu
-    Query query=ref.orderByChild("viewsCount").startAt(5);
+    Query query=ref.orderByChild("viewsCount").startAt(10);
     query// load 10 most viewed or downloaded books
             .addValueEventListener(new ValueEventListener() {
                 @Override
