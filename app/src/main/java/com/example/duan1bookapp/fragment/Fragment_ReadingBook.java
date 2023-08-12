@@ -1,6 +1,7 @@
 package com.example.duan1bookapp.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.duan1bookapp.BooksUserFragment2;
 import com.example.duan1bookapp.R;
 import com.example.duan1bookapp.activities.BooksAllActivity;
+import com.example.duan1bookapp.activities.DashboardUserActivity;
 import com.example.duan1bookapp.activities.TrendingBooksAll;
 import com.example.duan1bookapp.adapters.AdapterPdfTrendingBooks;
 import com.example.duan1bookapp.adapters.AdapterPdfViewsHistoryBooks;
@@ -121,6 +123,13 @@ public class Fragment_ReadingBook extends Fragment {
         });
 
 
+        binding.chonSachCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), DashboardUserActivity.class));
+            }
+        });
+
 
 
 
@@ -141,6 +150,7 @@ public class Fragment_ReadingBook extends Fragment {
                                     //làm khi nó tồn tại
                                     binding.tv.setVisibility(View.GONE);
                                     binding.searchEt.setVisibility(View.VISIBLE);
+                                    binding.chonSachCard.setVisibility(View.GONE);
                                     //we will only get the bookId here and we got other details in adapter using that bookId
                                     String bookId=""+ds.child("bookId").getValue();
                                     //set id to model
@@ -152,6 +162,7 @@ public class Fragment_ReadingBook extends Fragment {
                                     //làm khi không tồn tại
                                     binding.tv.setVisibility(View.VISIBLE);
                                     binding.searchEt.setVisibility(View.GONE);
+                                    binding.chonSachCard.setVisibility(View.VISIBLE);
                                 }
 
                         }
