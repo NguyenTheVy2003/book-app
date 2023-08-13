@@ -8,13 +8,13 @@
     tools:context=".activities.DashboardUserActivity">
 
 
-
     <!--Toolbar-->
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@drawable/shape_toolbar02">
+
         <ImageView
             android:id="@+id/imv_back"
             android:layout_width="wrap_content"
@@ -23,6 +23,15 @@
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back_white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Books"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jost_semibold"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
     <!--Tabs-->
@@ -39,7 +48,10 @@
         app:tabBackground="@drawable/tab_selector"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="0dp"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
         app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/black"
         app:tabUnboundedRipple="false" />
 
     <!--viewPager: Swipe/Show/Change fragment-->
