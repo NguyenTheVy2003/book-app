@@ -6,8 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.duan1bookapp.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,40 +52,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void checkUser() {
-//        progressDialog.setMessage("Checking User...");
-//
-//        // check if user is user or admin form realtime database
-//        // get current user
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//
-//        //check in db
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-//        ref.child(firebaseUser.getUid())
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot snapshot) {
-//                        progressDialog.dismiss();
-//                        // get user type
-//                        String userType = "" + snapshot.child("userType").getValue();
-//                        // check user type
-//                        if (userType.equals("user")) {
-//                            // this is simple user, open user dashboard
-//                            startActivity(new Intent(MainActivity.this, DashboardUserActivity.class));
-//                            finish();
-//                        } else if (userType.equals("admin")) {
-//                            // this is admin, open admin dashboard
-//                            startActivity((new Intent(MainActivity.this, DashboardAdminActivity.class)));
-//                            finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError error) {
-//
-//                    }
-//                });
-//    }
 
 }

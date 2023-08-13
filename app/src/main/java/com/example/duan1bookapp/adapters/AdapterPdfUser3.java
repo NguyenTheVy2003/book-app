@@ -94,7 +94,7 @@ public class AdapterPdfUser3 extends RecyclerView.Adapter<AdapterPdfUser3.Holder
 
         //set data
         holder.titleTv.setText(title);
-        holder.viewCountTv.setText("viewCount:"+viewCount);
+        holder.viewCountTv.setText("Views:"+viewCount);
 
         MyApplication.loadPdfFromUrlSinglePage(
                 ""+pdfUrl

@@ -117,7 +117,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
                         //set Data to views
                         viewHolder.tv_title.setText(bookTitle);
-                        viewHolder.tv_view.setText("viewCount:"+viewCount);
+                        viewHolder.tv_view.setText("Views:"+viewCount);
                     }
 
                     @Override

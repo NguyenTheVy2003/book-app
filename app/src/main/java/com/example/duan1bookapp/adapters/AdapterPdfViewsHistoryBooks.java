@@ -110,7 +110,7 @@ public class AdapterPdfViewsHistoryBooks extends RecyclerView.Adapter<AdapterPdf
 
                         //set Data to views
                         holder.titleTv.setText(bookTitle);
-                        holder.viewCountTv.setText("viewCount:"+viewCount);
+                        holder.viewCountTv.setText("Views:"+viewCount);
                     }
 
                     @Override

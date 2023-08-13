@@ -68,7 +68,7 @@ public class AdapterPdfTrendingBooksAll extends RecyclerView.Adapter<AdapterPdfT
 
         // set data
         holder.titleTv.setText(title);
-        holder.viewCountTv.setText("viewCount:"+viewCount);
+        holder.viewCountTv.setText("Views:"+viewCount);
 //        holder.dateTv.setText(date);
 
         // we dont need page number here,pass null
