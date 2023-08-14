@@ -182,11 +182,22 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:padding="5dp"/>
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="Danh sách hiện tại đang trống"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_below="@+id/favoriteBooksLabelTv"
+        android:textSize="20sp"
+        android:textStyle="bold" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/booksRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/row_pdf_favorite"
-        android:layout_below="@+id/favoriteBooksLabelTv"/>
+        android:layout_below="@+id/tv"/>
 </RelativeLayout>

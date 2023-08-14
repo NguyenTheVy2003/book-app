@@ -103,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
                         binding.accountTypeTv.setText(userType);
 
                         //setImage,using glide
-                        Glide.with(getApplicationContext())
+                        Glide.with(ProfileActivity.this)
                                 .load(profileImage)
                                 .placeholder(R.drawable.ic_person_gray)
                                 .into(binding.profileTv);
@@ -131,11 +131,11 @@ public class ProfileActivity extends AppCompatActivity {
                         pdfArrayList.clear();
                         for (DataSnapshot ds: snapshot.getChildren()) {
                             //we will only get the bookId here and we got other details in adapter using that bookId
-                            String bookId=""+ds.child("bookId").getValue();
-                            //set id to model
-                            ModelPdf modelPdf=new ModelPdf();
-                            modelPdf.setId(bookId);
-                            //add model to list
+                                String bookId=""+ds.child("bookId").getValue();
+                                //set id to model
+                                ModelPdf modelPdf=new ModelPdf();
+                                modelPdf.setId(bookId);
+                                //add model to list
                             pdfArrayList.add(modelPdf);
                         }
                         //set number of favorite books

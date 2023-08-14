@@ -137,12 +137,19 @@ public class Fragment_User extends Fragment {
                         pdfArrayList.clear();
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             //we will only get the bookId here and we got other details in adapter using that bookId
-                            String bookId = "" + ds.child("bookId").getValue();
-                            //set id to model
-                            ModelPdf modelPdf = new ModelPdf();
-                            modelPdf.setId(bookId);
-                            //add model to list
-                            pdfArrayList.add(modelPdf);
+                            if(ds.child("bookId").exists()){
+                                //làm khi tônf tại sách
+                                binding.tv.setVisibility(View.GONE);
+                                String bookId = "" + ds.child("bookId").getValue();
+                                //set id to model
+                                ModelPdf modelPdf = new ModelPdf();
+                                modelPdf.setId(bookId);
+                                //add model to list
+                                pdfArrayList.add(modelPdf);
+                            }else {
+                                binding.tv.setVisibility(View.VISIBLE);
+                            }
+
                         }
                         //set number of favorite books
                         binding.favoriteBookCountTv.setText("" + pdfArrayList.size());//can't set int/long to textView so concatnate with String
@@ -150,6 +157,7 @@ public class Fragment_User extends Fragment {
                         adapterPdfFavorite = new AdapterPdfFavorite(getContext(), pdfArrayList);
                         //set Adapter to recyclerView
                         binding.booksRv.setAdapter(adapterPdfFavorite);
+                        adapterPdfFavorite.notifyDataSetChanged();
                     }
 
                     @Override
