@@ -109,6 +109,7 @@ public class Fragment_User extends Fragment {
                             Glide.with(getActivity())
                                     .load(profileImage)
                                     .placeholder(R.drawable.ic_person_gray)
+                                    .dontAnimate()
                                     .into(binding.profileTv);
 
                         }
