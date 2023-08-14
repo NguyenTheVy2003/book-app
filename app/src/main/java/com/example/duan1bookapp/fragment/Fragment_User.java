@@ -153,11 +153,15 @@ public class Fragment_User extends Fragment {
                         }
                         //set number of favorite books
                         binding.favoriteBookCountTv.setText("" + pdfArrayList.size());//can't set int/long to textView so concatnate with String
-                        //setup adapter
-                        adapterPdfFavorite = new AdapterPdfFavorite(getContext(), pdfArrayList);
-                        //set Adapter to recyclerView
-                        binding.booksRv.setAdapter(adapterPdfFavorite);
-                        adapterPdfFavorite.notifyDataSetChanged();
+                        if(pdfArrayList.size() == 0){
+                            binding.tv.setVisibility(View.VISIBLE);
+                        }else {
+                            //setup adapter
+                            adapterPdfFavorite = new AdapterPdfFavorite(getContext(), pdfArrayList);
+                            //set Adapter to recyclerView
+                            binding.booksRv.setAdapter(adapterPdfFavorite);
+                        }
+
                     }
 
                     @Override
